@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "846841138907",
+    "firebase_url": "https://flutterdemo-globant.firebaseio.com",
+    "project_id": "flutterdemo-globant",
+    "storage_bucket": "flutterdemo-globant.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:846841138907:android:38a5c4d6a25650d73e86fe",
+        "android_client_info": {
+          "package_name": "com.globant.meetup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "846841138907-v3o13igkdv3k3rpag0jrn45aufnkus2l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.globant.meetup",
+            "certificate_hash": "e913b32397c9a6d8b15f2604bf7364009cc58ecf"
+          }
+        },
+        {
+          "client_id": "846841138907-ipk6l5r603n5k7qiohgg49bf77vh9mj4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAB6b7lB0AKEnzRdotklK6_MqgAZ74kYCM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "846841138907-ipk6l5r603n5k7qiohgg49bf77vh9mj4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "846841138907-9r6fgg2q1e7ifpg7o6i84sio7kq2c4a9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.globant.flutterdemo"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
