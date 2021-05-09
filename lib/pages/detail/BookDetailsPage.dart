@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../data/entities/Book.dart';
+import '../../data/entities/Book.dart';
 
 class BookDetailsPage extends StatefulWidget {
   static const routeName = '/bookDetails';

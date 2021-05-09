@@ -2,8 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'pages/BookDetailsPage.dart';
-import 'pages/Home.dart';
+import 'pages/detail/BookDetailsPage.dart';
+import 'pages/MainNavPage.dart';
 import 'pages/login/AuthViewModel.dart';
 import 'pages/login/LoginPage.dart';
 
@@ -40,7 +40,7 @@ class SplashPage extends StatelessWidget {
             case AuthStatus.Unauthenticated:
               return LoginPage();
             case AuthStatus.Authenticated:
-              return Home();
+              return MainNavPage();
             case AuthStatus.Uninitialized:
             default:
               return showSplash();

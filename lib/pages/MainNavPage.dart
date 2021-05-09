@@ -1,23 +1,23 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
-import 'MyHomePage.dart';
-import 'PlaceHolderWidget.dart';
-import 'explore/CategoriesPage.dart';
+import 'home/HomePage.dart';
+import 'profile/ProfilePage.dart';
+import 'explore/ExplorePage.dart';
 
-class Home extends StatefulWidget {
+class MainNavPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _HomeState();
+    return _MainNavPageState();
   }
 }
 
-class _HomeState extends State<Home> {
+class _MainNavPageState extends State<MainNavPage> {
   int _currentIndex = 0;
   final List<Widget> _children = [
-    MyHomePage(),
-    CategoriesPage(),
-    PlaceHolderWidget(Colors.white)
+    HomePage(),
+    ExplorePage(),
+    ProfilePage(Colors.white)
   ];
 
   @override
@@ -26,9 +26,9 @@ class _HomeState extends State<Home> {
         body: _children[_currentIndex],
         bottomNavigationBar: ConvexAppBar(
           items: [
-            TabItem(icon: Icons.home, title: 'Home'),
-            TabItem(icon: Icons.search, title: 'Explore'),
-            TabItem(icon: Icons.people, title: 'Profile'),
+            TabItem(icon: Icons.home, title: HomePage.title),
+            TabItem(icon: Icons.search, title: ExplorePage.title),
+            TabItem(icon: Icons.people, title: ProfilePage.title),
           ],
           initialActiveIndex: _currentIndex,
           style: TabStyle.react,

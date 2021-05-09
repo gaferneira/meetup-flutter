@@ -2,17 +2,20 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../data/entities/Book.dart';
-import '../data/repositories/BooksRepository.dart';
-import 'BookDetailsPage.dart';
+import '../../data/entities/Book.dart';
+import '../../data/repositories/BooksRepository.dart';
+import '../detail/BookDetailsPage.dart';
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  static final title = "Home";
+
+  HomePage({Key? key}) : super(key: key);
+
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomePageState extends State<HomePage> {
   BooksRepository booksRepository = BooksRepository();
   StreamSubscription? streamSubscription;
 

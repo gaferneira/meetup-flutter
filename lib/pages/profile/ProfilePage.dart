@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-class PlaceHolderWidget extends StatelessWidget{
+class ProfilePage extends StatelessWidget{
+  static final title = "Profile";
   final Color color;
 
-  PlaceHolderWidget(this.color);
+  ProfilePage(this.color);
 
   @override
   Widget build(BuildContext context) {

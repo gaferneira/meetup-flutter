@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import '../../data/entities/Categories.dart';
 import '../../data/repositories/CategoriesRepository.dart';
 
-class CategoriesPage extends StatefulWidget {
-  CategoriesPage({Key? key}) : super(key: key);
+class ExplorePage extends StatefulWidget {
+  static final title = "Explore";
+
+  ExplorePage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -13,7 +15,7 @@ class CategoriesPage extends StatefulWidget {
   }
 }
 
-class _CategoriesPage extends State<CategoriesPage> {
+class _CategoriesPage extends State<ExplorePage> {
   CategoriesRepository categoriesRepository = CategoriesRepository();
   StreamSubscription? streamSubscription;
 
