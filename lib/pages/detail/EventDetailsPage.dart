@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_meetup/data/entities/Event.dart';
 
 class EventDetailsPage extends StatefulWidget {
-  static const routeName = '/bookDetails';
+  static const routeName = '/eventDetails';
   EventDetailsPage({Key? key}) : super(key: key);
   @override
   _EventDetailsPageState createState() => _EventDetailsPageState();
@@ -17,13 +17,13 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
     return Scaffold(
         key: key,
         appBar: AppBar(
-          title: Text("Book details"),
+          title: Text("Event details"),
         ),
         body: new Center(
           child: Column(
             children: [
               Text(
-                event!.title!,
+                event?.title ?? "",
                 style: TextStyle(fontSize: 30),
                 textAlign: TextAlign.center,
               ),
@@ -31,12 +31,13 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                 width: double.infinity,
                 height: 300,
                 alignment: Alignment.center, // This is needed
-                child: Image.network(event!.imageDescription!,
+                child: Image.network(event?.imageDescription ?? "",
                     fit: BoxFit.contain, width: 300),
               ),
-              Text(event!.category!)
+              Text(event?.category ?? "")
             ],
           ),
-        ));
+        )
+    );
   }
 }

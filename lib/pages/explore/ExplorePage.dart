@@ -56,7 +56,7 @@ class _CategoriesPage extends State<ExplorePage> {
         children: [
           FadeInImage.assetNetwork(
             placeholder: "assets/globant_placeholder.png",
-            image: category.image!,
+            image: category.image ?? "",
             fit: BoxFit.fill,
             placeholderCacheHeight: 90,
             placeholderCacheWidth: 120,
@@ -64,7 +64,7 @@ class _CategoriesPage extends State<ExplorePage> {
             width: 150,
           ),
           Text(
-            category.name!,
+            category.name ?? "",
             maxLines: 2,
             style: Theme.of(context).textTheme.subtitle1,
             textAlign: TextAlign.center,

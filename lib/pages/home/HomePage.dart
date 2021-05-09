@@ -16,14 +16,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  EventsRepository booksRepository = EventsRepository();
+  EventsRepository eventsRepository = EventsRepository();
   StreamSubscription? streamSubscription;
 
   List<Event> events = [];
 
   @override
   void initState() {
-    streamSubscription = booksRepository.fetchAllBooks().listen((newList) {
+    streamSubscription = eventsRepository.fetchAllEvents().listen((newList) {
       setState(() {
         events = newList;
       });
@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       key: key,
       appBar: AppBar(
-        title: Text("Books list"),
+        title: Text("Event list"),
       ),
       body: new ListView(
         children: events.map(_buildItem).toList(),
@@ -56,9 +56,9 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildItem(Event event) {
     return new ListTile(
-      title: new Text(event.title!),
+      title: new Text(event.title ?? ""),
       subtitle: new Text('Category: ${event.category}'),
-      leading: Image.network(event.imageDescription!),
+      leading: Image.network(event.imageDescription ?? ""),
       onTap: () {
         Navigator.of(context)
             .pushNamed(EventDetailsPage.routeName, arguments: event);
