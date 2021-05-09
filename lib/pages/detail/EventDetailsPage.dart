@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import '../../data/entities/Book.dart';
+import 'package:flutter_meetup/data/entities/Event.dart';
 
-class BookDetailsPage extends StatefulWidget {
+class EventDetailsPage extends StatefulWidget {
   static const routeName = '/bookDetails';
-  BookDetailsPage({Key? key}) : super(key: key);
+  EventDetailsPage({Key? key}) : super(key: key);
   @override
-  _BookDetailsPageState createState() => _BookDetailsPageState();
+  _EventDetailsPageState createState() => _EventDetailsPageState();
 }
 
-class _BookDetailsPageState extends State<BookDetailsPage> {
-  Book? book;
+class _EventDetailsPageState extends State<EventDetailsPage> {
+  Event? event;
   @override
   Widget build(BuildContext context) {
-    book = ModalRoute.of(context)!.settings.arguments as Book?;
+    event = ModalRoute.of(context)!.settings.arguments as Event?;
     final key = new GlobalKey<ScaffoldState>();
     return Scaffold(
         key: key,
@@ -23,7 +23,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
           child: Column(
             children: [
               Text(
-                book!.name!,
+                event!.title!,
                 style: TextStyle(fontSize: 30),
                 textAlign: TextAlign.center,
               ),
@@ -31,10 +31,10 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                 width: double.infinity,
                 height: 300,
                 alignment: Alignment.center, // This is needed
-                child: Image.network(book!.coverUrl!,
+                child: Image.network(event!.imageDescription!,
                     fit: BoxFit.contain, width: 300),
               ),
-              Text(book!.author!)
+              Text(event!.category!)
             ],
           ),
         ));

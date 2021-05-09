@@ -1,6 +1,6 @@
 import 'Host.dart';
 
-class Events {
+class Event {
   String? category;
   String? date;
   String? description;
@@ -11,7 +11,7 @@ class Events {
   String? title;
   Host? hostedBy;
 
-  Events(
+  Event(
       {this.category,
       this.date,
       this.description,
@@ -23,7 +23,7 @@ class Events {
       this.hostedBy})
       : super();
 
-  factory Events.fromJson(Map<String, dynamic> json) => Events(
+  factory Event.fromJson(Map<String, dynamic> json) => Event(
       category: json["category"],
       date: json["date"],
       description: json["description"],

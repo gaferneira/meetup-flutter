@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import '../../data/entities/Categories.dart';
+import '../../data/entities/Category.dart';
 import '../../data/repositories/CategoriesRepository.dart';
 
 class ExplorePage extends StatefulWidget {
@@ -21,7 +21,7 @@ class _CategoriesPage extends State<ExplorePage> {
 
   int categoriesSize = 0;
 
-  List<Categories> categoriesList = [];
+  List<Category> categoriesList = [];
 
   @override
   void initState() {
@@ -50,7 +50,7 @@ class _CategoriesPage extends State<ExplorePage> {
         ));
   }
 
-  Widget _buildItemCategory(Categories category) {
+  Widget _buildItemCategory(Category category) {
     return new Center(
       child: Column(
         children: [

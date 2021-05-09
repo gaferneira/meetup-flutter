@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_meetup/data/entities/Event.dart';
 
-import '../../data/entities/Book.dart';
-import '../../data/repositories/BooksRepository.dart';
-import '../detail/BookDetailsPage.dart';
+import '../../data/repositories/EventsRepository.dart';
+import '../detail/EventDetailsPage.dart';
 
 class HomePage extends StatefulWidget {
   static final title = "Home";
@@ -16,16 +16,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  BooksRepository booksRepository = BooksRepository();
+  EventsRepository booksRepository = EventsRepository();
   StreamSubscription? streamSubscription;
 
-  List<Book> books = [];
+  List<Event> events = [];
 
   @override
   void initState() {
     streamSubscription = booksRepository.fetchAllBooks().listen((newList) {
       setState(() {
-        books = newList;
+        events = newList;
       });
     });
     super.initState();
@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
         title: Text("Books list"),
       ),
       body: new ListView(
-        children: books.map(_buildItem).toList(),
+        children: events.map(_buildItem).toList(),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -54,14 +54,14 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildItem(Book book) {
+  Widget _buildItem(Event event) {
     return new ListTile(
-      title: new Text(book.name!),
-      subtitle: new Text('Author: ${book.author}'),
-      leading: Image.network(book.coverUrl!),
+      title: new Text(event.title!),
+      subtitle: new Text('Category: ${event.category}'),
+      leading: Image.network(event.imageDescription!),
       onTap: () {
         Navigator.of(context)
-            .pushNamed(BookDetailsPage.routeName, arguments: book);
+            .pushNamed(EventDetailsPage.routeName, arguments: event);
       },
     );
   }
