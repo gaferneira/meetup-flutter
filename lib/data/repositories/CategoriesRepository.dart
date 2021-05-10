@@ -1,14 +1,14 @@
 import '../FirestoreDataSource.dart';
-import '../entities/Categories.dart';
+import '../entities/Category.dart';
 
 class CategoriesRepository {
   final FirestoreDataSource firestoreDataSource = FirestoreDataSource();
 
-  Stream<List<Categories>> fetchCategories() {
+  Stream<List<Category>> fetchCategories() {
     return firestoreDataSource.db.collection('categories').snapshots().map(
         (querySnapshot) => querySnapshot.docs
             .map((documentSnapshot) =>
-                Categories.fromJson(documentSnapshot.data()))
+                Category.fromJson(documentSnapshot.data()))
             .toList());
   }
 }

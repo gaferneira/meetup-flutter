@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import '../../data/entities/Categories.dart';
+import '../../data/entities/Category.dart';
 import '../../data/repositories/CategoriesRepository.dart';
 
-class CategoriesPage extends StatefulWidget {
-  CategoriesPage({Key? key}) : super(key: key);
+class ExplorePage extends StatefulWidget {
+  static final title = "Explore";
+
+  ExplorePage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -13,13 +15,13 @@ class CategoriesPage extends StatefulWidget {
   }
 }
 
-class _CategoriesPage extends State<CategoriesPage> {
+class _CategoriesPage extends State<ExplorePage> {
   CategoriesRepository categoriesRepository = CategoriesRepository();
   StreamSubscription? streamSubscription;
 
   int categoriesSize = 0;
 
-  List<Categories> categoriesList = [];
+  List<Category> categoriesList = [];
 
   @override
   void initState() {
@@ -48,13 +50,13 @@ class _CategoriesPage extends State<CategoriesPage> {
         ));
   }
 
-  Widget _buildItemCategory(Categories category) {
+  Widget _buildItemCategory(Category category) {
     return new Center(
       child: Column(
         children: [
           FadeInImage.assetNetwork(
             placeholder: "assets/globant_placeholder.png",
-            image: category.image!,
+            image: category.image ?? "",
             fit: BoxFit.fill,
             placeholderCacheHeight: 90,
             placeholderCacheWidth: 120,
@@ -62,7 +64,7 @@ class _CategoriesPage extends State<CategoriesPage> {
             width: 150,
           ),
           Text(
-            category.name!,
+            category.name ?? "",
             maxLines: 2,
             style: Theme.of(context).textTheme.subtitle1,
             textAlign: TextAlign.center,

@@ -1,28 +1,31 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_meetup/data/entities/Event.dart';
 
-import '../data/entities/Book.dart';
-import '../data/repositories/BooksRepository.dart';
-import 'BookDetailsPage.dart';
+import '../../data/repositories/EventsRepository.dart';
+import '../detail/EventDetailsPage.dart';
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  static final title = "Home";
+
+  HomePage({Key? key}) : super(key: key);
+
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  BooksRepository booksRepository = BooksRepository();
+class _HomePageState extends State<HomePage> {
+  EventsRepository eventsRepository = EventsRepository();
   StreamSubscription? streamSubscription;
 
-  List<Book> books = [];
+  List<Event> events = [];
 
   @override
   void initState() {
-    streamSubscription = booksRepository.fetchAllBooks().listen((newList) {
+    streamSubscription = eventsRepository.fetchAllEvents().listen((newList) {
       setState(() {
-        books = newList;
+        events = newList;
       });
     });
     super.initState();
@@ -34,10 +37,10 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       key: key,
       appBar: AppBar(
-        title: Text("Books list"),
+        title: Text("Event list"),
       ),
       body: new ListView(
-        children: books.map(_buildItem).toList(),
+        children: events.map(_buildItem).toList(),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -51,14 +54,14 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget _buildItem(Book book) {
+  Widget _buildItem(Event event) {
     return new ListTile(
-      title: new Text(book.name!),
-      subtitle: new Text('Author: ${book.author}'),
-      leading: Image.network(book.coverUrl!),
+      title: new Text(event.title ?? ""),
+      subtitle: new Text('Category: ${event.category}'),
+      leading: Image.network(event.image ?? ""),
       onTap: () {
         Navigator.of(context)
-            .pushNamed(BookDetailsPage.routeName, arguments: book);
+            .pushNamed(EventDetailsPage.routeName, arguments: event);
       },
     );
   }
