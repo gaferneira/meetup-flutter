@@ -31,7 +31,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                 width: double.infinity,
                 height: 300,
                 alignment: Alignment.center, // This is needed
-                child: Image.network(event?.imageDescription ?? "",
+                child: Image.network(event?.image ?? "",
                     fit: BoxFit.contain, width: 300),
               ),
               Text(event?.category ?? "")

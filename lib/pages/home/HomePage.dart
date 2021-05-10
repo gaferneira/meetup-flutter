@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
     return new ListTile(
       title: new Text(event.title ?? ""),
       subtitle: new Text('Category: ${event.category}'),
-      leading: Image.network(event.imageDescription ?? ""),
+      leading: Image.network(event.image ?? ""),
       onTap: () {
         Navigator.of(context)
             .pushNamed(EventDetailsPage.routeName, arguments: event);

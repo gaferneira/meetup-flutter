@@ -4,6 +4,7 @@ class Event {
   String? category;
   String? date;
   String? description;
+  String? image;
   String? imageDescription;
   bool? isOnline;
   String? link;
@@ -15,6 +16,7 @@ class Event {
       {this.category,
       this.date,
       this.description,
+      this.image,
       this.imageDescription,
       this.isOnline,
       this.link,
@@ -27,12 +29,14 @@ class Event {
       category: json["category"],
       date: json["date"],
       description: json["description"],
+      image: json["image"],
       imageDescription: json["imageDescription"],
       isOnline: json["isOnline"],
       link: json["link"],
       location: json["location"],
       title: json["title"],
-      hostedBy: json["hostedby"]);
+      hostedBy: Host.fromJson(json["hostedby"])
+  );
 
   Map<String, dynamic> toJson() => {
         "category": category,
