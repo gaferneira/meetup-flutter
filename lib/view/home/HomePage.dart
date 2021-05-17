@@ -1,9 +1,8 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_meetup/model/entities/Event.dart';
-
-import '../../model/repositories/EventsRepository.dart';
+import 'package:flutter_meetup/viewmodel/HomeViewModel.dart';
+import 'package:flutter_meetup/viewmodel/utils/Reponse.dart';
+import 'package:provider/provider.dart';
 import '../detail/EventDetailsPage.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,18 +15,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  EventsRepository eventsRepository = EventsRepository();
-  StreamSubscription? streamSubscription;
-
-  List<Event> events = [];
+  HomeViewModel viewModel = HomeViewModel();
 
   @override
   void initState() {
-    streamSubscription = eventsRepository.fetchAllEvents().listen((newList) {
-      setState(() {
-        events = newList;
-      });
-    });
+    viewModel.fetchEvents();
     super.initState();
   }
 
@@ -39,8 +31,28 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text("Event list"),
       ),
-      body: new ListView(
-        children: events.map(_buildItem).toList(),
+      body: ChangeNotifierProvider<HomeViewModel>.value(
+          value: viewModel,
+          child: Consumer(
+              builder: (context, HomeViewModel viewModel, _) {
+                switch (viewModel.response.state) {
+                  case ResponseState.COMPLETE :
+                    if (viewModel.response.data != null) {
+                      return ListView(
+                        children: viewModel.response.data!.map(_buildItem).toList(),
+                      );
+                    } else {
+                      return _message("Events not found");
+                    }
+                  case ResponseState.LOADING :
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  case ResponseState.ERROR :
+                    return _message(viewModel.response.exception ?? "Unknown error");
+                }
+              },
+          )
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -66,9 +78,19 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Widget _message(String? message) {
+    return Center(
+        child: Text(
+          message ?? "",
+          style: TextStyle(fontSize: 30),
+          textAlign: TextAlign.center,
+        )
+    );
+  }
+
   @override
   void dispose() {
-    streamSubscription?.cancel();
+    viewModel.dispose();
     super.dispose();
   }
 }
