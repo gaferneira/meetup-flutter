@@ -1,8 +1,8 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_meetup/viewmodel/ExploreViewModel.dart';
+import 'package:flutter_meetup/viewmodel/utils/Reponse.dart';
+import 'package:provider/provider.dart';
 import '../../model/entities/Category.dart';
-import '../../model/repositories/CategoriesRepository.dart';
 
 class ExplorePage extends StatefulWidget {
   static final title = "Explore";
@@ -16,22 +16,11 @@ class ExplorePage extends StatefulWidget {
 }
 
 class _CategoriesPage extends State<ExplorePage> {
-  CategoriesRepository categoriesRepository = CategoriesRepository();
-  StreamSubscription? streamSubscription;
-
-  int categoriesSize = 0;
-
-  List<Category> categoriesList = [];
+  ExploreViewModel viewModel = ExploreViewModel();
 
   @override
   void initState() {
-    streamSubscription =
-        categoriesRepository.fetchCategories().listen((newList) {
-      setState(() {
-        categoriesSize = newList.length;
-        categoriesList = newList;
-      });
-    });
+    viewModel.fetchCategories();
     super.initState();
   }
 
@@ -42,12 +31,36 @@ class _CategoriesPage extends State<ExplorePage> {
           backgroundColor: Colors.lightGreen,
           title: Text("Explore"),
         ),
-        body: new Center(
-          child: GridView.count(
-              crossAxisCount: 2,
-              children: List.generate(categoriesSize,
-                  (index) => _buildItemCategory(categoriesList[index]))),
-        ));
+        body: ChangeNotifierProvider<ExploreViewModel>.value(
+          value: viewModel,
+          child: Consumer(
+              builder: (context, ExploreViewModel viewModel, _) {
+                switch (viewModel.response.state) {
+                  case ResponseState.COMPLETE :
+                    if (viewModel.response.data != null) {
+                      return Center (
+                        child : GridView.count(
+                          crossAxisCount: 2,
+                          children: List.generate(
+                              viewModel.response.data!.length,
+                                  (index) => _buildItemCategory(viewModel.response.data![index])
+                          ),
+                        ),
+                      );
+                    } else {
+                      return _message("Categories not found");
+                    }
+                  case ResponseState.LOADING :
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  case ResponseState.ERROR :
+                    return _message(viewModel.response.exception ?? "Unknown error");
+                }
+              }
+          ),
+        )
+    );
   }
 
   Widget _buildItemCategory(Category category) {
@@ -74,9 +87,19 @@ class _CategoriesPage extends State<ExplorePage> {
     );
   }
 
+  Widget _message(String? message) {
+    return Center(
+        child: Text(
+          message ?? "",
+          style: TextStyle(fontSize: 30),
+          textAlign: TextAlign.center,
+        )
+    );
+  }
+
   @override
   void dispose() {
-    streamSubscription?.cancel();
+    viewModel.dispose();
     super.dispose();
   }
 }
