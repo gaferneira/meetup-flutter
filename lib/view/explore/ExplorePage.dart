@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import '../../data/entities/Category.dart';
-import '../../data/repositories/CategoriesRepository.dart';
+import '../../model/entities/Category.dart';
+import '../../model/repositories/CategoriesRepository.dart';
 
 class ExplorePage extends StatefulWidget {
   static final title = "Explore";

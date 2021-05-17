@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../../data/repositories/SignInRepository.dart';
+import 'package:flutter_meetup/viewmodel/AuthViewModel.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -33,14 +33,11 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _signInButton() {
-    return OutlineButton(
+    return Consumer<AuthViewModel>(
+    builder: (context, model, child) => OutlineButton(
       splashColor: Colors.grey,
       onPressed: () {
-        SignInRepository().signInWithGoogle().then((result) {
-          if (result != null) {
-            //login success
-          }
-        });
+          model.signInWithGoogle();
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       highlightElevation: 0,
@@ -65,6 +62,7 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
       ),
+    ),
     );
   }
 }

@@ -1,11 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_meetup/viewmodel/utils/Reponse.dart';
 import 'package:provider/provider.dart';
 
-import 'pages/detail/EventDetailsPage.dart';
-import 'pages/MainNavPage.dart';
-import 'pages/login/AuthViewModel.dart';
-import 'pages/login/LoginPage.dart';
+import 'view/detail/EventDetailsPage.dart';
+import 'view/MainNavPage.dart';
+import 'viewmodel/AuthViewModel.dart';
+import 'view/login/LoginPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,18 +33,23 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    viewModel.autoLogin();
     return ChangeNotifierProvider<AuthViewModel>.value(
       value: viewModel,
       child: Consumer(
         builder: (context, AuthViewModel viewModel, _) {
-          switch (viewModel.status) {
-            case AuthStatus.Unauthenticated:
-              return LoginPage();
-            case AuthStatus.Authenticated:
-              return MainNavPage();
-            case AuthStatus.Uninitialized:
-            default:
-              return showSplash();
+          if (viewModel.response.state == ResponseState.COMPLETE) {
+            switch (viewModel.response.data) {
+              case AuthStatus.UNAUTHENTICATED:
+                return LoginPage();
+              case AuthStatus.AUTHENTICATED:
+                return MainNavPage();
+              case AuthStatus.UNINITIALIZED:
+              default:
+                return showSplash();
+            }
+          } else {
+            return showSplash();
           }
         },
       ),

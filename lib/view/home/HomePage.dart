@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_meetup/data/entities/Event.dart';
+import 'package:flutter_meetup/model/entities/Event.dart';
 
-import '../../data/repositories/EventsRepository.dart';
+import '../../model/repositories/EventsRepository.dart';
 import '../detail/EventDetailsPage.dart';
 
 class HomePage extends StatefulWidget {
