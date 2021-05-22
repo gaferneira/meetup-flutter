@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_meetup/viewmodel/ExploreViewModel.dart';
-import 'package:flutter_meetup/viewmodel/utils/Reponse.dart';
+import 'package:flutter_meetup/viewmodel/utils/Response.dart';
 import 'package:provider/provider.dart';
 import '../../model/entities/Category.dart';
 
@@ -16,6 +16,7 @@ class ExplorePage extends StatefulWidget {
 }
 
 class _CategoriesPage extends State<ExplorePage> {
+  final key = new GlobalKey<ScaffoldState>();
   ExploreViewModel viewModel = ExploreViewModel();
 
   @override
@@ -27,37 +28,38 @@ class _CategoriesPage extends State<ExplorePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.lightGreen,
-          title: Text("Explore"),
-        ),
-        body: ChangeNotifierProvider<ExploreViewModel>.value(
-          value: viewModel,
-          child: Consumer(
-              builder: (context, ExploreViewModel viewModel, _) {
-                switch (viewModel.response.state) {
-                  case ResponseState.COMPLETE :
-                    if (viewModel.response.data != null) {
-                      return Center (
-                        child : GridView.count(
-                          crossAxisCount: 2,
-                          children: List.generate(
-                              viewModel.response.data!.length,
-                                  (index) => _buildItemCategory(viewModel.response.data![index])
-                          ),
+      key: key,
+      appBar: AppBar(
+        backgroundColor: Colors.lightGreen,
+        title: Text("Explore"),
+      ),
+      body: ChangeNotifierProvider<ExploreViewModel>.value(
+        value: viewModel,
+        child: Consumer(
+            builder: (context, ExploreViewModel viewModel, _) {
+              switch (viewModel.response.state) {
+                case ResponseState.COMPLETE :
+                  if (viewModel.response.data != null) {
+                    return Center (
+                      child : GridView.count(
+                        crossAxisCount: 2,
+                        children: List.generate(
+                            viewModel.response.data!.length,
+                                (index) => _buildItemCategory(viewModel.response.data![index])
                         ),
-                      );
-                    } else {
-                      return _message("Categories not found");
-                    }
-                  case ResponseState.LOADING :
-                    return Center(
-                      child: CircularProgressIndicator(),
+                      ),
                     );
-                  case ResponseState.ERROR :
-                    return _message(viewModel.response.exception ?? "Unknown error");
-                }
+                  } else {
+                    return _message("Categories not found");
+                  }
+                case ResponseState.LOADING :
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                case ResponseState.ERROR :
+                  return _message(viewModel.response.exception ?? "Unknown error");
               }
+            }
           ),
         )
     );

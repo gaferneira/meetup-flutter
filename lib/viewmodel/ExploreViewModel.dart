@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_meetup/model/entities/Category.dart';
 import 'package:flutter_meetup/model/repositories/CategoriesRepository.dart';
-import 'package:flutter_meetup/viewmodel/utils/Reponse.dart';
+import 'package:flutter_meetup/viewmodel/utils/Response.dart';
 
 class ExploreViewModel extends ChangeNotifier {
   CategoriesRepository repository = CategoriesRepository();
@@ -18,7 +18,7 @@ class ExploreViewModel extends ChangeNotifier {
       _response = Response.complete(newList);
       notifyListeners();
     })..onError((error) {
-      _response = Response.error(error);
+      _response = Response.error(error.toString());
       notifyListeners();
     });
   }

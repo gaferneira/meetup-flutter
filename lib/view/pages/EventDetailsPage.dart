@@ -9,11 +9,12 @@ class EventDetailsPage extends StatefulWidget {
 }
 
 class _EventDetailsPageState extends State<EventDetailsPage> {
+  final key = new GlobalKey<ScaffoldState>();
   Event? event;
+
   @override
   Widget build(BuildContext context) {
     event = ModalRoute.of(context)!.settings.arguments as Event?;
-    final key = new GlobalKey<ScaffoldState>();
     return Scaffold(
         key: key,
         appBar: AppBar(

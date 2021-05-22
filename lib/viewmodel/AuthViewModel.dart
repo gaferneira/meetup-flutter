@@ -1,5 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
-import 'package:flutter_meetup/viewmodel/utils/Reponse.dart';
+import 'package:flutter_meetup/viewmodel/utils/Response.dart';
 
 import '../model/repositories/SignInRepository.dart';
 
@@ -7,13 +9,14 @@ enum AuthStatus { UNINITIALIZED, AUTHENTICATED, UNAUTHENTICATED }
 
 class AuthViewModel extends ChangeNotifier {
   final SignInRepository repository = SignInRepository();
+  StreamSubscription? streamSubscription;
 
   Response<AuthStatus> _response = Response.complete(AuthStatus.UNINITIALIZED);
 
   Response<AuthStatus> get response => _response;
   
   void autoLogin() {
-    repository.onLoginStatusChanged().listen((isLogged) {
+    streamSubscription = repository.onLoginStatusChanged().listen((isLogged) {
       if (isLogged) {
         _response = Response.complete(AuthStatus.AUTHENTICATED);
       } else {
@@ -29,5 +32,11 @@ class AuthViewModel extends ChangeNotifier {
         // success
       }
     });
+  }
+
+  @override
+  void dispose() {
+    streamSubscription?.cancel();
+    super.dispose();
   }
 }

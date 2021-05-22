@@ -1,12 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_meetup/viewmodel/utils/Reponse.dart';
+import 'package:flutter_meetup/view/pages/AddEventPage.dart';
+import 'package:flutter_meetup/viewmodel/utils/Response.dart';
 import 'package:provider/provider.dart';
 
-import 'view/detail/EventDetailsPage.dart';
+import 'view/pages/EventDetailsPage.dart';
 import 'view/MainNavPage.dart';
 import 'viewmodel/AuthViewModel.dart';
-import 'view/login/LoginPage.dart';
+import 'view/pages/LoginPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         // When navigating to the "/" route, build the FirstScreen widget.
         '/': (context) => SplashPage(),
         EventDetailsPage.routeName: (context) => EventDetailsPage(),
+        AddEventPage.routeName: (context) => AddEventPage(),
       },
     );
   }

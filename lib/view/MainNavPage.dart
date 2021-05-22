@@ -1,9 +1,9 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
-import 'home/HomePage.dart';
-import 'profile/ProfilePage.dart';
-import 'explore/ExplorePage.dart';
+import 'pages/HomePage.dart';
+import 'pages/ProfilePage.dart';
+import 'pages/ExplorePage.dart';
 
 class MainNavPage extends StatefulWidget {
   @override
