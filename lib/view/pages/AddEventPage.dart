@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_meetup/model/entities/Category.dart';
 import 'package:flutter_meetup/model/entities/Event.dart';
-import 'package:flutter_meetup/model/entities/Host.dart';
 import 'package:flutter_meetup/viewmodel/AddEventViewModel.dart';
+import 'package:flutter_meetup/viewmodel/utils/Response.dart';
 import 'package:provider/provider.dart';
 
 class AddEventPage extends StatefulWidget {
@@ -14,8 +15,17 @@ class AddEventPage extends StatefulWidget {
 }
 
 class _AddEventPageState extends State<AddEventPage> {
-  final key = new GlobalKey<ScaffoldState>();
+  final key = GlobalKey<ScaffoldState>();
+  final _formKey = GlobalKey<FormState>();
+  Event _event = Event();
   AddEventViewModel viewModel = AddEventViewModel();
+  String _chosenValue = "";
+
+  @override
+  void initState() {
+    viewModel.fetchCategories();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,26 +38,25 @@ class _AddEventPageState extends State<AddEventPage> {
         ),
         body: Container(
           margin: EdgeInsets.all(24),
-          child: Form(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildTitle(),
-                  _buildDescription(),
-                  _buildDate(),
-                  _buildImage(),
-                  _buildImageDescription(),
-                  _buildCategory(),
-                  _buildIsOnline(),
-                  _buildLink(),
-                  _buildLocation(),
-                  _buildHostedBy(),
-                  SizedBox(
-                    height: 100,
-                  ),
-                  Consumer(
-                    builder: (context, AddEventViewModel viewModel, _) {
-                      return ElevatedButton(
+          child: Consumer(
+          builder: (context, AddEventViewModel viewModel, _) {
+            switch (viewModel.categoriesResponse.state) {
+              case ResponseState.COMPLETE : {
+                return Form(
+                  key: _formKey,
+                  child: ListView (
+                    children: [
+                      _buildInputText('Title', 'Title is required', (value) => {_event.title = value}),
+                      _buildInputText('Description', 'Description is required', (value) => {_event.description = value}),
+                      _buildInputText('Date', 'Date is required', (value) => {_event.date = value}),
+                      _buildInputText('Image', 'Image is required', (value) => {_event.image = value}),
+                      _buildInputText('Image Description', 'Image Description is required', (value) => {_event.imageDescription = value}),
+                      //_buildInputText('IsOnLine', 'IsOnLine is required', (value) => {_event.isOnline = value}),
+                      _buildInputText('Link', 'Link is required', (value) => {_event.link = value}),
+                      _buildInputText('Location', 'Location is required', (value) => {_event.location = value}),
+                      _buildDropDownButton(viewModel.categoriesResponse.data),
+                      //_buildHostedBy(),
+                      ElevatedButton(
                           child: Text(
                             'Submit',
                             style: TextStyle(
@@ -56,74 +65,57 @@ class _AddEventPageState extends State<AddEventPage> {
                             ),
                           ),
                           onPressed: () {
-                            viewModel.addEvent(
-                                Event(
-                                  title: 'Evento',
-                                  category: 'Have fun',
-                                  date: "2020-12-02 10:00:00",
-                                  description: "El evento mas esperado por toda latinoamerica unida",
-                                  hostedBy: Host(
-                                    name: "El Presidente",
-                                    position: "Presidente del Mundo",
-                                  ),
-                                  image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZXZlbnR8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80",
-                                  imageDescription: "description",
-                                  isOnline: true,
-                                  link: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZXZlbnR8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80",
-                                  location: "",
-                                )
-                            );
+                            if (!(_formKey.currentState?.validate() ?? false)) return;
+                            _formKey.currentState?.save();
+                            viewModel.addEvent(_event);
                           }
-                      );
-                    }
-                  )
-                ],
-              ),
-          ),
+                      )
+                    ],
+                  ),
+                );
+              }
+              case ResponseState.LOADING :
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              case ResponseState.ERROR :
+                return _message(viewModel.categoriesResponse.exception ?? "Unknown error");
+            }
+          }
+          )
         )
     )
     );
   }
 
+  Widget _buildInputText(String labelText, String errorText, Function(String?) callback) {
+    return TextFormField(
+      decoration: InputDecoration(
+          labelText: labelText,
+      ),
+      validator: (value) {
+        if (value?.isEmpty ?? false) {
+          return errorText;
+        }
+      },
+      onSaved: (value) {
+        callback(value);
+      },
+    );
+  }
 
-  Widget _buildCategory() {
+  Widget _buildDropDownButton(List<Category>? categories) {
     return Center();
   }
 
-  Widget _buildDate() {
-    return Center();
-  }
-
-  Widget _buildDescription() {
-    return Center();
-  }
-
-  Widget _buildImage() {
-    return Center();
-  }
-
-  Widget _buildImageDescription() {
-    return Center();
-  }
-
-  Widget _buildIsOnline() {
-    return Center();
-  }
-
-  Widget _buildLink() {
-    return Center();
-  }
-
-  Widget _buildLocation() {
-    return Center();
-  }
-
-  Widget _buildTitle() {
-    return Center();
-  }
-
-  Widget _buildHostedBy() {
-    return Center();
+  Widget _message(String? message) {
+    return Center(
+        child: Text(
+          message ?? "",
+          style: TextStyle(fontSize: 30),
+          textAlign: TextAlign.center,
+        )
+    );
   }
 
 }
