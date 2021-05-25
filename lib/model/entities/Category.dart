@@ -1,4 +1,4 @@
-import 'package:flutter_meetup/view/customwidgets/DropDownFormField.dart';
+import 'package:flutter_meetup/view/customwidgets/DropDownItem.dart';
 
 class Category extends DropDownItem {
   String? name;

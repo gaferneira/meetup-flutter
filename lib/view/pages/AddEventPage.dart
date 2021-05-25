@@ -4,7 +4,7 @@ import 'package:flutter_meetup/model/entities/Category.dart';
 import 'package:flutter_meetup/model/entities/Event.dart';
 import 'package:flutter_meetup/model/entities/Location.dart';
 import 'package:flutter_meetup/view/customwidgets/CheckboxFormField.dart';
-import 'package:flutter_meetup/view/customwidgets/DropDownFormField.dart';
+import 'package:flutter_meetup/view/customwidgets/DropDownItem.dart';
 import 'package:flutter_meetup/viewmodel/AddEventViewModel.dart';
 import 'package:flutter_meetup/viewmodel/utils/Response.dart';
 import 'package:provider/provider.dart';
@@ -103,8 +103,24 @@ class AddEventPage extends StatelessWidget {
     );
   }
 
-  Widget _buildDropDown(List<DropDownItem>? items, Function(String) callback) {
-    return DropDownFormField(items: items, callback : (value) => callback);
+  Widget _buildDropDown(List<DropDownItem>? items, Function(String?) callback) {
+    return DropdownButtonFormField(
+      value: items?[0].name ?? "",
+      icon: const Icon(Icons.arrow_downward),
+      iconSize: 24,
+      elevation: 16,
+      style: const TextStyle(color: Colors.deepPurple),
+      onChanged: (String? newValue) {},
+      onSaved: (String? value) {
+        callback(value);
+      },
+      items: items?.map<DropdownMenuItem<String>>((DropDownItem value) {
+        return DropdownMenuItem<String>(
+          value: value.name,
+          child: Text(value.name ?? ""),
+        );
+      }).toList(),
+    );
   }
 
   Widget _message(String? message) {

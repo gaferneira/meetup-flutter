@@ -19,14 +19,12 @@ class CheckboxFormField extends FormField<bool> {
           title: title,
           value: state.value,
           onChanged: state.didChange,
-          subtitle: state.hasError
-              ? Builder(
+          subtitle: state.hasError ? Builder(
             builder: (BuildContext context) =>  Text(
               state.errorText ?? "Unknown error",
               style: TextStyle(color: Theme.of(context).errorColor),
             ),
-          )
-              : null,
+          ) : null,
           controlAffinity: ListTileControlAffinity.leading,
         );
       });

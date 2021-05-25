@@ -5,7 +5,7 @@ import 'package:flutter_meetup/model/entities/Event.dart';
 import 'package:flutter_meetup/model/repositories/CategoriesRepository.dart';
 import 'package:flutter_meetup/model/repositories/EventsRepository.dart';
 import 'package:flutter_meetup/model/repositories/LocationsRepository.dart';
-import 'package:flutter_meetup/view/customwidgets/DropDownFormField.dart';
+import 'package:flutter_meetup/view/customwidgets/DropDownItem.dart';
 import 'package:flutter_meetup/viewmodel/utils/Response.dart';
 import 'package:flutter_meetup/viewmodel/utils/StreamSubs.dart';
 
