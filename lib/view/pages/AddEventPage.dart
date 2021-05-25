@@ -47,7 +47,6 @@ class AddEventPage extends StatelessWidget {
                       _buildInputText('Link', 'Link is required', (value) => {_event.link = value}),
                       _buildDropDown(viewModel.dataResponse.data?[0] as List<Location>, (value) => {_event.location = value}),
                       _buildDropDown(viewModel.dataResponse.data?[1] as List<Category>, (value) => {_event.category = value}),
-                      //_buildHostedBy(),
                       ElevatedButton(
                           child: Text(
                             'Submit',
