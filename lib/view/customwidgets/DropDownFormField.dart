@@ -1,20 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_meetup/model/entities/Category.dart';
 
-class DropDownWidget extends StatefulWidget {
-  final List<Category>? items;
+class DropDownFormField extends StatefulWidget {
+  final List<DropDownItem>? items;
   final Function(String?)? callback;
 
-  DropDownWidget({Key? key, @required this.items, @required this.callback}) : super(key: key);
+  DropDownFormField({Key? key, @required this.items, @required this.callback}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _DropDownState();
+    return _DropDownFormFieldState();
   }
 }
 
-class _DropDownState extends State<DropDownWidget> {
+class _DropDownFormFieldState extends State<DropDownFormField> {
   String dropdownValue = '';
 
   @override
@@ -39,7 +38,7 @@ class _DropDownState extends State<DropDownWidget> {
       onSaved: (String? value) {
         widget.callback!(value);
       },
-      items: widget.items?.map<DropdownMenuItem<String>>((Category value) {
+      items: widget.items?.map<DropdownMenuItem<String>>((DropDownItem value) {
         return DropdownMenuItem<String>(
           value: value.name,
           child: Text(value.name ?? ""),
@@ -47,4 +46,9 @@ class _DropDownState extends State<DropDownWidget> {
       }).toList(),
     );
   }
+}
+
+class DropDownItem {
+  String? name = "";
+  DropDownItem({this.name});
 }

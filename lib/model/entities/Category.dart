@@ -1,4 +1,6 @@
-class Category {
+import 'package:flutter_meetup/view/customwidgets/DropDownFormField.dart';
+
+class Category extends DropDownItem {
   String? name;
   String? image;
 

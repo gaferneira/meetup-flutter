@@ -8,6 +8,10 @@ class StreamSubs {
     list.add(streamSubscription);
   }
 
+  void addAll(List<StreamSubscription> streamSubscriptions) {
+    list.addAll(streamSubscriptions);
+  }
+
   void cancelAll() {
     for (var streamSub in list) {
       streamSub.cancel();
