@@ -1,31 +1,33 @@
-import 'dart:async';
+import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_meetup/model/entities/Category.dart';
 import 'package:flutter_meetup/model/entities/Event.dart';
 import 'package:flutter_meetup/model/repositories/CategoriesRepository.dart';
 import 'package:flutter_meetup/model/repositories/EventsRepository.dart';
+import 'package:flutter_meetup/model/repositories/LocationsRepository.dart';
+import 'package:flutter_meetup/view/customwidgets/DropDownItem.dart';
 import 'package:flutter_meetup/viewmodel/utils/Response.dart';
 import 'package:flutter_meetup/viewmodel/utils/StreamSubs.dart';
 
 class AddEventViewModel extends ChangeNotifier {
   EventsRepository eventsRepository = EventsRepository();
   CategoriesRepository categoriesRepository = CategoriesRepository();
+  LocationsRepository locationsRepository = LocationsRepository();
   StreamSubs streamSubs = StreamSubs();
 
   Response<DocumentReference> _addEventResponse = Response.loading();
   Response<DocumentReference> get addEventResponse => _addEventResponse;
 
-  Response<List<Category>> _categoriesResponse = Response.loading();
-  Response<List<Category>> get categoriesResponse => _categoriesResponse;
+  Response<List<List<DropDownItem>>> _dataResponse = Response.loading();
+  Response<List<List<DropDownItem>>> get dataResponse => _dataResponse;
 
-  void fetchCategories() {
+  void fetchData() {
     streamSubs.add(
-        categoriesRepository.fetchCategories().listen((newList) {
-          _categoriesResponse = Response.complete(newList);
-          notifyListeners();
-        })..onError((error) {
-          _categoriesResponse = Response.error(error.toString());
+        StreamZip([
+          locationsRepository.fetchLocations(),
+          categoriesRepository.fetchCategories(),
+        ]).listen((data) {
+          _dataResponse = Response.complete(data);
           notifyListeners();
         })
     );

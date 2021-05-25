@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_meetup/model/entities/Category.dart';
 import 'package:flutter_meetup/model/entities/Event.dart';
-import 'package:flutter_meetup/view/customwidgets/DropDownWidget.dart';
+import 'package:flutter_meetup/model/entities/Location.dart';
+import 'package:flutter_meetup/view/customwidgets/CheckboxFormField.dart';
+import 'package:flutter_meetup/view/customwidgets/DropDownItem.dart';
 import 'package:flutter_meetup/viewmodel/AddEventViewModel.dart';
 import 'package:flutter_meetup/viewmodel/utils/Response.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +20,7 @@ class AddEventPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    viewModel.fetchCategories();
+    viewModel.fetchData();
     return ChangeNotifierProvider<AddEventViewModel>.value(
     value: viewModel,
     child: Scaffold(
@@ -30,7 +32,7 @@ class AddEventPage extends StatelessWidget {
           margin: EdgeInsets.all(24),
           child: Consumer(
           builder: (context, AddEventViewModel viewModel, _) {
-            switch (viewModel.categoriesResponse.state) {
+            switch (viewModel.dataResponse.state) {
               case ResponseState.COMPLETE : {
                 return Form(
                   key: _formKey,
@@ -41,10 +43,10 @@ class AddEventPage extends StatelessWidget {
                       _buildInputText('Date', 'Date is required', (value) => {_event.date = value}),
                       _buildInputText('Image', 'Image is required', (value) => {_event.image = value}),
                       _buildInputText('Image Description', 'Image Description is required', (value) => {_event.imageDescription = value}),
-                      //_buildInputText('IsOnLine', 'IsOnLine is required', (value) => {_event.isOnline = value}),
+                      _buildCheckbox('IsOnLine', (value) => {_event.isOnline = value}),
                       _buildInputText('Link', 'Link is required', (value) => {_event.link = value}),
-                      _buildInputText('Location', 'Location is required', (value) => {_event.location = value}),
-                      _buildDropDownButton(viewModel.categoriesResponse.data),
+                      _buildDropDown(viewModel.dataResponse.data?[0] as List<Location>, (value) => {_event.location = value}),
+                      _buildDropDown(viewModel.dataResponse.data?[1] as List<Category>, (value) => {_event.category = value}),
                       //_buildHostedBy(),
                       ElevatedButton(
                           child: Text(
@@ -69,7 +71,7 @@ class AddEventPage extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 );
               case ResponseState.ERROR :
-                return _message(viewModel.categoriesResponse.exception ?? "Unknown error");
+                return _message(viewModel.dataResponse.exception ?? "Unknown error");
             }
           }
           )
@@ -94,8 +96,31 @@ class AddEventPage extends StatelessWidget {
     );
   }
 
-  Widget _buildDropDownButton(List<Category>? categories) {
-    return DropDownWidget(items: categories, callback : (value) => {_event.link = value});
+  Widget _buildCheckbox(String text, Function(bool?) callback) {
+    return CheckboxFormField(
+      title: Text(text),
+      onSaved: callback,
+    );
+  }
+
+  Widget _buildDropDown(List<DropDownItem>? items, Function(String?) callback) {
+    return DropdownButtonFormField(
+      value: items?[0].name ?? "",
+      icon: const Icon(Icons.arrow_downward),
+      iconSize: 24,
+      elevation: 16,
+      style: const TextStyle(color: Colors.deepPurple),
+      onChanged: (String? newValue) {},
+      onSaved: (String? value) {
+        callback(value);
+      },
+      items: items?.map<DropdownMenuItem<String>>((DropDownItem value) {
+        return DropdownMenuItem<String>(
+          value: value.name,
+          child: Text(value.name ?? ""),
+        );
+      }).toList(),
+    );
   }
 
   Widget _message(String? message) {
