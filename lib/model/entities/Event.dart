@@ -1,6 +1,7 @@
 import 'Host.dart';
 
 class Event {
+  String? title;
   String? category;
   String? date;
   String? description;
@@ -9,21 +10,20 @@ class Event {
   bool? isOnline;
   String? link;
   String? location;
-  String? title;
   Host? hostedBy;
 
-  Event(
-      {this.category,
-      this.date,
-      this.description,
-      this.image,
-      this.imageDescription,
-      this.isOnline,
-      this.link,
-      this.location,
-      this.title,
-      this.hostedBy})
-      : super();
+  Event({
+    this.title,
+    this.category,
+    this.date,
+    this.description,
+    this.image,
+    this.imageDescription,
+    this.isOnline,
+    this.link,
+    this.location,
+    this.hostedBy
+  }) : super();
 
   factory Event.fromJson(Map<String, dynamic> json) => Event(
       category: json["category"],
@@ -42,11 +42,12 @@ class Event {
         "category": category,
         "date": date,
         "description": description,
+        "image": image,
         "imageDescription": imageDescription,
         "isOnline": isOnline,
         "link": link,
         "location": location,
         "title": title,
-        "hostedby": hostedBy
+        "hostedby": hostedBy?.toJson()
       };
 }

@@ -10,5 +10,8 @@ class Host {
           name: json["name"]
       );
 
-  Map<String, dynamic> toJson() => {"position": position, "name": name};
+  Map<String, dynamic> toJson() => {
+    "position": position,
+    "name": name
+  };
 }

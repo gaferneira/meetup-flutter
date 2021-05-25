@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_meetup/data/entities/Event.dart';
+import 'package:flutter_meetup/model/entities/Event.dart';
 
 class EventDetailsPage extends StatefulWidget {
   static const routeName = '/eventDetails';
@@ -9,11 +9,12 @@ class EventDetailsPage extends StatefulWidget {
 }
 
 class _EventDetailsPageState extends State<EventDetailsPage> {
+  final key = new GlobalKey<ScaffoldState>();
   Event? event;
+
   @override
   Widget build(BuildContext context) {
     event = ModalRoute.of(context)!.settings.arguments as Event?;
-    final key = new GlobalKey<ScaffoldState>();
     return Scaffold(
         key: key,
         appBar: AppBar(

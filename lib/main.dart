@@ -1,11 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import 'pages/detail/EventDetailsPage.dart';
-import 'pages/MainNavPage.dart';
-import 'pages/login/AuthViewModel.dart';
-import 'pages/login/LoginPage.dart';
+import 'package:flutter_meetup/view/pages/AddEventPage.dart';
+import 'package:flutter_meetup/view/pages/SplashPage.dart';
+import 'view/pages/EventDetailsPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,43 +19,8 @@ class MyApp extends StatelessWidget {
         // When navigating to the "/" route, build the FirstScreen widget.
         '/': (context) => SplashPage(),
         EventDetailsPage.routeName: (context) => EventDetailsPage(),
+        AddEventPage.routeName: (context) => AddEventPage(),
       },
-    );
-  }
-}
-
-class SplashPage extends StatelessWidget {
-  final AuthViewModel viewModel = AuthViewModel();
-
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider<AuthViewModel>.value(
-      value: viewModel,
-      child: Consumer(
-        builder: (context, AuthViewModel viewModel, _) {
-          switch (viewModel.status) {
-            case AuthStatus.Unauthenticated:
-              return LoginPage();
-            case AuthStatus.Authenticated:
-              return MainNavPage();
-            case AuthStatus.Uninitialized:
-            default:
-              return showSplash();
-          }
-        },
-      ),
-    );
-  }
-
-  Widget showSplash() {
-    return Material(
-      color: Colors.blueAccent,
-      child: Center(
-        child: Text(
-          "Splash",
-          style: TextStyle(color: Colors.black),
-        ),
-      ),
     );
   }
 }
