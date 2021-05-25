@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_meetup/model/entities/Category.dart';
@@ -7,6 +9,8 @@ import 'package:flutter_meetup/view/customwidgets/CheckboxFormField.dart';
 import 'package:flutter_meetup/view/customwidgets/DropDownItem.dart';
 import 'package:flutter_meetup/viewmodel/AddEventViewModel.dart';
 import 'package:flutter_meetup/viewmodel/utils/Response.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class AddEventPage extends StatelessWidget {
@@ -41,12 +45,12 @@ class AddEventPage extends StatelessWidget {
                       _buildInputText('Title', 'Title is required', (value) => {_event.title = value}),
                       _buildInputText('Description', 'Description is required', (value) => {_event.description = value}),
                       _buildInputText('Date', 'Date is required', (value) => {_event.date = value}),
-                      _buildInputText('Image', 'Image is required', (value) => {_event.image = value}),
                       _buildInputText('Image Description', 'Image Description is required', (value) => {_event.imageDescription = value}),
                       _buildCheckbox('IsOnLine', (value) => {_event.isOnline = value}),
                       _buildInputText('Link', 'Link is required', (value) => {_event.link = value}),
                       _buildDropDown(viewModel.dataResponse.data?[0] as List<Location>, (value) => {_event.location = value}),
                       _buildDropDown(viewModel.dataResponse.data?[1] as List<Category>, (value) => {_event.category = value}),
+                      _buildImageWidget(viewModel.imageResponse),
                       ElevatedButton(
                           child: Text(
                             'Submit',
@@ -108,7 +112,7 @@ class AddEventPage extends StatelessWidget {
       icon: const Icon(Icons.arrow_downward),
       iconSize: 24,
       elevation: 16,
-      style: const TextStyle(color: Colors.deepPurple),
+      style: const TextStyle(color: Colors.lightGreen),
       onChanged: (String? newValue) {},
       onSaved: (String? value) {
         callback(value);
@@ -122,6 +126,33 @@ class AddEventPage extends StatelessWidget {
     );
   }
 
+  Widget _buildImageWidget(Response<String> response) {
+    switch (response.state) {
+      case ResponseState.COMPLETE : return _showImage(response.data);
+      case ResponseState.LOADING : return _showUploadButton();
+      case ResponseState.ERROR : return _showUploadButton();
+      }
+  }
+
+  Widget _showImage(String? imageUrl) {
+    _event.image = imageUrl;
+    return FadeInImage.assetNetwork(
+      placeholder: "assets/globant_placeholder.png",
+      image: imageUrl ?? "",
+      fit: BoxFit.fill,
+      placeholderCacheHeight: 90,
+      placeholderCacheWidth: 120,
+      height: 120,
+      width: 150,
+    );
+  }
+
+  Widget _showUploadButton() {
+    return ElevatedButton(onPressed: () {
+      uploadImage();
+    }, child: Text("Upload image"));
+  }
+
   Widget _message(String? message) {
     return Center(
         child: Text(
@@ -130,6 +161,25 @@ class AddEventPage extends StatelessWidget {
           textAlign: TextAlign.center,
         )
     );
+  }
+
+  uploadImage() async {
+    final _picker = ImagePicker();
+    PickedFile? image;
+    // Check permissions
+    await Permission.photos.request();
+    var permissionStatus = await Permission.photos.status;
+    if (permissionStatus.isGranted) {
+      image = await _picker.getImage(source: ImageSource.gallery);
+      if (image != null) {
+        var file = File(image.path);
+        viewModel.uploadImage(file);
+      } else {
+        // TODO handle null image
+      }
+    } else {
+      // TODO show message: grant permissions and try again
+    }
   }
 
 }

@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_meetup/model/entities/Event.dart';
 import 'package:flutter_meetup/model/repositories/CategoriesRepository.dart';
@@ -21,6 +24,9 @@ class AddEventViewModel extends ChangeNotifier {
   Response<List<List<DropDownItem>>> _dataResponse = Response.loading();
   Response<List<List<DropDownItem>>> get dataResponse => _dataResponse;
 
+  Response<String> _imageResponse = Response.loading();
+  Response<String> get imageResponse => _imageResponse;
+
   void fetchData() {
     streamSubs.add(
         StreamZip([
@@ -33,8 +39,20 @@ class AddEventViewModel extends ChangeNotifier {
     );
   }
 
+  uploadImage(File file) {
+    streamSubs.add(eventsRepository.uploadImage(file).listen((snapshot) {
+      getImageUrl(snapshot);
+    }));
+  }
+
+  getImageUrl(TaskSnapshot snapshot) async {
+    var downloadUrl = await snapshot.ref.getDownloadURL();
+    _imageResponse = Response.complete(downloadUrl);
+    notifyListeners();
+  }
+
   void addEvent(Event event) {
-    streamSubs.add(eventsRepository.addEvent(event).asStream().listen((event) {
+    streamSubs.add(eventsRepository.addEvent(event).listen((event) {
         _addEventResponse = Response.complete(event);
         notifyListeners();
       })..onError((error) {
