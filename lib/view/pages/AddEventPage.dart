@@ -2,33 +2,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_meetup/model/entities/Category.dart';
 import 'package:flutter_meetup/model/entities/Event.dart';
+import 'package:flutter_meetup/view/customwidgets/DropDownWidget.dart';
 import 'package:flutter_meetup/viewmodel/AddEventViewModel.dart';
 import 'package:flutter_meetup/viewmodel/utils/Response.dart';
 import 'package:provider/provider.dart';
 
-class AddEventPage extends StatefulWidget {
+class AddEventPage extends StatelessWidget {
   static final title = "Add Event";
   static const routeName = '/addEvent';
-  AddEventPage({Key? key}) : super(key: key);
-  @override
-  _AddEventPageState createState() => _AddEventPageState();
-}
-
-class _AddEventPageState extends State<AddEventPage> {
-  final key = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
-  Event _event = Event();
-  AddEventViewModel viewModel = AddEventViewModel();
-  String _chosenValue = "";
+  final Event _event = Event();
+  final AddEventViewModel viewModel = AddEventViewModel();
 
-  @override
-  void initState() {
-    viewModel.fetchCategories();
-    super.initState();
-  }
+  AddEventPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    viewModel.fetchCategories();
     return ChangeNotifierProvider<AddEventViewModel>.value(
     value: viewModel,
     child: Scaffold(
@@ -105,7 +95,7 @@ class _AddEventPageState extends State<AddEventPage> {
   }
 
   Widget _buildDropDownButton(List<Category>? categories) {
-    return Center();
+    return DropDownWidget(items: categories, callback : (value) => {_event.link = value});
   }
 
   Widget _message(String? message) {
