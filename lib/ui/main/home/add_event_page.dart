@@ -15,14 +15,21 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
-class AddEventPage extends StatelessWidget {
-  static final title = "Add Event";
+class AddEventPage extends StatefulWidget {
   static const routeName = '/addEvent';
+  AddEventPage({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _AddEventPageState();
+}
+
+class _AddEventPageState extends State<AddEventPage> {
+  static final title = "Add Event";
   final _formKey = GlobalKey<FormState>();
   final Event _event = Event();
   final AddEventViewModel viewModel = AddEventViewModel();
-
-  AddEventPage({Key? key}) : super(key: key);
+  DateTime? _date = DateTime.now();
+  TimeOfDay? _time = TimeOfDay.now();
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +37,9 @@ class AddEventPage extends StatelessWidget {
     return ChangeNotifierProvider<AddEventViewModel>.value(
     value: viewModel,
     child: Scaffold(
-        key: key,
+        key: widget.key,
         appBar: AppBar (
-          title: Text(AddEventPage.title),
+          title: Text(title),
         ),
         body: Container(
           margin: EdgeInsets.all(24),
@@ -46,7 +53,8 @@ class AddEventPage extends StatelessWidget {
                     children: [
                       _buildInputText('Title', 'Title is required', (value) => {_event.title = value}),
                       _buildInputText('Description', 'Description is required', (value) => {_event.description = value}),
-                      _buildInputText('Date', 'Date is required', (value) => {_event.date = value}),
+                      _buildDatePickerText(context),
+                      _buildTimePickerText(context),
                       _buildCheckbox('IsOnLine', (value) => {_event.isOnline = value}),
                       _buildInputText('Link', 'Link is required', (value) => {_event.link = value}),
                       _buildDropDown(viewModel.dataResponse.data?[0] as List<Location>, (value) => {_event.location = value}),
@@ -99,6 +107,47 @@ class AddEventPage extends StatelessWidget {
       },
       onSaved: (value) {
         callback(value);
+      },
+    );
+  }
+
+  Widget _buildTimePickerText(BuildContext context) {
+    return TextFormField(
+      initialValue: _time!.format(context),
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+        showTimePicker(
+            context: context,
+            initialTime: _time!
+        ).then((time) => {
+          if (time != null) {
+            setState(() {
+              _time = time;
+            })
+          }
+        });
+      },
+    );
+  }
+
+  Widget _buildDatePickerText(BuildContext context) {
+    final dateNow = DateTime.now();
+    return TextFormField(
+      initialValue: _date.toString().substring(0,10),
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+        showDatePicker(
+          context: context,
+          initialDate: _date ?? dateNow,
+          firstDate: DateTime(dateNow.year, dateNow.month, dateNow.day, 0, 0, 0),
+          lastDate: DateTime(2100),
+        ).then((date) => {
+          if (date != null) {
+            setState(() {
+              _date = date;
+            })
+          }
+        });
       },
     );
   }

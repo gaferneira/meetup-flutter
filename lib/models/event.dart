@@ -2,6 +2,7 @@ class Event {
   String? title;
   String? category;
   String? date;
+  String? time;
   String? description;
   String? image;
   bool? isOnline;
@@ -12,6 +13,7 @@ class Event {
     this.title,
     this.category,
     this.date,
+    this.time,
     this.description,
     this.image,
     this.isOnline,
@@ -22,6 +24,7 @@ class Event {
   factory Event.fromJson(Map<String, dynamic> json) => Event(
       category: json["category"],
       date: json["date"],
+      time: json["time"],
       description: json["description"],
       image: json["image"],
       isOnline: json["isOnline"],
@@ -33,6 +36,7 @@ class Event {
   Map<String, dynamic> toJson() => {
         "category": category,
         "date": date,
+        "time": time,
         "description": description,
         "image": image,
         "isOnline": isOnline,
