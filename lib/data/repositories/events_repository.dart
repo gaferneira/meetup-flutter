@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../firestore_data_source.dart';
-import '../entities/event.dart';
+import '../../models/event.dart';
 
 class EventsRepository {
   final FirestoreDataSource firestoreDataSource = FirestoreDataSource();

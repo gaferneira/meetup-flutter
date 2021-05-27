@@ -4,13 +4,13 @@ import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_meetup/model/entities/event.dart';
-import 'package:flutter_meetup/model/repositories/categories_respository.dart';
-import 'package:flutter_meetup/model/repositories/events_repository.dart';
-import 'package:flutter_meetup/model/repositories/locations_repository.dart';
-import 'package:flutter_meetup/view/customwidgets/drop_down_item.dart';
-import 'package:flutter_meetup/viewmodel/utils/Response.dart';
-import 'package:flutter_meetup/viewmodel/utils/StreamSubs.dart';
+import 'package:flutter_meetup/data/repositories/categories_respository.dart';
+import 'package:flutter_meetup/data/repositories/events_repository.dart';
+import 'package:flutter_meetup/data/repositories/locations_repository.dart';
+import 'package:flutter_meetup/models/drop_down_item.dart';
+import 'package:flutter_meetup/models/event.dart';
+import 'package:flutter_meetup/viewmodels/utils/Response.dart';
+import 'package:flutter_meetup/viewmodels/utils/StreamSubs.dart';
 
 class AddEventViewModel extends ChangeNotifier {
   EventsRepository eventsRepository = EventsRepository();

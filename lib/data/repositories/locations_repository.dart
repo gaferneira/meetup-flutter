@@ -1,4 +1,4 @@
-import 'package:flutter_meetup/model/entities/location.dart';
+import 'package:flutter_meetup/models/location.dart';
 
 import '../firestore_data_source.dart';
 

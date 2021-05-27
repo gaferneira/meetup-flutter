@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:flutter_meetup/model/entities/event.dart';
-import 'package:flutter_meetup/model/repositories/events_repository.dart';
-import 'package:flutter_meetup/viewmodel/utils/Response.dart';
+import 'package:flutter_meetup/data/repositories/events_repository.dart';
+import 'package:flutter_meetup/models/event.dart';
+import 'package:flutter_meetup/viewmodels/utils/Response.dart';
 
 class HomeViewModel extends ChangeNotifier {
   EventsRepository repository = EventsRepository();

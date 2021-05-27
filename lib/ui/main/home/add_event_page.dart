@@ -2,15 +2,15 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_meetup/constant.dart';
-import 'package:flutter_meetup/model/entities/category.dart';
-import 'package:flutter_meetup/model/entities/event.dart';
-import 'package:flutter_meetup/model/entities/location.dart';
-import 'package:flutter_meetup/extension.dart';
-import 'package:flutter_meetup/view/customwidgets/checkbox_form_field.dart';
-import 'package:flutter_meetup/view/customwidgets/drop_down_item.dart';
-import 'package:flutter_meetup/viewmodel/add_event_viewmodel.dart';
-import 'package:flutter_meetup/viewmodel/utils/Response.dart';
+import 'package:flutter_meetup/constants/strings.dart';
+import 'package:flutter_meetup/models/category.dart';
+import 'package:flutter_meetup/models/event.dart';
+import 'package:flutter_meetup/models/location.dart';
+import 'package:flutter_meetup/utils/extension.dart';
+import 'package:flutter_meetup/widgets/checkbox_form_field.dart';
+import 'package:flutter_meetup/models/drop_down_item.dart';
+import 'package:flutter_meetup/viewmodels/add_event_viewmodel.dart';
+import 'package:flutter_meetup/viewmodels/utils/Response.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -170,7 +170,7 @@ class AddEventPage extends StatelessWidget {
         break;
       }
       case ResponseState.ERROR : {
-        showSnackBar(context, response.exception ?? Constant.UNKNOWN_ERROR);
+        showSnackBar(context, response.exception ?? Strings.UNKNOWN_ERROR);
         break;
       }
       default : {}
