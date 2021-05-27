@@ -51,6 +51,7 @@ class AddEventPage extends StatelessWidget {
                       _buildDropDown(viewModel.dataResponse.data?[0] as List<Location>, (value) => {_event.location = value}),
                       _buildDropDown(viewModel.dataResponse.data?[1] as List<Category>, (value) => {_event.category = value}),
                       _buildImageWidget(context, viewModel.imageResponse),
+                      _buildEventAddedWidget(context, viewModel.addEventResponse),
                       ElevatedButton(
                           child: Text(
                             'Submit',
@@ -163,22 +164,32 @@ class AddEventPage extends StatelessWidget {
     );
   }
 
-  void _handleError(String error, BuildContext context) {
-    if (error != null) {
-      // Can't show the snack bar before the widget is built, so run it in the future.
-      Future.delayed(Duration(milliseconds: 200)).then((value) {
-        Scaffold.of(context).showSnackBar(
-          SnackBar(
-            duration: Duration(seconds: 4),
-            content: Text(
-              error,
-              style: Theme.of(context).textTheme.bodyText1,
-            ),
-            backgroundColor: Theme.of(context).colorScheme.background,
-          ),
+  Widget _buildEventAddedWidget(BuildContext context, Response response) {
+    switch (response.state) {
+      case ResponseState.COMPLETE : {
+        WidgetsBinding.instance!.addPostFrameCallback((_) =>
+            Navigator.pop(context)
         );
-      });
+        break;
+      }
+      case ResponseState.ERROR : {
+        WidgetsBinding.instance!.addPostFrameCallback((_) =>
+            Scaffold.of(context).showSnackBar(
+              SnackBar(
+                duration: Duration(seconds: 4),
+                content: Text(
+                  response.exception ?? "Unknown error",
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+                backgroundColor: Theme.of(context).colorScheme.background,
+              ),
+            )
+        );
+        break;
+      }
+      default : {}
     }
+    return SizedBox();
   }
 
   uploadImage() async {
