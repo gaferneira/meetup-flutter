@@ -50,7 +50,7 @@ class AddEventPage extends StatelessWidget {
                       _buildInputText('Link', 'Link is required', (value) => {_event.link = value}),
                       _buildDropDown(viewModel.dataResponse.data?[0] as List<Location>, (value) => {_event.location = value}),
                       _buildDropDown(viewModel.dataResponse.data?[1] as List<Category>, (value) => {_event.category = value}),
-                      _buildImageWidget(viewModel.imageResponse),
+                      _buildImageWidget(context, viewModel.imageResponse),
                       ElevatedButton(
                           child: Text(
                             'Submit',
@@ -126,11 +126,11 @@ class AddEventPage extends StatelessWidget {
     );
   }
 
-  Widget _buildImageWidget(Response<String> response) {
+  Widget _buildImageWidget(BuildContext context, Response<String> response) {
     switch (response.state) {
       case ResponseState.COMPLETE : return _showImage(response.data);
-      case ResponseState.LOADING : return _showUploadButton();
-      case ResponseState.ERROR : return _showUploadButton();
+      case ResponseState.LOADING : return _showUploadButton(context, "Upload image");
+      case ResponseState.ERROR : return _showUploadButton(context, response.exception ?? "Unknown error");
       }
   }
 
@@ -147,10 +147,10 @@ class AddEventPage extends StatelessWidget {
     );
   }
 
-  Widget _showUploadButton() {
+  Widget _showUploadButton(BuildContext context, String message) {
     return ElevatedButton(onPressed: () {
       uploadImage();
-    }, child: Text("Upload image"));
+    }, child: Text(message));
   }
 
   Widget _message(String? message) {

@@ -40,8 +40,13 @@ class AddEventViewModel extends ChangeNotifier {
   }
 
   uploadImage(File file) {
+    _imageResponse = Response.loading();
+    notifyListeners();
     streamSubs.add(eventsRepository.uploadImage(file).listen((snapshot) {
       getImageUrl(snapshot);
+    })..onError((error) {
+      _imageResponse = Response.error(error.toString());
+      notifyListeners();
     }));
   }
 
@@ -52,6 +57,12 @@ class AddEventViewModel extends ChangeNotifier {
   }
 
   void addEvent(Event event) {
+    if (event.image == null || event.image!.isEmpty) {
+      _imageResponse = Response.error("Please add an image for the event");
+      notifyListeners();
+      return;
+    }
+
     streamSubs.add(eventsRepository.addEvent(event).listen((event) {
         _addEventResponse = Response.complete(event);
         notifyListeners();
