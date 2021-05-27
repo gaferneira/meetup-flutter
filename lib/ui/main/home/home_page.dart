@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_meetup/extension.dart';
-import 'package:flutter_meetup/model/entities/event.dart';
-import 'package:flutter_meetup/view/pages/add_event_page.dart';
-import 'package:flutter_meetup/viewmodel/home_viewmodel.dart';
-import 'package:flutter_meetup/viewmodel/utils/Response.dart';
+import 'package:flutter_meetup/utils/extension.dart';
+import 'package:flutter_meetup/models/event.dart';
+import 'package:flutter_meetup/ui/main/home/add_event_page.dart';
+import 'package:flutter_meetup/viewmodels/home_viewmodel.dart';
+import 'package:flutter_meetup/viewmodels/utils/Response.dart';
 import 'package:provider/provider.dart';
-import 'event_details_page.dart';
+import '../event_details_page.dart';
 
 class HomePage extends StatefulWidget {
   static final title = "Home";

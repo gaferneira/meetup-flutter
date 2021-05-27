@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:flutter_meetup/viewmodel/utils/Response.dart';
+import 'package:flutter_meetup/data/repositories/sign_in_repository.dart';
+import 'package:flutter_meetup/viewmodels/utils/Response.dart';
 
-import '../model/repositories/sign_in_repository.dart';
 
 enum AuthStatus { UNINITIALIZED, AUTHENTICATED, UNAUTHENTICATED }
 

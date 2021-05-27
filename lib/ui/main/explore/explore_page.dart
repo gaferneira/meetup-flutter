@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_meetup/constant.dart';
-import 'package:flutter_meetup/viewmodel/explore_viewmodel.dart';
-import 'package:flutter_meetup/viewmodel/utils/Response.dart';
+import 'package:flutter_meetup/constants/strings.dart';
+import 'package:flutter_meetup/viewmodels/explore_viewmodel.dart';
+import 'package:flutter_meetup/viewmodels/utils/Response.dart';
 import 'package:provider/provider.dart';
-import '../../model/entities/category.dart';
+import '../../../models/category.dart';
 
 class ExplorePage extends StatefulWidget {
   static final title = "Explore";
@@ -58,7 +58,7 @@ class _CategoriesPage extends State<ExplorePage> {
                     child: CircularProgressIndicator(),
                   );
                 default :
-                  return _message(viewModel.response.exception ?? Constant.UNKNOWN_ERROR);
+                  return _message(viewModel.response.exception ?? Strings.UNKNOWN_ERROR);
               }
             }
           ),
