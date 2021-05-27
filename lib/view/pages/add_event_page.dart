@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_meetup/model/entities/Category.dart';
-import 'package:flutter_meetup/model/entities/Event.dart';
-import 'package:flutter_meetup/model/entities/Location.dart';
-import 'package:flutter_meetup/view/customwidgets/CheckboxFormField.dart';
-import 'package:flutter_meetup/view/customwidgets/DropDownItem.dart';
-import 'package:flutter_meetup/viewmodel/AddEventViewModel.dart';
+import 'package:flutter_meetup/constant.dart';
+import 'package:flutter_meetup/model/entities/category.dart';
+import 'package:flutter_meetup/model/entities/event.dart';
+import 'package:flutter_meetup/model/entities/location.dart';
+import 'package:flutter_meetup/extension.dart';
+import 'package:flutter_meetup/view/customwidgets/checkbox_form_field.dart';
+import 'package:flutter_meetup/view/customwidgets/drop_down_item.dart';
+import 'package:flutter_meetup/viewmodel/add_event_viewmodel.dart';
 import 'package:flutter_meetup/viewmodel/utils/Response.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -74,8 +76,10 @@ class AddEventPage extends StatelessWidget {
                 return Center(
                   child: CircularProgressIndicator(),
                 );
-              case ResponseState.ERROR :
-                return _message(viewModel.dataResponse.exception ?? "Unknown error");
+              default :
+                return showRetry(viewModel.dataResponse.exception, (){
+                  viewModel.fetchData();
+                });
             }
           }
           )
@@ -130,8 +134,13 @@ class AddEventPage extends StatelessWidget {
   Widget _buildImageWidget(BuildContext context, Response<String> response) {
     switch (response.state) {
       case ResponseState.COMPLETE : return _showImage(response.data);
-      case ResponseState.LOADING : return _showUploadButton(context, "Upload image");
+      case ResponseState.LOADING : {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      }
       case ResponseState.ERROR : return _showUploadButton(context, response.exception ?? "Unknown error");
+      case ResponseState.NONE : return _showUploadButton(context, "Upload image");
       }
   }
 
@@ -154,37 +163,14 @@ class AddEventPage extends StatelessWidget {
     }, child: Text(message));
   }
 
-  Widget _message(String? message) {
-    return Center(
-        child: Text(
-          message ?? "",
-          style: TextStyle(fontSize: 30),
-          textAlign: TextAlign.center,
-        )
-    );
-  }
-
   Widget _buildEventAddedWidget(BuildContext context, Response response) {
     switch (response.state) {
       case ResponseState.COMPLETE : {
-        WidgetsBinding.instance!.addPostFrameCallback((_) =>
-            Navigator.pop(context)
-        );
+        pop(context);
         break;
       }
       case ResponseState.ERROR : {
-        WidgetsBinding.instance!.addPostFrameCallback((_) =>
-            Scaffold.of(context).showSnackBar(
-              SnackBar(
-                duration: Duration(seconds: 4),
-                content: Text(
-                  response.exception ?? "Unknown error",
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-                backgroundColor: Theme.of(context).colorScheme.background,
-              ),
-            )
-        );
+        showSnackBar(context, response.exception ?? Constant.UNKNOWN_ERROR);
         break;
       }
       default : {}

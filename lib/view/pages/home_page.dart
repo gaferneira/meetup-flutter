@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_meetup/model/entities/Event.dart';
-import 'package:flutter_meetup/view/pages/AddEventPage.dart';
-import 'package:flutter_meetup/viewmodel/HomeViewModel.dart';
+import 'package:flutter_meetup/extension.dart';
+import 'package:flutter_meetup/model/entities/event.dart';
+import 'package:flutter_meetup/view/pages/add_event_page.dart';
+import 'package:flutter_meetup/viewmodel/home_viewmodel.dart';
 import 'package:flutter_meetup/viewmodel/utils/Response.dart';
 import 'package:provider/provider.dart';
-import 'EventDetailsPage.dart';
+import 'event_details_page.dart';
 
 class HomePage extends StatefulWidget {
   static final title = "Home";
@@ -43,14 +44,18 @@ class _HomePageState extends State<HomePage> {
                           children: viewModel.response.data!.map(_buildItem).toList(),
                         );
                       } else {
-                        return _message("Events not found");
+                        return showRetry("Events not found.", () {
+                          viewModel.fetchEvents();
+                        });
                       }
                     case ResponseState.LOADING :
                       return Center(
                         child: CircularProgressIndicator(),
                       );
-                    case ResponseState.ERROR :
-                      return _message(viewModel.response.exception ?? "Unknown error");
+                    default :
+                      return showRetry(viewModel.response.exception, () {
+                        viewModel.fetchEvents();
+                      });
                   }
                 },
         ),
@@ -75,16 +80,6 @@ class _HomePageState extends State<HomePage> {
         Navigator.of(context)
             .pushNamed(EventDetailsPage.routeName, arguments: event);
       },
-    );
-  }
-
-  Widget _message(String? message) {
-    return Center(
-        child: Text(
-          message ?? "",
-          style: TextStyle(fontSize: 30),
-          textAlign: TextAlign.center,
-        )
     );
   }
 

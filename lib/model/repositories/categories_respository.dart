@@ -1,5 +1,5 @@
-import '../FirestoreDataSource.dart';
-import '../entities/Category.dart';
+import '../firestore_data_source.dart';
+import '../entities/category.dart';
 
 class CategoriesRepository {
   final FirestoreDataSource firestoreDataSource = FirestoreDataSource();

@@ -1,6 +1,6 @@
-import 'package:flutter_meetup/model/entities/Location.dart';
+import 'package:flutter_meetup/model/entities/location.dart';
 
-import '../FirestoreDataSource.dart';
+import '../firestore_data_source.dart';
 
 class LocationsRepository {
   final FirestoreDataSource firestoreDataSource = FirestoreDataSource();

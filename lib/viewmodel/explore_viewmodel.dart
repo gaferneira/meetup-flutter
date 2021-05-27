@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:flutter_meetup/model/entities/Category.dart';
-import 'package:flutter_meetup/model/repositories/CategoriesRepository.dart';
+import 'package:flutter_meetup/model/entities/category.dart';
+import 'package:flutter_meetup/model/repositories/categories_respository.dart';
 import 'package:flutter_meetup/viewmodel/utils/Response.dart';
 
 class ExploreViewModel extends ChangeNotifier {

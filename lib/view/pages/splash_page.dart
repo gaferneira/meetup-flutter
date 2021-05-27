@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_meetup/view/MainNavPage.dart';
-import 'package:flutter_meetup/view/pages/LoginPage.dart';
-import 'package:flutter_meetup/viewmodel/AuthViewModel.dart';
+import 'package:flutter_meetup/view/main_nav_page.dart';
+import 'package:flutter_meetup/view/pages/login_page.dart';
+import 'package:flutter_meetup/viewmodel/auth_viewmodel.dart';
 import 'package:flutter_meetup/viewmodel/utils/Response.dart';
 import 'package:provider/provider.dart';
 

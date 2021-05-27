@@ -6,6 +6,10 @@ class Response<ResultType> {
 
   Response({required this.state, this.data, this.exception});
 
+  static Response<ResultType> none<ResultType>() {
+    return Response(state: ResponseState.NONE);
+  }
+
   static Response<ResultType> loading<ResultType>() {
     return Response(state: ResponseState.LOADING);
   }
@@ -24,6 +28,7 @@ class Response<ResultType> {
 }
 
 enum ResponseState{
+  NONE,
   LOADING,
   COMPLETE,
   ERROR

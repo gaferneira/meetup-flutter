@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_meetup/model/entities/Event.dart';
+import 'package:flutter_meetup/model/entities/event.dart';
 
 class EventDetailsPage extends StatefulWidget {
   static const routeName = '/eventDetails';
