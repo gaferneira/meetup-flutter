@@ -163,6 +163,24 @@ class AddEventPage extends StatelessWidget {
     );
   }
 
+  void _handleError(String error, BuildContext context) {
+    if (error != null) {
+      // Can't show the snack bar before the widget is built, so run it in the future.
+      Future.delayed(Duration(milliseconds: 200)).then((value) {
+        Scaffold.of(context).showSnackBar(
+          SnackBar(
+            duration: Duration(seconds: 4),
+            content: Text(
+              error,
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+            backgroundColor: Theme.of(context).colorScheme.background,
+          ),
+        );
+      });
+    }
+  }
+
   uploadImage() async {
     final _picker = ImagePicker();
     PickedFile? image;
