@@ -47,7 +47,6 @@ class AddEventPage extends StatelessWidget {
                       _buildInputText('Title', 'Title is required', (value) => {_event.title = value}),
                       _buildInputText('Description', 'Description is required', (value) => {_event.description = value}),
                       _buildInputText('Date', 'Date is required', (value) => {_event.date = value}),
-                      _buildInputText('Image Description', 'Image Description is required', (value) => {_event.imageDescription = value}),
                       _buildCheckbox('IsOnLine', (value) => {_event.isOnline = value}),
                       _buildInputText('Link', 'Link is required', (value) => {_event.link = value}),
                       _buildDropDown(viewModel.dataResponse.data?[0] as List<Location>, (value) => {_event.location = value}),
@@ -117,7 +116,7 @@ class AddEventPage extends StatelessWidget {
       icon: const Icon(Icons.arrow_downward),
       iconSize: 24,
       elevation: 16,
-      style: const TextStyle(color: Colors.lightGreen),
+      style: const TextStyle(color: Colors.blue),
       onChanged: (String? newValue) {},
       onSaved: (String? value) {
         callback(value);
@@ -139,9 +138,18 @@ class AddEventPage extends StatelessWidget {
           child: CircularProgressIndicator(),
         );
       }
-      case ResponseState.ERROR : return _showUploadButton(context, response.exception ?? "Unknown error");
-      case ResponseState.NONE : return _showUploadButton(context, "Upload image");
-      }
+      case ResponseState.ERROR : return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _showUploadButton(context),
+          Text(response.exception ?? Constant.UNKNOWN_ERROR),
+        ]
+      );
+      case ResponseState.NONE : return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [_showUploadButton(context)],
+      );
+    }
   }
 
   Widget _showImage(String? imageUrl) {
@@ -157,10 +165,10 @@ class AddEventPage extends StatelessWidget {
     );
   }
 
-  Widget _showUploadButton(BuildContext context, String message) {
+  Widget _showUploadButton(BuildContext context) {
     return ElevatedButton(onPressed: () {
       uploadImage();
-    }, child: Text(message));
+    }, child: Text("Upload image"));
   }
 
   Widget _buildEventAddedWidget(BuildContext context, Response response) {
