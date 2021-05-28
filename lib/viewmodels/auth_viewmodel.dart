@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_meetup/data/repositories/sign_in_repository.dart';
 import 'package:flutter_meetup/viewmodels/utils/Response.dart';
@@ -32,6 +33,14 @@ class AuthViewModel extends ChangeNotifier {
         // success
       }
     });
+  }
+
+  signOut() {
+    repository.signOutGoogle();
+  }
+
+  User? getCurrentUser() {
+    return repository.getCurrentUser();
   }
 
   @override

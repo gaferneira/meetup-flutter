@@ -39,9 +39,14 @@ class SignInRepository {
   }
 
   Future<void> signOutGoogle() async {
+    await _auth.signOut();
     await googleSignIn.signOut();
 
     print("User Signed Out");
+  }
+
+  User? getCurrentUser() {
+    return _auth.currentUser;
   }
 
   @override

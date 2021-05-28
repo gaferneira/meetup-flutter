@@ -23,4 +23,10 @@ class Strings {
   static const LINK = "Link";
   static const LINK_REQUIRED = "Link is required";
 
+  // Profile page
+  static const PROFILE = "Profile";
+  static const EMAIL = "Email";
+  static const THEME = "Theme";
+  static const LOG_OUT = "Log out";
+
 }
