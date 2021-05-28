@@ -53,8 +53,8 @@ class _AddEventPageState extends State<AddEventPage> {
                     children: [
                       _buildInputText('Title', 'Title is required', (value) => {_event.title = value}),
                       _buildInputText('Description', 'Description is required', (value) => {_event.description = value}),
-                      _buildDatePickerText(context),
-                      _buildTimePickerText(context),
+                      _buildDatePickerText(context, (value) => {_event.date = value}),
+                      _buildTimePickerText(context, (value) => {_event.time = value}),
                       _buildCheckbox('IsOnLine', (value) => {_event.isOnline = value}),
                       _buildInputText('Link', 'Link is required', (value) => {_event.link = value}),
                       _buildDropDown(viewModel.dataResponse.data?[0] as List<Location>, (value) => {_event.location = value}),
@@ -111,7 +111,7 @@ class _AddEventPageState extends State<AddEventPage> {
     );
   }
 
-  Widget _buildTimePickerText(BuildContext context) {
+  Widget _buildTimePickerText(BuildContext context, Function(String?) callback) {
     return TextFormField(
       initialValue: _time!.format(context),
       onTap: () {
@@ -127,10 +127,14 @@ class _AddEventPageState extends State<AddEventPage> {
           }
         });
       },
+      onSaved: (value) {
+        callback(value);
+      },
+      enableInteractiveSelection: false,
     );
   }
 
-  Widget _buildDatePickerText(BuildContext context) {
+  Widget _buildDatePickerText(BuildContext context, Function(String?) callback) {
     final dateNow = DateTime.now();
     return TextFormField(
       initialValue: _date.toString().substring(0,10),
@@ -149,6 +153,10 @@ class _AddEventPageState extends State<AddEventPage> {
           }
         });
       },
+      onSaved: (value) {
+        callback(value);
+      },
+      enableInteractiveSelection: false,
     );
   }
 
