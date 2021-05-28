@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_meetup/constants/assets.dart';
 import 'package:flutter_meetup/constants/strings.dart';
 import 'package:flutter_meetup/viewmodels/explore_viewmodel.dart';
 import 'package:flutter_meetup/viewmodels/utils/Response.dart';
@@ -71,7 +72,7 @@ class _CategoriesPage extends State<ExplorePage> {
       child: Column(
         children: [
           FadeInImage.assetNetwork(
-            placeholder: "assets/globant_placeholder.png",
+            placeholder: Assets.placeHolder,
             image: category.image ?? "",
             fit: BoxFit.fill,
             placeholderCacheHeight: 90,

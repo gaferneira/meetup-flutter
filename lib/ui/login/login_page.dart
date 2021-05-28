@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_meetup/constants/assets.dart';
 import 'package:flutter_meetup/viewmodels/auth_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -19,7 +20,7 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Image.asset(
-                "assets/globant_placeholder.png",
+                Assets.placeHolder,
                 width: 150,
                 height: 150,
               ),

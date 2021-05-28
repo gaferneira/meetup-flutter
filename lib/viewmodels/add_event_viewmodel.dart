@@ -4,6 +4,7 @@ import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_meetup/constants/strings.dart';
 import 'package:flutter_meetup/data/repositories/categories_respository.dart';
 import 'package:flutter_meetup/data/repositories/events_repository.dart';
 import 'package:flutter_meetup/data/repositories/locations_repository.dart';
@@ -61,22 +62,17 @@ class AddEventViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addEvent(Event event) {
+  Future<Response<bool>> addEvent(Event event) async {
     if (event.image == null || event.image!.isEmpty) {
-      _imageResponse = Response.error("Please add an image for the event");
-      notifyListeners();
-      return;
+      return Response.error("Please add an image for the Event");
     }
 
-    streamSubs.add(eventsRepository.addEvent(event).listen((event) {
-        _addEventResponse = Response.complete(event);
-        notifyListeners();
-      })..onError((error) {
-        _addEventResponse = Response.error(error.toString());
-        notifyListeners();
-        _addEventResponse = Response.none();
-      })
-    );
+    try {
+      await eventsRepository.addEvent(event);
+      return Response.complete(true);
+    } catch (error) {
+      return Response.error(error.toString());
+    }
   }
 
   @override

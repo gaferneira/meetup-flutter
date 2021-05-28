@@ -6,23 +6,13 @@ executeAfterBuild(Function function) {
   );
 }
 
-showSnackBar(BuildContext context, String message) {
-  WidgetsBinding.instance!.addPostFrameCallback((_) =>
-    ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            message,
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-          backgroundColor: Theme.of(context).colorScheme.background,
-        )
-    )
-  );
-}
-
-pop(BuildContext context) {
-  WidgetsBinding.instance!.addPostFrameCallback((_) =>
-      Navigator.pop(context)
+snackBar(BuildContext context, String message, [bool isError = false]) {
+  return SnackBar(
+    content: Text(
+      message,
+      style: Theme.of(context).textTheme.bodyText1,
+    ),
+    backgroundColor: isError ? Colors.red : Colors.green,
   );
 }
 

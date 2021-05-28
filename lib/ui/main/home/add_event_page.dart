@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_meetup/constants/assets.dart';
 import 'package:flutter_meetup/constants/strings.dart';
 import 'package:flutter_meetup/models/category.dart';
 import 'package:flutter_meetup/models/event.dart';
@@ -16,6 +17,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class AddEventPage extends StatefulWidget {
+  static const title = Strings.ADD_EVENT;
   static const routeName = '/addEvent';
   AddEventPage({Key? key}) : super(key: key);
 
@@ -24,7 +26,7 @@ class AddEventPage extends StatefulWidget {
 }
 
 class _AddEventPageState extends State<AddEventPage> {
-  static final title = "Add Event";
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   final _formKey = GlobalKey<FormState>();
   final Event _event = Event();
   final AddEventViewModel viewModel = AddEventViewModel();
@@ -36,10 +38,12 @@ class _AddEventPageState extends State<AddEventPage> {
     viewModel.fetchData();
     return ChangeNotifierProvider<AddEventViewModel>.value(
     value: viewModel,
+    child: ScaffoldMessenger(
+    key: scaffoldMessengerKey,
     child: Scaffold(
         key: widget.key,
         appBar: AppBar (
-          title: Text(title),
+          title: Text(AddEventPage.title),
         ),
         body: Container(
           margin: EdgeInsets.all(24),
@@ -51,28 +55,25 @@ class _AddEventPageState extends State<AddEventPage> {
                   key: _formKey,
                   child: ListView (
                     children: [
-                      _buildInputText('Title', 'Title is required', (value) => {_event.title = value}),
-                      _buildInputText('Description', 'Description is required', (value) => {_event.description = value}),
+                      _buildInputText(Strings.TITLE, Strings.TITLE_REQUIRED, (value) => {_event.title = value}),
+                      _buildInputText(Strings.DESCRIPTION, Strings.DESCRIPTION_REQUIRED, (value) => {_event.description = value}),
                       _buildDatePickerText(context, (value) => {_event.date = value}),
                       _buildTimePickerText(context, (value) => {_event.time = value}),
                       _buildCheckbox('IsOnLine', (value) => {_event.isOnline = value}),
-                      _buildInputText('Link', 'Link is required', (value) => {_event.link = value}),
+                      _buildInputText(Strings.LINK, Strings.LINK_REQUIRED, (value) => {_event.link = value}),
                       _buildDropDown(viewModel.dataResponse.data?[0] as List<Location>, (value) => {_event.location = value}),
                       _buildDropDown(viewModel.dataResponse.data?[1] as List<Category>, (value) => {_event.category = value}),
                       _buildImageWidget(context, viewModel.imageResponse),
-                      _buildEventAddedWidget(context, viewModel.addEventResponse),
                       ElevatedButton(
                           child: Text(
-                            'Submit',
+                            Strings.SUBMIT,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
                             ),
                           ),
                           onPressed: () {
-                            if (!(_formKey.currentState?.validate() ?? false)) return;
-                            _formKey.currentState?.save();
-                            viewModel.addEvent(_event);
+                            _validateAndSubmit();
                           }
                       )
                     ],
@@ -92,6 +93,7 @@ class _AddEventPageState extends State<AddEventPage> {
           )
         )
     )
+    )
     );
   }
 
@@ -109,6 +111,20 @@ class _AddEventPageState extends State<AddEventPage> {
         callback(value);
       },
     );
+  }
+
+  _validateAndSubmit() async {
+    if (!(_formKey.currentState?.validate() ?? false)) return;
+    _formKey.currentState?.save();
+    var response = await viewModel.addEvent(_event);
+    switch (response.state) {
+      case ResponseState.COMPLETE : {
+        Navigator.pop(context, Strings.SUCCESS);
+        break;
+      }
+      default : scaffoldMessengerKey.currentState?.showSnackBar(
+          snackBar(context, response.exception ?? Strings.UNKNOWN_ERROR, true));
+    }
   }
 
   Widget _buildTimePickerText(BuildContext context, Function(String?) callback) {
@@ -173,7 +189,7 @@ class _AddEventPageState extends State<AddEventPage> {
       icon: const Icon(Icons.arrow_downward),
       iconSize: 24,
       elevation: 16,
-      style: const TextStyle(color: Colors.blue),
+      style: const TextStyle(color: Colors.green),
       onChanged: (String? newValue) {},
       onSaved: (String? value) {
         callback(value);
@@ -212,7 +228,7 @@ class _AddEventPageState extends State<AddEventPage> {
   Widget _showImage(String? imageUrl) {
     _event.image = imageUrl;
     return FadeInImage.assetNetwork(
-      placeholder: "assets/globant_placeholder.png",
+      placeholder: Assets.placeHolder,
       image: imageUrl ?? "",
       fit: BoxFit.fill,
       placeholderCacheHeight: 90,
@@ -225,28 +241,12 @@ class _AddEventPageState extends State<AddEventPage> {
   Widget _showUploadButton(BuildContext context) {
     return ElevatedButton(onPressed: () {
       uploadImage();
-    }, child: Text("Upload image"));
-  }
-
-  Widget _buildEventAddedWidget(BuildContext context, Response response) {
-    switch (response.state) {
-      case ResponseState.COMPLETE : {
-        pop(context);
-        break;
-      }
-      case ResponseState.ERROR : {
-        showSnackBar(context, response.exception ?? Strings.UNKNOWN_ERROR);
-        break;
-      }
-      default : {}
-    }
-    return SizedBox();
+    }, child: Text(Strings.UPLOAD_IMAGE));
   }
 
   uploadImage() async {
     final _picker = ImagePicker();
     PickedFile? image;
-    // Check permissions
     await Permission.photos.request();
     var permissionStatus = await Permission.photos.status;
     if (permissionStatus.isGranted) {
@@ -255,10 +255,12 @@ class _AddEventPageState extends State<AddEventPage> {
         var file = File(image.path);
         viewModel.uploadImage(file);
       } else {
-        // TODO handle null image
+        scaffoldMessengerKey.currentState?.showSnackBar(
+            snackBar(context, Strings.IMAGE_UPLOAD_FAILED, true));
       }
     } else {
-      // TODO show message: grant permissions and try again
+      scaffoldMessengerKey.currentState?.showSnackBar(
+          snackBar(context, Strings.PLEASE_GRANT_PERMISSIONS, true));
     }
   }
 

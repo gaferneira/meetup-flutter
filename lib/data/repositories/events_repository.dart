@@ -15,8 +15,8 @@ class EventsRepository {
             .toList());
   }
 
-  Stream<DocumentReference> addEvent(Event event) {
-    return firestoreDataSource.db.collection('events').add(event.toJson()).asStream();
+  Future<DocumentReference> addEvent(Event event) {
+    return firestoreDataSource.db.collection('events').add(event.toJson());
   }
 
   Stream<TaskSnapshot> uploadImage(File file) {

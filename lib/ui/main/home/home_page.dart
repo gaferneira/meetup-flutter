@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_meetup/constants/strings.dart';
 import 'package:flutter_meetup/utils/extension.dart';
 import 'package:flutter_meetup/models/event.dart';
 import 'package:flutter_meetup/ui/main/home/add_event_page.dart';
@@ -8,7 +9,7 @@ import 'package:provider/provider.dart';
 import '../event_details_page.dart';
 
 class HomePage extends StatefulWidget {
-  static final title = "Home";
+  static final title = Strings.HOME;
 
   HomePage({Key? key}) : super(key: key);
 
@@ -61,14 +62,20 @@ class _HomePageState extends State<HomePage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.of(context)
-                .pushNamed(AddEventPage.routeName);
+            _goToAddEventPage();
           },
-          tooltip: 'Add Event',
+          tooltip: Strings.ADD_EVENT,
           child: Icon(Icons.add),
         ), // This trailing comma makes auto-formatting nicer for build methods.
       )
     );
+  }
+
+  _goToAddEventPage() async {
+    final result = await Navigator.of(context).pushNamed(AddEventPage.routeName);
+    if (result.toString() == Strings.SUCCESS)
+      ScaffoldMessenger.of(context)..removeCurrentSnackBar()
+        ..showSnackBar(snackBar(context, Strings.EVENT_ADDED_SUCCESSFULLY));
   }
 
   Widget _buildItem(Event event) {

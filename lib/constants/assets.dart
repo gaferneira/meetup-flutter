@@ -7,4 +7,7 @@ class Assets {
   // login screen assets
   static const String carBackground = "assets/images/img_login.jpg";
 
+  // placeholder
+  static const String placeHolder = "assets/globant_placeholder.png";
+
 }
