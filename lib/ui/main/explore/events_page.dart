@@ -100,7 +100,7 @@ class _EventsPageState extends State<EventsPage> {
           query = value;
         });
       },
-      hintText: Strings.CATEGORY
+      hintText: Strings.SEARCH_BY_EVENT_NAME
   );
 
   Widget _buildItem(Event event) {

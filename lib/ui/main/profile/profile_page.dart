@@ -36,7 +36,7 @@ class ProfilePage extends StatelessWidget{
                 ),
               ),
               Divider(color: Colors.black),
-              _buildItem("${Strings.EMAIL}: ${viewModel.getCurrentUser()?.email}", context, (){}, Icons.email),
+              _buildItem(viewModel.getCurrentUser()?.email ?? Strings.EMAIL, context, (){}, Icons.email),
               _buildItem(Strings.THEME, context, (){}, Icons.invert_colors),
               _buildItem(Strings.ABOUT, context, (){}, Icons.info),
               _buildItem(Strings.LOG_OUT, context, () {
@@ -67,7 +67,12 @@ class ProfilePage extends StatelessWidget{
                 size: 20.0,
               ),
               SizedBox(width: 8),
-              Text(title,)
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              )
             ],
           ),
         ),

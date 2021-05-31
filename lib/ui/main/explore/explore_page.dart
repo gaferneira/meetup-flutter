@@ -46,6 +46,11 @@ class _CategoriesPage extends State<ExplorePage> {
                     return Center (
                       child : GridView.count(
                         crossAxisCount: 2,
+                        childAspectRatio: (2 / 2),
+                        crossAxisSpacing: 16,
+                        mainAxisSpacing: 16,
+                        //physics:BouncingScrollPhysics(),
+                        padding: EdgeInsets.all(10.0),
                         children: List.generate(
                             viewModel.response.data!.length,
                                 (index) => _buildCategoryItem(viewModel.response.data![index])
@@ -69,31 +74,58 @@ class _CategoriesPage extends State<ExplorePage> {
   }
 
   Widget _buildCategoryItem(Category category) {
-    return new Center(
+    return Container(
       child: GestureDetector(
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => EventsPage(category: category.name)
           ));
         },
-        child: Column(
-          children: [
-            FadeInImage.assetNetwork(
-              placeholder: Assets.placeHolder,
-              image: category.image ?? "",
-              fit: BoxFit.fill,
-              placeholderCacheHeight: 90,
-              placeholderCacheWidth: 120,
-              height: 120,
-              width: 150,
-            ),
-            Text(
-              category.name ?? "",
-              maxLines: 2,
-              style: Theme.of(context).textTheme.subtitle1,
-              textAlign: TextAlign.center,
-            ),
-          ],
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: Stack(
+            children: [
+              FadeInImage.assetNetwork(
+                placeholder: Assets.placeHolder,
+                image: category.image ?? "",
+                fit: BoxFit.fill,
+                height: double.infinity,
+                width: double.infinity,
+              ),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Stack(children: [
+                  ShaderMask(
+                    shaderCallback: (rect) {
+                      return LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [Colors.grey, Colors.transparent],
+                      ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
+                      },
+                    child: Container(
+                      color: Colors.black54,
+                      height: 32.0,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 8, top: 8),
+                    child: Text(
+                      category.name ?? "",
+                      maxLines: 2,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
+                  )
+                ],
+              )
+              ),
+            ],
+          ),
         ),
       )
     );

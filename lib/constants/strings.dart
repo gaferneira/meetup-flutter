@@ -36,5 +36,6 @@ class Strings {
   static const EVENTS = "Events";
   static const CATEGORY = "Category";
   static const EVENTS_NOT_FOUND = "Events not found.";
+  static const SEARCH_BY_EVENT_NAME = "Search by event name";
 
 }
