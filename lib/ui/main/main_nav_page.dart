@@ -32,7 +32,7 @@ class _MainNavPageState extends State<MainNavPage> {
           ],
           initialActiveIndex: _currentIndex,
           style: TabStyle.react,
-          backgroundColor: Colors.white10,
+          backgroundColor: Colors.white,
           color: Colors.black,
           activeColor: Colors.lightGreen,
           top: -15,
