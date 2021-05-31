@@ -32,12 +32,13 @@ class _MainNavPageState extends State<MainNavPage> {
           ],
           initialActiveIndex: _currentIndex,
           style: TabStyle.react,
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.green,
           color: Colors.black,
-          activeColor: Colors.lightGreen,
+          activeColor: Colors.white,
           top: -15,
           onTap: onTabTapped,
-        ));
+        )
+    );
   }
 
   void onTabTapped(int index) {
