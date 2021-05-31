@@ -1,8 +1,10 @@
 class Strings {
   Strings._();
 
+  // Application
   static const appName = "Meet up";
 
+  // Generic messages
   static const UNKNOWN_ERROR = "Unknown error";
   static const SUCCESS = "Success";
   static const IMAGE_UPLOAD_FAILED = "Image couldn't be uploaded, please try again.";
@@ -30,6 +32,8 @@ class Strings {
   static const LOG_OUT = "Log out";
 
   // Explore page
+  static const EVENTS = "Events";
   static const CATEGORY = "Category";
+  static const EVENTS_NOT_FOUND = "Events not found.";
 
 }

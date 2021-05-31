@@ -38,7 +38,7 @@ class _EventsPageState extends State<EventsPage> {
       child: Scaffold(
         key: key,
         appBar: AppBar(
-          title: Text("Event list"),
+          title: Text(Strings.EVENTS),
         ),
         body: Consumer(
                 builder: (context, HomeViewModel viewModel, _) {
@@ -60,7 +60,7 @@ class _EventsPageState extends State<EventsPage> {
                           ],
                         );
                       } else {
-                        return showRetry("Events not found.", () {
+                        return showRetry(Strings.EVENTS_NOT_FOUND, () {
                           viewModel.fetchEvents(category: widget.category);
                         });
                       }
@@ -106,7 +106,7 @@ class _EventsPageState extends State<EventsPage> {
   Widget _buildItem(Event event) {
     return new ListTile(
       title: new Text(event.title ?? ""),
-      subtitle: new Text('Category: ${event.category}'),
+      subtitle: new Text('${Strings.CATEGORY}: ${event.category}'),
       leading: Image.network(event.image ?? ""),
       onTap: () {
         Navigator.of(context)
