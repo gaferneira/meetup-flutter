@@ -30,6 +30,7 @@ class Strings {
   static const EMAIL = "Email";
   static const THEME = "Theme";
   static const LOG_OUT = "Log out";
+  static const ABOUT = "About";
 
   // Explore page
   static const EVENTS = "Events";

@@ -17,33 +17,62 @@ class ProfilePage extends StatelessWidget{
           appBar: AppBar(
             title: Text(ProfilePage.title),
           ),
-          body: ListView(
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Container(
-                width: 200,
-                height: 200,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                      image: NetworkImage(viewModel.getCurrentUser()?.photoURL ?? Assets.placeHolder),
-                      fit: BoxFit.fill
+              Padding(
+                padding: EdgeInsets.all(24),
+                child: AspectRatio(
+                  aspectRatio: 16/9,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          image: NetworkImage(viewModel.getCurrentUser()?.photoURL ?? Assets.placeHolder),
+                          fit: BoxFit.fitHeight
+                      ),
+                    ),
                   ),
                 ),
               ),
-              Text("${Strings.EMAIL}: ${viewModel.getCurrentUser()?.email}"),
-              Text(Strings.THEME),
-              ElevatedButton(
-                child : Text(Strings.LOG_OUT),
-                onPressed: () {
-                  viewModel.signOut();
-                  Navigator.popAndPushNamed(
-                    context,
-                    '/',
-                  );
-                },
-              ),
+              Divider(color: Colors.black),
+              _buildItem("${Strings.EMAIL}: ${viewModel.getCurrentUser()?.email}", context, (){}, Icons.email),
+              _buildItem(Strings.THEME, context, (){}, Icons.invert_colors),
+              _buildItem(Strings.ABOUT, context, (){}, Icons.info),
+              _buildItem(Strings.LOG_OUT, context, () {
+                viewModel.signOut();
+                Navigator.popAndPushNamed(
+                  context,
+                  '/',
+                );
+              }, Icons.logout),
             ],
           ),
     );
   }
+
+  _buildItem(String title, BuildContext context, Function() onTap, IconData icon) {
+    return InkWell(
+      onTap: () {
+        onTap.call();
+      },
+      child: Container(
+        width: double.infinity,
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Icon(
+                icon,
+                size: 20.0,
+              ),
+              SizedBox(width: 8),
+              Text(title,)
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 }
