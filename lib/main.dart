@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_meetup/constants/app_theme.dart';
 import 'package:flutter_meetup/ui/main/event_details_page.dart';
+import 'package:flutter_meetup/ui/main/explore/events_page.dart';
 import 'package:flutter_meetup/ui/main/home/add_event_page.dart';
 import 'package:flutter_meetup/ui/splash/splash_page.dart';
 
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => SplashPage(),
         EventDetailsPage.routeName: (context) => EventDetailsPage(),
         AddEventPage.routeName: (context) => AddEventPage(),
+        EventsPage.routeName: (context) => EventsPage(),
       },
     );
   }

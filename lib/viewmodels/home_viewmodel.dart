@@ -12,14 +12,24 @@ class HomeViewModel extends ChangeNotifier {
   Response<List<Event>> _response = Response.loading();
   Response<List<Event>> get response => _response;
 
-  void fetchEvents() {
-    streamSubscription = repository.fetchAllEvents().listen((newList) {
-      _response = Response.complete(newList);
-      notifyListeners();
-    })..onError((error) {
-      _response = Response.error(error.toString());
-      notifyListeners();
-    });
+  void fetchEvents({String? category}) {
+    if (category == null || category.isEmpty) {
+      streamSubscription = repository.fetchAllEvents().listen((newList) {
+        _response = Response.complete(newList);
+        notifyListeners();
+      })..onError((error) {
+        _response = Response.error(error.toString());
+        notifyListeners();
+      });
+    } else {
+      streamSubscription = repository.fetchAllEventsByCategory(category).listen((newList) {
+        _response = Response.complete(newList);
+        notifyListeners();
+      })..onError((error) {
+        _response = Response.error(error.toString());
+        notifyListeners();
+      });
+    }
   }
 
   @override

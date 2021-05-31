@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_meetup/constants/assets.dart';
 import 'package:flutter_meetup/constants/strings.dart';
+import 'package:flutter_meetup/ui/main/explore/events_page.dart';
 import 'package:flutter_meetup/viewmodels/explore_viewmodel.dart';
 import 'package:flutter_meetup/viewmodels/utils/Response.dart';
 import 'package:provider/provider.dart';
@@ -47,7 +48,7 @@ class _CategoriesPage extends State<ExplorePage> {
                         crossAxisCount: 2,
                         children: List.generate(
                             viewModel.response.data!.length,
-                                (index) => _buildItemCategory(viewModel.response.data![index])
+                                (index) => _buildCategoryItem(viewModel.response.data![index])
                         ),
                       ),
                     );
@@ -67,27 +68,34 @@ class _CategoriesPage extends State<ExplorePage> {
     );
   }
 
-  Widget _buildItemCategory(Category category) {
+  Widget _buildCategoryItem(Category category) {
     return new Center(
-      child: Column(
-        children: [
-          FadeInImage.assetNetwork(
-            placeholder: Assets.placeHolder,
-            image: category.image ?? "",
-            fit: BoxFit.fill,
-            placeholderCacheHeight: 90,
-            placeholderCacheWidth: 120,
-            height: 120,
-            width: 150,
-          ),
-          Text(
-            category.name ?? "",
-            maxLines: 2,
-            style: Theme.of(context).textTheme.subtitle1,
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => EventsPage(category: category.name)
+          ));
+        },
+        child: Column(
+          children: [
+            FadeInImage.assetNetwork(
+              placeholder: Assets.placeHolder,
+              image: category.image ?? "",
+              fit: BoxFit.fill,
+              placeholderCacheHeight: 90,
+              placeholderCacheWidth: 120,
+              height: 120,
+              width: 150,
+            ),
+            Text(
+              category.name ?? "",
+              maxLines: 2,
+              style: Theme.of(context).textTheme.subtitle1,
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      )
     );
   }
 

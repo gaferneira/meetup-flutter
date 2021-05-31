@@ -29,4 +29,7 @@ class Strings {
   static const THEME = "Theme";
   static const LOG_OUT = "Log out";
 
+  // Explore page
+  static const CATEGORY = "Category";
+
 }
