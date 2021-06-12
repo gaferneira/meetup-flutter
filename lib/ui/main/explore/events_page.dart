@@ -23,6 +23,8 @@ class EventsPage extends StatefulWidget {
 class _EventsPageState extends State<EventsPage> {
   final key = new GlobalKey<ScaffoldState>();
   HomeViewModel viewModel = HomeViewModel();
+  Widget appBar = Text(Strings.EVENTS);
+  Icon actionIcon = Icon(Icons.search);
   String query = "";
 
   @override
@@ -38,7 +40,22 @@ class _EventsPageState extends State<EventsPage> {
       child: Scaffold(
         key: key,
         appBar: AppBar(
-          title: Text(Strings.EVENTS),
+            title: appBar,
+            actions: <Widget>[
+              new IconButton(icon: actionIcon, onPressed:(){
+                setState(() {
+                  if ( this.actionIcon.icon == Icons.search){
+                    this.actionIcon = new Icon(Icons.close);
+                    this.appBar = _buildSearchWidget();
+                  }
+                  else {
+                    this.actionIcon = new Icon(Icons.search);
+                    this.appBar = new Text(Strings.EVENTS);
+                  }
+                });
+              },
+              ),
+            ]
         ),
         body: Consumer(
                 builder: (context, HomeViewModel viewModel, _) {
@@ -47,7 +64,6 @@ class _EventsPageState extends State<EventsPage> {
                       if (viewModel.response.data != null && viewModel.response.data!.isNotEmpty) {
                         return Column(
                           children: [
-                            _buildSearchWidget(),
                             Expanded(
                                 child: ListView(
                                   children: viewModel.response.data!.where((event) {
@@ -93,7 +109,7 @@ class _EventsPageState extends State<EventsPage> {
         ..showSnackBar(snackBar(context, Strings.EVENT_ADDED_SUCCESSFULLY));
   }
 
-  Widget _buildSearchWidget() => SearchWidget(
+  SearchWidget _buildSearchWidget() => SearchWidget(
       text: query,
       onChanged: (value) {
         setState(() {
