@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_meetup/constants/assets.dart';
 import 'package:flutter_meetup/ui/main/main_nav_page.dart';
 import 'package:flutter_meetup/viewmodels/utils/Response.dart';
 import 'package:flutter_meetup/viewmodels/auth_viewmodel.dart';
@@ -37,11 +38,10 @@ class SplashPage extends StatelessWidget {
 
   Widget showSplash() {
     return Material(
-      color: Colors.blueAccent,
+      color: Colors.white,
       child: Center(
-        child: Text(
-          "Splash",
-          style: TextStyle(color: Colors.black),
+        child: Image(
+            image: AssetImage(Assets.appLogo)
         ),
       ),
     );
