@@ -49,7 +49,6 @@ class _CategoriesPage extends State<ExplorePage> {
                         childAspectRatio: (2 / 2),
                         crossAxisSpacing: 16,
                         mainAxisSpacing: 16,
-                        //physics:BouncingScrollPhysics(),
                         padding: EdgeInsets.all(10.0),
                         children: List.generate(
                             viewModel.response.data!.length,
@@ -58,14 +57,18 @@ class _CategoriesPage extends State<ExplorePage> {
                       ),
                     );
                   } else {
-                    return _message("Categories not found");
+                    return showRetry(Strings.CATEGORIES_NOT_FOUND, () {
+                      viewModel.fetchCategories();
+                    });
                   }
                 case ResponseState.LOADING :
                   return Center(
                     child: CircularProgressIndicator(),
                   );
                 default :
-                  return _message(viewModel.response.exception ?? Strings.UNKNOWN_ERROR);
+                  return showRetry(viewModel.response.exception ?? Strings.UNKNOWN_ERROR, () {
+                    viewModel.fetchCategories();
+                  });
               }
             }
           ),
@@ -137,6 +140,25 @@ class _CategoriesPage extends State<ExplorePage> {
           message ?? "",
           style: TextStyle(fontSize: 30),
           textAlign: TextAlign.center,
+        )
+    );
+  }
+
+  Widget showRetry(String message, Function() onPressed) {
+    return Center(
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                message,
+                style: TextStyle(fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
+              ElevatedButton(
+                onPressed: onPressed,
+                child: Text(Strings.RETRY),
+              )
+            ]
         )
     );
   }

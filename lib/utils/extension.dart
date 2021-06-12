@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_meetup/constants/strings.dart';
 
 executeAfterBuild(Function function) {
   WidgetsBinding.instance!.addPostFrameCallback((_) =>
@@ -22,13 +23,13 @@ Widget showRetry(String? error, Function() onPressed) {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              error ?? "Wasn't able to retrieve the data, please check your internet connection.",
+              error ?? Strings.UNKNOWN_ERROR,
               style: TextStyle(fontSize: 16),
               textAlign: TextAlign.center,
             ),
             ElevatedButton(
               onPressed: onPressed,
-              child: Text("Retry"),
+              child: Text(Strings.RETRY),
             )
           ]
       )

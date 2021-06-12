@@ -1,5 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_meetup/constants/strings.dart';
 import 'package:flutter_meetup/models/event.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class EventDetailsPage extends StatefulWidget {
   static const routeName = '/eventDetails';
@@ -18,27 +21,56 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
     return Scaffold(
         key: key,
         appBar: AppBar(
-          title: Text("Event details"),
+          title: Text(event?.title ?? ""),
         ),
-        body: new Center(
-          child: Column(
+        body: ListView(
             children: [
-              Text(
-                event?.title ?? "",
-                style: TextStyle(fontSize: 30),
-                textAlign: TextAlign.center,
+              Image.network(
+                  event?.image ?? "",
+                  fit: BoxFit.fill,
               ),
-              Container(
-                width: double.infinity,
-                height: 300,
-                alignment: Alignment.center, // This is needed
-                child: Image.network(event?.image ?? "",
-                    fit: BoxFit.contain, width: 300),
-              ),
-              Text(event?.category ?? "")
+              Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text("Fecha: ${event?.date}"),
+                    Text("Hora: ${event?.time}"),
+                    Text("Descripcion: ${event?.description}"),
+                    Text("Lugar: ${event?.location}"),
+                    _linkWidget(event)
+                  ],
+                ),
+              )
             ],
-          ),
         )
     );
+  }
+
+  Widget _linkWidget(Event? event) {
+    if (event != null && (event.isOnline ?? false) && event.link != null && event.link!.isNotEmpty) {
+      return RichText(
+        text: TextSpan(
+            children: [
+              TextSpan(
+                  text: "${Strings.LINK}: ",
+                  style: TextStyle(
+                      color: Colors.black
+                  )
+              ),
+              TextSpan(
+                  text: event.link,
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      launch(event.link!);
+                    },
+                  style: TextStyle(
+                      color: Colors.blueAccent
+                  )
+              )
+            ]
+        )
+      );
+    } else return SizedBox();
   }
 }

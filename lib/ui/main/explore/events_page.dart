@@ -23,12 +23,13 @@ class EventsPage extends StatefulWidget {
 class _EventsPageState extends State<EventsPage> {
   final key = new GlobalKey<ScaffoldState>();
   HomeViewModel viewModel = HomeViewModel();
-  Widget appBar = Text(Strings.EVENTS);
+  Widget appBar = Text("");
   Icon actionIcon = Icon(Icons.search);
   String query = "";
 
   @override
   void initState() {
+    appBar = Text(widget.category ?? "");
     viewModel.fetchEvents(category: widget.category);
     super.initState();
   }
@@ -120,14 +121,26 @@ class _EventsPageState extends State<EventsPage> {
   );
 
   Widget _buildItem(Event event) {
-    return new ListTile(
-      title: new Text(event.title ?? ""),
-      subtitle: new Text('${Strings.CATEGORY}: ${event.category}'),
-      leading: Image.network(event.image ?? ""),
-      onTap: () {
-        Navigator.of(context)
-            .pushNamed(EventDetailsPage.routeName, arguments: event);
-      },
+    return  Padding(
+        padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 0.0),
+        child: Card(
+          color: Colors.white,
+          child: ListTile(
+            title: Text(event.title ?? ""),
+            subtitle: Text("${event.date} - ${event.time}"),
+            leading: AspectRatio(
+              aspectRatio: 1/1,
+              child: Image.network(
+                event.image ?? "",
+                fit: BoxFit.fill,
+              ),
+            ),
+            onTap: () {
+              Navigator.of(context)
+                  .pushNamed(EventDetailsPage.routeName, arguments: event);
+            },
+          )
+        )
     );
   }
 

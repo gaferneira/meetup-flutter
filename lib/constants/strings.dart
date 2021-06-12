@@ -5,9 +5,10 @@ class Strings {
   static const appName = "Meet up";
 
   // Generic messages
-  static const UNKNOWN_ERROR = "Unknown error";
+  static const UNKNOWN_ERROR = "Something went wrong, please check your internet connection and try again.";
   static const SUCCESS = "Success";
   static const IMAGE_UPLOAD_FAILED = "Image couldn't be uploaded, please try again.";
+  static const RETRY = "Retry";
 
   // Home page
   static const HOME = "Home";
@@ -37,5 +38,6 @@ class Strings {
   static const CATEGORY = "Category";
   static const EVENTS_NOT_FOUND = "Events not found.";
   static const SEARCH_BY_EVENT_NAME = "Search by event name";
+  static const CATEGORIES_NOT_FOUND = "Categories not found.";
 
 }
