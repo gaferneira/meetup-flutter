@@ -10,9 +10,18 @@ class Strings {
   static const imageUploadFailed = "Image couldn't be uploaded, please try again.";
   static const retry = "Retry";
 
+  static const actionSeeAll = "See all";
+
   // Home page
   static const home = "Home";
   static const eventAddedSuccessfully = "Event was added successfully";
+  static const myEvents = "My events";
+
+  static const homeCalendar = "Calendar";
+  static const homeCalendarOptionAll = "ALL";
+  static const homeCalendarOptionGoing = "GOING";
+  static const homeCalendarOptionSaved = "SAVED";
+  static const homeCalendarOptionPast = "PAST";
 
   // Add event page
   static const addEvent = "Add event";

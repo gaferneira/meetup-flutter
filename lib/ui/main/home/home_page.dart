@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_meetup/constants/assets.dart';
+import 'package:flutter_meetup/constants/dimens.dart';
 import 'package:flutter_meetup/constants/strings.dart';
 import 'package:flutter_meetup/utils/extension.dart';
 import 'package:flutter_meetup/models/event.dart';
@@ -17,7 +19,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   final key = new GlobalKey<ScaffoldState>();
   HomeViewModel viewModel = HomeViewModel();
 
@@ -30,59 +32,213 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<HomeViewModel>.value(
-    value: viewModel,
-      child: Scaffold(
-        key: key,
-        appBar: AppBar(
-          title: Text("Event list"),
-        ),
-        body: Consumer(
-                builder: (context, HomeViewModel viewModel, _) {
-                  switch (viewModel.response.state) {
-                    case ResponseState.COMPLETE :
-                      if (viewModel.response.data != null) {
-                        return ListView(
-                          children: viewModel.response.data!.map(_buildItem).toList(),
-                        );
-                      } else {
-                        return showRetry("Events not found.", () {
-                          viewModel.fetchEvents();
-                        });
-                      }
-                    case ResponseState.LOADING :
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    default :
-                      return showRetry(viewModel.response.exception, () {
-                        viewModel.fetchEvents();
-                      });
-                  }
-                },
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            _goToAddEventPage();
-          },
-          tooltip: Strings.addEvent,
-          child: Icon(Icons.add),
-        ), // This trailing comma makes auto-formatting nicer for build methods.
-      )
-    );
+        value: viewModel,
+        child: Scaffold(
+          key: key,
+          appBar: AppBar(
+            title: Text(Strings.home),
+          ),
+          body: Consumer(builder: (context, HomeViewModel viewModel, _) {
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  myEventsView(viewModel.response),
+                  _divider(Dimens.DIVIDER_NORMAL),
+                  calendarView(viewModel.response, this)
+                ],
+              ),
+            );
+          }),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              _goToAddEventPage();
+            },
+            tooltip: Strings.addEvent,
+            child: Icon(Icons.add),
+          ), // This trailing comma makes auto-formatting nicer for build methods.
+        ));
   }
 
   _goToAddEventPage() async {
-    final result = await Navigator.of(context).pushNamed(AddEventPage.routeName);
+    final result =
+        await Navigator.of(context).pushNamed(AddEventPage.routeName);
     if (result.toString() == Strings.success)
-      ScaffoldMessenger.of(context)..removeCurrentSnackBar()
+      ScaffoldMessenger.of(context)
+        ..removeCurrentSnackBar()
         ..showSnackBar(snackBar(context, Strings.eventAddedSuccessfully));
+  }
+
+  @override
+  void dispose() {
+    viewModel.dispose();
+    super.dispose();
+  }
+
+  Widget myEventsView(Response<List<Event>> response) {
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Column(children: [
+        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(Strings.myEvents,
+                style: Theme.of(context).textTheme.headline6),
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton(
+              onPressed: () {
+                //Go to my events list
+              },
+              child: Text(Strings.actionSeeAll),
+            ),
+          )
+        ]),
+        Container(
+          width: double.infinity,
+          height: 160.0,
+          child: Builder(builder: (BuildContext context) {
+            switch (viewModel.response.state) {
+              case ResponseState.COMPLETE:
+                if (viewModel.response.data != null) {
+                  return ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: viewModel.response.data!
+                        .map(_buildMyEventsItem)
+                        .toList(),
+                  );
+                } else {
+                  return Text(Strings.eventsNotFound);
+                }
+              case ResponseState.LOADING:
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              default:
+                return showRetry(viewModel.response.exception, () {
+                  viewModel.fetchEvents();
+                });
+            }
+          }),
+        ),
+      ]),
+    );
+  }
+
+  Widget _buildMyEventsItem(Event event) {
+    return Container(
+        width: 120,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.of(context)
+                  .pushNamed(EventDetailsPage.routeName, arguments: event);
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Stack(
+                children: [
+                  FadeInImage.assetNetwork(
+                    placeholder: Assets.placeHolder,
+                    image: event.image ?? "",
+                    fit: BoxFit.fill,
+                    height: double.infinity,
+                    width: double.infinity,
+                  ),
+                  Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Stack(
+                        children: [
+                          ShaderMask(
+                            shaderCallback: (rect) {
+                              return LinearGradient(
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.topCenter,
+                                colors: [Colors.grey, Colors.transparent],
+                              ).createShader(
+                                  Rect.fromLTRB(0, 0, rect.width, rect.height));
+                            },
+                            child: Container(
+                              color: Colors.black54,
+                              height: 32.0,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 8, top: 8),
+                            child: Text(
+                              event.title ?? "",
+                              maxLines: 2,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.start,
+                            ),
+                          )
+                        ],
+                      )),
+                ],
+              ),
+            ),
+          ),
+        ));
+  }
+
+  Widget calendarView(
+      Response<List<Event>> response, TickerProvider tickerProvider) {
+    // Create TabController for getting the index of current tab
+    var _controller = TabController(length: 4, vsync: tickerProvider);
+
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Column(children: [
+        Row(children: [
+          Text(Strings.homeCalendar,
+              style: Theme.of(context).textTheme.headline6)
+        ]),
+        TabBar(
+          controller: _controller,
+          tabs: [
+            Tab(text: Strings.homeCalendarOptionAll),
+            Tab(text: Strings.homeCalendarOptionGoing),
+            Tab(text: Strings.homeCalendarOptionSaved),
+            Tab(text: Strings.homeCalendarOptionPast),
+          ],
+          indicator: UnderlineTabIndicator(borderSide: BorderSide(width: 1.0)),
+        ),
+        Container(
+          width: double.infinity,
+          height: 300.0,
+          child: Builder(builder: (BuildContext context) {
+            switch (viewModel.response.state) {
+              case ResponseState.COMPLETE:
+                  var list = viewModel.response.data ?? [];
+                  return TabBarView(controller: _controller, children: [
+                    for ( int i=0; i<4; i++ ) _calendarList(i, list)
+                  ]);
+              case ResponseState.LOADING:
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              default:
+                return showRetry(viewModel.response.exception, () {
+                  viewModel.fetchEvents();
+                });
+            }
+          }),
+        ),
+      ]),
+    );
   }
 
   Widget _buildItem(Event event) {
     return new ListTile(
       title: new Text(event.title ?? ""),
-      subtitle: new Text('Category: ${event.category}'),
-      leading: Image.network(event.image ?? ""),
+      subtitle: new Text('${Strings.category}: ${event.category}'),
+      leading: Container(
+          width: 80, height: 80, child: Image.network(event.image ?? "")),
       onTap: () {
         Navigator.of(context)
             .pushNamed(EventDetailsPage.routeName, arguments: event);
@@ -90,9 +246,43 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  @override
-  void dispose() {
-    viewModel.dispose();
-    super.dispose();
+  Widget _divider(double height) {
+    return Container(
+      width: double.infinity,
+      height: height,
+      color: Colors.grey[200],
+    );
+  }
+
+  Widget _calendarList(int i, List<Event> list) {
+
+    List<Event> filterList = [];
+
+    switch(i) {
+      // going
+      case 1 : break;
+      // saved
+      case 2 : break;
+      // past
+      case 3 : filterList = list; break;
+      //All
+      default :
+        filterList = list; break;
+
+    }
+    if (i == 0) {
+      filterList = list;
+    }
+
+    if (filterList.isNotEmpty) {
+      return ListView(
+        children: filterList.map(_buildItem).toList(),
+      );
+    } else {
+      return Center(
+        child: Text(Strings.eventsNotFound,
+            style: Theme.of(context).textTheme.headline6),
+      );
+    }
   }
 }
