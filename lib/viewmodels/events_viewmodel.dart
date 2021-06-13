@@ -2,11 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_meetup/data/repositories/events_repository.dart';
+import 'package:flutter_meetup/di/injection.dart';
 import 'package:flutter_meetup/models/event.dart';
 import 'package:flutter_meetup/viewmodels/utils/Response.dart';
 
-class HomeViewModel extends ChangeNotifier {
-  EventsRepository repository = EventsRepository();
+class EventsViewModel extends ChangeNotifier {
+
+  final EventsRepository repository;
+
+  EventsViewModel({required this.repository});
+
   StreamSubscription? streamSubscription;
 
   Response<List<Event>> _response = Response.loading();

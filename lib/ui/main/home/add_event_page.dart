@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_meetup/constants/assets.dart';
 import 'package:flutter_meetup/constants/strings.dart';
+import 'package:flutter_meetup/di/injection.dart';
 import 'package:flutter_meetup/models/category.dart';
 import 'package:flutter_meetup/models/event.dart';
 import 'package:flutter_meetup/models/location.dart';
@@ -28,7 +29,7 @@ class _AddEventPageState extends State<AddEventPage> {
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   final _formKey = GlobalKey<FormState>();
   final Event _event = Event();
-  final AddEventViewModel viewModel = AddEventViewModel();
+  final AddEventViewModel viewModel = getIt();
   DateTime? _date = DateTime.now();
   TimeOfDay? _time = TimeOfDay.now();
 

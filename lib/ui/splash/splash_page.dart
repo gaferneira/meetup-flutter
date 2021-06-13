@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_meetup/constants/assets.dart';
+import 'package:flutter_meetup/di/injection.dart';
 import 'package:flutter_meetup/ui/main/main_nav_page.dart';
 import 'package:flutter_meetup/viewmodels/utils/Response.dart';
 import 'package:flutter_meetup/viewmodels/auth_viewmodel.dart';
@@ -9,7 +10,7 @@ import 'package:provider/provider.dart';
 import '../login/login_page.dart';
 
 class SplashPage extends StatelessWidget {
-  final AuthViewModel viewModel = AuthViewModel();
+  final AuthViewModel viewModel = getIt();
 
   @override
   Widget build(BuildContext context) {

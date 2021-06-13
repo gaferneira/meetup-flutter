@@ -3,13 +3,17 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_meetup/data/repositories/sign_in_repository.dart';
+import 'package:flutter_meetup/di/injection.dart';
 import 'package:flutter_meetup/viewmodels/utils/Response.dart';
 
 
 enum AuthStatus { UNINITIALIZED, AUTHENTICATED, UNAUTHENTICATED }
 
 class AuthViewModel extends ChangeNotifier {
-  final SignInRepository repository = SignInRepository();
+  final SignInRepository repository;
+
+  AuthViewModel({required this.repository});
+
   StreamSubscription? streamSubscription;
 
   Response<AuthStatus> _response = Response.complete(AuthStatus.UNINITIALIZED);

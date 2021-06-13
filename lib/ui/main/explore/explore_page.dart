@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_meetup/constants/assets.dart';
 import 'package:flutter_meetup/constants/strings.dart';
+import 'package:flutter_meetup/di/injection.dart';
 import 'package:flutter_meetup/ui/main/explore/events_page.dart';
 import 'package:flutter_meetup/viewmodels/explore_viewmodel.dart';
 import 'package:flutter_meetup/viewmodels/utils/Response.dart';
@@ -20,7 +21,7 @@ class ExplorePage extends StatefulWidget {
 
 class _CategoriesPage extends State<ExplorePage> {
   final key = new GlobalKey<ScaffoldState>();
-  ExploreViewModel viewModel = ExploreViewModel();
+  ExploreViewModel viewModel = getIt();
 
   @override
   void initState() {

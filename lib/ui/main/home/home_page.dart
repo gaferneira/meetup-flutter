@@ -5,7 +5,8 @@ import 'package:flutter_meetup/constants/strings.dart';
 import 'package:flutter_meetup/utils/extension.dart';
 import 'package:flutter_meetup/models/event.dart';
 import 'package:flutter_meetup/ui/main/home/add_event_page.dart';
-import 'package:flutter_meetup/viewmodels/home_viewmodel.dart';
+import 'package:flutter_meetup/viewmodels/home/home_data.dart';
+import 'package:flutter_meetup/viewmodels/home/home_viewmodel.dart';
 import 'package:flutter_meetup/viewmodels/utils/Response.dart';
 import 'package:provider/provider.dart';
 import '../event_details_page.dart';
@@ -42,9 +43,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             return SingleChildScrollView(
               child: Column(
                 children: [
-                  myEventsView(viewModel.response),
+                  _myEventsView(viewModel.response),
                   _divider(Dimens.DIVIDER_NORMAL),
-                  calendarView(viewModel.response, this)
+                  _calendarView(viewModel.response, this)
                 ],
               ),
             );
@@ -74,7 +75,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  Widget myEventsView(Response<List<Event>> response) {
+  Widget _myEventsView(Response<HomeData> response) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Column(children: [
@@ -103,7 +104,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 if (viewModel.response.data != null) {
                   return ListView(
                     scrollDirection: Axis.horizontal,
-                    children: viewModel.response.data!
+                    children: viewModel.response.data!.myEvents
                         .map(_buildMyEventsItem)
                         .toList(),
                   );
@@ -186,8 +187,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ));
   }
 
-  Widget calendarView(
-      Response<List<Event>> response, TickerProvider tickerProvider) {
+  Widget _calendarView(Response<HomeData> response, TickerProvider tickerProvider) {
     // Create TabController for getting the index of current tab
     var _controller = TabController(length: 4, vsync: tickerProvider);
 
@@ -214,9 +214,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           child: Builder(builder: (BuildContext context) {
             switch (viewModel.response.state) {
               case ResponseState.COMPLETE:
-                  var list = viewModel.response.data ?? [];
                   return TabBarView(controller: _controller, children: [
-                    for ( int i=0; i<4; i++ ) _calendarList(i, list)
+                    _calendarList(viewModel.response.data?.comingEvents),
+                    _calendarList(viewModel.response.data?.goingEvents),
+                    _calendarList(viewModel.response.data?.savedEvents),
+                    _calendarList(viewModel.response.data?.pastEvents)
                   ]);
               case ResponseState.LOADING:
                 return Center(
@@ -254,29 +256,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
   }
 
-  Widget _calendarList(int i, List<Event> list) {
-
-    List<Event> filterList = [];
-
-    switch(i) {
-      // going
-      case 1 : break;
-      // saved
-      case 2 : break;
-      // past
-      case 3 : filterList = list; break;
-      //All
-      default :
-        filterList = list; break;
-
-    }
-    if (i == 0) {
-      filterList = list;
-    }
-
-    if (filterList.isNotEmpty) {
+  Widget _calendarList(List<Event>? list) {
+    if (list?.isNotEmpty == true) {
       return ListView(
-        children: filterList.map(_buildItem).toList(),
+        children: list!.map(_buildItem).toList(),
       );
     } else {
       return Center(

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_meetup/constants/assets.dart';
 import 'package:flutter_meetup/constants/strings.dart';
+import 'package:flutter_meetup/di/injection.dart';
 import 'package:flutter_meetup/viewmodels/auth_viewmodel.dart';
 
 class ProfilePage extends StatelessWidget{
   static final title = Strings.profile;
   final Color color;
-  final AuthViewModel viewModel = AuthViewModel();
+  final AuthViewModel viewModel = getIt();
 
   ProfilePage(this.color);
 
