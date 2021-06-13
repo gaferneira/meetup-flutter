@@ -40,4 +40,9 @@ class Strings {
   static const SEARCH_BY_EVENT_NAME = "Search by event name";
   static const CATEGORIES_NOT_FOUND = "Categories not found.";
 
+  // Events page
+  static const DATE = "Date";
+  static const TIME = "Time";
+  static const LOCATION = "Location";
+
 }

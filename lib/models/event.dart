@@ -5,7 +5,6 @@ class Event {
   String? time;
   String? description;
   String? image;
-  bool? isOnline;
   String? link;
   String? location;
 
@@ -16,7 +15,6 @@ class Event {
     this.time,
     this.description,
     this.image,
-    this.isOnline,
     this.link,
     this.location
   }) : super();
@@ -27,7 +25,6 @@ class Event {
       time: json["time"],
       description: json["description"],
       image: json["image"],
-      isOnline: json["isOnline"],
       link: json["link"],
       location: json["location"],
       title: json["title"]
@@ -39,7 +36,6 @@ class Event {
         "time": time,
         "description": description,
         "image": image,
-        "isOnline": isOnline,
         "link": link,
         "location": location,
         "title": title

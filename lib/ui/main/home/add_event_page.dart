@@ -59,7 +59,6 @@ class _AddEventPageState extends State<AddEventPage> {
                       _buildInputText(Strings.DESCRIPTION, Strings.DESCRIPTION_REQUIRED, (value) => {_event.description = value}),
                       _buildDatePickerText(context, (value) => {_event.date = value}),
                       _buildTimePickerText(context, (value) => {_event.time = value}),
-                      _buildCheckbox('IsOnLine', (value) => {_event.isOnline = value}),
                       _buildInputText(Strings.LINK, Strings.LINK_REQUIRED, (value) => {_event.link = value}),
                       _buildDropDown(viewModel.dataResponse.data?[0] as List<Location>, (value) => {_event.location = value}),
                       _buildDropDown(viewModel.dataResponse.data?[1] as List<Category>, (value) => {_event.category = value}),
@@ -173,13 +172,6 @@ class _AddEventPageState extends State<AddEventPage> {
         callback(value);
       },
       enableInteractiveSelection: false,
-    );
-  }
-
-  Widget _buildCheckbox(String text, Function(bool?) callback) {
-    return CheckboxFormField(
-      title: Text(text),
-      onSaved: callback,
     );
   }
 
