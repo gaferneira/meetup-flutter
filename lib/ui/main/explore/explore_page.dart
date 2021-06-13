@@ -57,7 +57,7 @@ class _CategoriesPage extends State<ExplorePage> {
                       ),
                     );
                   } else {
-                    return showRetry(Strings.CATEGORIES_NOT_FOUND, () {
+                    return showRetry(Strings.categoriesNotFound, () {
                       viewModel.fetchCategories();
                     });
                   }
@@ -66,7 +66,7 @@ class _CategoriesPage extends State<ExplorePage> {
                     child: CircularProgressIndicator(),
                   );
                 default :
-                  return showRetry(viewModel.response.exception ?? Strings.UNKNOWN_ERROR, () {
+                  return showRetry(viewModel.response.exception ?? Strings.unknownError, () {
                     viewModel.fetchCategories();
                   });
               }
@@ -91,7 +91,7 @@ class _CategoriesPage extends State<ExplorePage> {
               FadeInImage.assetNetwork(
                 placeholder: Assets.placeHolder,
                 image: category.image ?? "",
-                fit: BoxFit.fill,
+                fit: BoxFit.fitHeight,
                 height: double.infinity,
                 width: double.infinity,
               ),
@@ -156,7 +156,7 @@ class _CategoriesPage extends State<ExplorePage> {
               ),
               ElevatedButton(
                 onPressed: onPressed,
-                child: Text(Strings.RETRY),
+                child: Text(Strings.retry),
               )
             ]
         )

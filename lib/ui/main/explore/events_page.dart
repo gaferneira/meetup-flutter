@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import '../event_details_page.dart';
 
 class EventsPage extends StatefulWidget {
-  static final title = Strings.HOME;
+  static final title = Strings.home;
   static final routeName = "/eventsPage";
   final String? category;
 
@@ -51,7 +51,7 @@ class _EventsPageState extends State<EventsPage> {
                   }
                   else {
                     this.actionIcon = new Icon(Icons.search);
-                    this.appBar = new Text(Strings.EVENTS);
+                    this.appBar = new Text(Strings.events);
                   }
                 });
               },
@@ -77,7 +77,7 @@ class _EventsPageState extends State<EventsPage> {
                           ],
                         );
                       } else {
-                        return showRetry(Strings.EVENTS_NOT_FOUND, () {
+                        return showRetry(Strings.eventsNotFound, () {
                           viewModel.fetchEvents(category: widget.category);
                         });
                       }
@@ -96,7 +96,7 @@ class _EventsPageState extends State<EventsPage> {
           onPressed: () {
             _goToAddEventPage();
           },
-          tooltip: Strings.ADD_EVENT,
+          tooltip: Strings.addEvent,
           child: Icon(Icons.add),
         ), // This trailing comma makes auto-formatting nicer for build methods.
       )
@@ -105,9 +105,9 @@ class _EventsPageState extends State<EventsPage> {
 
   _goToAddEventPage() async {
     final result = await Navigator.of(context).pushNamed(AddEventPage.routeName);
-    if (result.toString() == Strings.SUCCESS)
+    if (result.toString() == Strings.success)
       ScaffoldMessenger.of(context)..removeCurrentSnackBar()
-        ..showSnackBar(snackBar(context, Strings.EVENT_ADDED_SUCCESSFULLY));
+        ..showSnackBar(snackBar(context, Strings.eventAddedSuccessfully));
   }
 
   SearchWidget _buildSearchWidget() => SearchWidget(
@@ -117,7 +117,7 @@ class _EventsPageState extends State<EventsPage> {
           query = value;
         });
       },
-      hintText: Strings.SEARCH_BY_EVENT_NAME
+      hintText: Strings.searchByEventName
   );
 
   Widget _buildItem(Event event) {
@@ -132,7 +132,7 @@ class _EventsPageState extends State<EventsPage> {
               aspectRatio: 1/1,
               child: Image.network(
                 event.image ?? "",
-                fit: BoxFit.fill,
+                fit: BoxFit.fitHeight,
               ),
             ),
             onTap: () {

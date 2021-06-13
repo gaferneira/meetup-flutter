@@ -23,13 +23,13 @@ Widget showRetry(String? error, Function() onPressed) {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              error ?? Strings.UNKNOWN_ERROR,
+              error ?? Strings.unknownError,
               style: TextStyle(fontSize: 16),
               textAlign: TextAlign.center,
             ),
             ElevatedButton(
               onPressed: onPressed,
-              child: Text(Strings.RETRY),
+              child: Text(Strings.retry),
             )
           ]
       )

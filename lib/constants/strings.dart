@@ -5,44 +5,44 @@ class Strings {
   static const appName = "Meet up";
 
   // Generic messages
-  static const UNKNOWN_ERROR = "Something went wrong, please check your internet connection and try again.";
-  static const SUCCESS = "Success";
-  static const IMAGE_UPLOAD_FAILED = "Image couldn't be uploaded, please try again.";
-  static const RETRY = "Retry";
+  static const unknownError = "Something went wrong, please check your internet connection and try again.";
+  static const success = "Success";
+  static const imageUploadFailed = "Image couldn't be uploaded, please try again.";
+  static const retry = "Retry";
 
   // Home page
-  static const HOME = "Home";
-  static const EVENT_ADDED_SUCCESSFULLY = "Event was added successfully";
+  static const home = "Home";
+  static const eventAddedSuccessfully = "Event was added successfully";
 
   // Add event page
-  static const ADD_EVENT = "Add event";
-  static const TITLE = "Title";
-  static const TITLE_REQUIRED = "Title is required";
-  static const SUBMIT = "Submit";
-  static const UPLOAD_IMAGE = "Upload image";
-  static const PLEASE_GRANT_PERMISSIONS = "Please grant permissions and try again.";
-  static const DESCRIPTION = "Description";
-  static const DESCRIPTION_REQUIRED = "Description is required";
-  static const LINK = "Link";
-  static const LINK_REQUIRED = "Link is required";
+  static const addEvent = "Add event";
+  static const title = "Title";
+  static const titleRequired = "Title is required";
+  static const submit = "Submit";
+  static const uploadImage = "Upload image";
+  static const pleaseGrantPermissions = "Please grant permissions and try again.";
+  static const description = "Description";
+  static const descriptionRequired = "Description is required";
+  static const link = "Link";
+  static const linkRequired = "Link is required";
 
   // Profile page
-  static const PROFILE = "Profile";
-  static const EMAIL = "Email";
-  static const THEME = "Theme";
-  static const LOG_OUT = "Log out";
-  static const ABOUT = "About";
+  static const profile = "Profile";
+  static const email = "Email";
+  static const theme = "Theme";
+  static const logOut = "Log out";
+  static const about = "About";
 
   // Explore page
-  static const EVENTS = "Events";
-  static const CATEGORY = "Category";
-  static const EVENTS_NOT_FOUND = "Events not found.";
-  static const SEARCH_BY_EVENT_NAME = "Search by event name";
-  static const CATEGORIES_NOT_FOUND = "Categories not found.";
+  static const events = "Events";
+  static const category = "Category";
+  static const eventsNotFound = "Events not found.";
+  static const searchByEventName = "Search by event name";
+  static const categoriesNotFound = "Categories not found.";
 
   // Events page
-  static const DATE = "Date";
-  static const TIME = "Time";
-  static const LOCATION = "Location";
+  static const date = "Date";
+  static const time = "Time";
+  static const location = "Location";
 
 }

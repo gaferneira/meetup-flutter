@@ -17,7 +17,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class AddEventPage extends StatefulWidget {
-  static const title = Strings.ADD_EVENT;
+  static const title = Strings.addEvent;
   static const routeName = '/addEvent';
   AddEventPage({Key? key}) : super(key: key);
 
@@ -55,17 +55,17 @@ class _AddEventPageState extends State<AddEventPage> {
                   key: _formKey,
                   child: ListView (
                     children: [
-                      _buildInputText(Strings.TITLE, Strings.TITLE_REQUIRED, (value) => {_event.title = value}),
-                      _buildInputText(Strings.DESCRIPTION, Strings.DESCRIPTION_REQUIRED, (value) => {_event.description = value}),
+                      _buildInputText(Strings.title, Strings.titleRequired, (value) => {_event.title = value}),
+                      _buildInputText(Strings.description, Strings.descriptionRequired, (value) => {_event.description = value}),
                       _buildDatePickerText(context, (value) => {_event.date = value}),
                       _buildTimePickerText(context, (value) => {_event.time = value}),
-                      _buildInputText(Strings.LINK, Strings.LINK_REQUIRED, (value) => {_event.link = value}),
+                      _buildInputText(Strings.link, Strings.linkRequired, (value) => {_event.link = value}),
                       _buildDropDown(viewModel.dataResponse.data?[0] as List<Location>, (value) => {_event.location = value}),
                       _buildDropDown(viewModel.dataResponse.data?[1] as List<Category>, (value) => {_event.category = value}),
                       _buildImageWidget(context, viewModel.imageResponse),
                       ElevatedButton(
                           child: Text(
-                            Strings.SUBMIT,
+                            Strings.submit,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -118,11 +118,11 @@ class _AddEventPageState extends State<AddEventPage> {
     var response = await viewModel.addEvent(_event);
     switch (response.state) {
       case ResponseState.COMPLETE : {
-        Navigator.pop(context, Strings.SUCCESS);
+        Navigator.pop(context, Strings.success);
         break;
       }
       default : scaffoldMessengerKey.currentState?.showSnackBar(
-          snackBar(context, response.exception ?? Strings.UNKNOWN_ERROR, true));
+          snackBar(context, response.exception ?? Strings.unknownError, true));
     }
   }
 
@@ -207,7 +207,7 @@ class _AddEventPageState extends State<AddEventPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _showUploadButton(context),
-          Text(response.exception ?? Strings.UNKNOWN_ERROR),
+          Text(response.exception ?? Strings.unknownError),
         ]
       );
       case ResponseState.NONE : return Column(
@@ -222,7 +222,7 @@ class _AddEventPageState extends State<AddEventPage> {
     return FadeInImage.assetNetwork(
       placeholder: Assets.placeHolder,
       image: imageUrl ?? "",
-      fit: BoxFit.fill,
+      fit: BoxFit.fitHeight,
       placeholderCacheHeight: 90,
       placeholderCacheWidth: 120,
       height: 120,
@@ -233,7 +233,7 @@ class _AddEventPageState extends State<AddEventPage> {
   Widget _showUploadButton(BuildContext context) {
     return ElevatedButton(onPressed: () {
       uploadImage();
-    }, child: Text(Strings.UPLOAD_IMAGE));
+    }, child: Text(Strings.uploadImage));
   }
 
   uploadImage() async {
@@ -248,11 +248,11 @@ class _AddEventPageState extends State<AddEventPage> {
         viewModel.uploadImage(file);
       } else {
         scaffoldMessengerKey.currentState?.showSnackBar(
-            snackBar(context, Strings.IMAGE_UPLOAD_FAILED, true));
+            snackBar(context, Strings.imageUploadFailed, true));
       }
     } else {
       scaffoldMessengerKey.currentState?.showSnackBar(
-          snackBar(context, Strings.PLEASE_GRANT_PERMISSIONS, true));
+          snackBar(context, Strings.pleaseGrantPermissions, true));
     }
   }
 

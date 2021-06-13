@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import '../event_details_page.dart';
 
 class HomePage extends StatefulWidget {
-  static final title = Strings.HOME;
+  static final title = Strings.home;
 
   HomePage({Key? key}) : super(key: key);
 
@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
           onPressed: () {
             _goToAddEventPage();
           },
-          tooltip: Strings.ADD_EVENT,
+          tooltip: Strings.addEvent,
           child: Icon(Icons.add),
         ), // This trailing comma makes auto-formatting nicer for build methods.
       )
@@ -73,9 +73,9 @@ class _HomePageState extends State<HomePage> {
 
   _goToAddEventPage() async {
     final result = await Navigator.of(context).pushNamed(AddEventPage.routeName);
-    if (result.toString() == Strings.SUCCESS)
+    if (result.toString() == Strings.success)
       ScaffoldMessenger.of(context)..removeCurrentSnackBar()
-        ..showSnackBar(snackBar(context, Strings.EVENT_ADDED_SUCCESSFULLY));
+        ..showSnackBar(snackBar(context, Strings.eventAddedSuccessfully));
   }
 
   Widget _buildItem(Event event) {

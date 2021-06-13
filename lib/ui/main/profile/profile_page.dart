@@ -4,7 +4,7 @@ import 'package:flutter_meetup/constants/strings.dart';
 import 'package:flutter_meetup/viewmodels/auth_viewmodel.dart';
 
 class ProfilePage extends StatelessWidget{
-  static final title = Strings.PROFILE;
+  static final title = Strings.profile;
   final Color color;
   final AuthViewModel viewModel = AuthViewModel();
 
@@ -36,10 +36,10 @@ class ProfilePage extends StatelessWidget{
                 ),
               ),
               Divider(color: Colors.black),
-              _buildItem(viewModel.getCurrentUser()?.email ?? Strings.EMAIL, context, (){}, Icons.email),
-              _buildItem(Strings.THEME, context, (){}, Icons.invert_colors),
-              _buildItem(Strings.ABOUT, context, (){}, Icons.info),
-              _buildItem(Strings.LOG_OUT, context, () {
+              _buildItem(viewModel.getCurrentUser()?.email ?? Strings.email, context, (){}, Icons.email),
+              _buildItem(Strings.theme, context, (){}, Icons.invert_colors),
+              _buildItem(Strings.about, context, (){}, Icons.info),
+              _buildItem(Strings.logOut, context, () {
                 viewModel.signOut();
                 Navigator.popAndPushNamed(
                   context,

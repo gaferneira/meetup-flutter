@@ -27,17 +27,17 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
             children: [
               Image.network(
                   event?.image ?? "",
-                  fit: BoxFit.fill,
+                  fit: BoxFit.fitHeight
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(24, 16, 24, 16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    _buildItem(Strings.DATE, event?.date),
-                    _buildItem(Strings.TIME, event?.time),
-                    _buildItem(Strings.DESCRIPTION, event?.description),
-                    _buildItem(Strings.LOCATION, event?.location),
+                    _buildItem(Strings.date, event?.date),
+                    _buildItem(Strings.time, event?.time),
+                    _buildItem(Strings.description, event?.description),
+                    _buildItem(Strings.location, event?.location),
                     _linkWidget(event)
                   ],
                 ),
@@ -55,7 +55,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
             text: TextSpan(
                 children: [
                   TextSpan(
-                      text: "${Strings.LINK}: ",
+                      text: "${Strings.link}: ",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 16,
