@@ -24,7 +24,6 @@ class Strings {
   static const description = "Description";
   static const descriptionRequired = "Description is required";
   static const link = "Link";
-  static const linkRequired = "Link is required";
 
   // Profile page
   static const profile = "Profile";

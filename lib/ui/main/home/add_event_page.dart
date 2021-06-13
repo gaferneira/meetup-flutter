@@ -8,7 +8,6 @@ import 'package:flutter_meetup/models/category.dart';
 import 'package:flutter_meetup/models/event.dart';
 import 'package:flutter_meetup/models/location.dart';
 import 'package:flutter_meetup/utils/extension.dart';
-import 'package:flutter_meetup/widgets/checkbox_form_field.dart';
 import 'package:flutter_meetup/models/drop_down_item.dart';
 import 'package:flutter_meetup/viewmodels/add_event_viewmodel.dart';
 import 'package:flutter_meetup/viewmodels/utils/Response.dart';
@@ -46,7 +45,7 @@ class _AddEventPageState extends State<AddEventPage> {
           title: Text(AddEventPage.title),
         ),
         body: Container(
-          margin: EdgeInsets.all(24),
+          margin: EdgeInsets.fromLTRB(24, 0, 24, 0),
           child: Consumer(
           builder: (context, AddEventViewModel viewModel, _) {
             switch (viewModel.dataResponse.state) {
@@ -59,7 +58,7 @@ class _AddEventPageState extends State<AddEventPage> {
                       _buildInputText(Strings.description, Strings.descriptionRequired, (value) => {_event.description = value}),
                       _buildDatePickerText(context, (value) => {_event.date = value}),
                       _buildTimePickerText(context, (value) => {_event.time = value}),
-                      _buildInputText(Strings.link, Strings.linkRequired, (value) => {_event.link = value}),
+                      _buildInputText(Strings.link, null, (value) => {_event.link = value}),
                       _buildDropDown(viewModel.dataResponse.data?[0] as List<Location>, (value) => {_event.location = value}),
                       _buildDropDown(viewModel.dataResponse.data?[1] as List<Category>, (value) => {_event.category = value}),
                       _buildImageWidget(context, viewModel.imageResponse),
@@ -96,13 +95,13 @@ class _AddEventPageState extends State<AddEventPage> {
     );
   }
 
-  Widget _buildInputText(String labelText, String errorText, Function(String?) callback) {
+  Widget _buildInputText(String labelText, String? errorText, Function(String?) callback) {
     return TextFormField(
       decoration: InputDecoration(
           labelText: labelText,
       ),
       validator: (value) {
-        if (value?.isEmpty ?? false) {
+        if (errorText != null && (value?.isEmpty ?? false)) {
           return errorText;
         }
       },
@@ -200,7 +199,15 @@ class _AddEventPageState extends State<AddEventPage> {
       case ResponseState.COMPLETE : return _showImage(response.data);
       case ResponseState.LOADING : {
         return Center(
-          child: CircularProgressIndicator(),
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(0, 24, 0, 24),
+            child: AspectRatio(
+              aspectRatio: 16/9,
+              child: Center(
+                child: CircularProgressIndicator(),
+              )
+            ),
+          ),
         );
       }
       case ResponseState.ERROR : return Column(
@@ -219,21 +226,26 @@ class _AddEventPageState extends State<AddEventPage> {
 
   Widget _showImage(String? imageUrl) {
     _event.image = imageUrl;
-    return FadeInImage.assetNetwork(
-      placeholder: Assets.placeHolder,
-      image: imageUrl ?? "",
-      fit: BoxFit.fitHeight,
-      placeholderCacheHeight: 90,
-      placeholderCacheWidth: 120,
-      height: 120,
-      width: 150,
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, 24, 0, 24),
+      child: AspectRatio(
+        aspectRatio: 16/9,
+        child: FadeInImage.assetNetwork(
+          placeholder: Assets.placeHolder,
+          image: imageUrl ?? "",
+          fit: BoxFit.fitHeight,
+        )
+      )
     );
   }
 
   Widget _showUploadButton(BuildContext context) {
-    return ElevatedButton(onPressed: () {
-      uploadImage();
-    }, child: Text(Strings.uploadImage));
+    return Padding(
+      padding: EdgeInsets.all(24),
+      child: ElevatedButton(onPressed: () {
+        uploadImage();
+      }, child: Text(Strings.uploadImage)),
+    );
   }
 
   uploadImage() async {
