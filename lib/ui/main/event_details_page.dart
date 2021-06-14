@@ -127,8 +127,13 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
   _goToEditPage() async {
     final result =
         await Navigator.of(context).pushNamed(AddEventPage.routeName, arguments: _event);
-    if (result.toString() == Strings.success)
-      ScaffoldMessenger.of(context)..removeCurrentSnackBar()
+    if (result is Event) {
+      ScaffoldMessenger.of(context)
+        ..removeCurrentSnackBar()
         ..showSnackBar(snackBar(context, Strings.eventAddedSuccessfully));
+      setState(() {
+        _event = result;
+      });
+    }
   }
 }

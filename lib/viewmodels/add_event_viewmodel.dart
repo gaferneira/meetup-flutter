@@ -41,10 +41,10 @@ class AddEventViewModel extends ChangeNotifier {
     );
   }
 
-  Future<Response<bool>> addEventAndImage(Event event, File? file, bool isUpdate) async {
+  Future<Response<bool>> addEventAndImage(Event event, String? imagePath, bool isUpdate) async {
     try {
-      if (file != null) {
-        var snapshot = await eventsRepository.uploadImage(file);
+      if (imagePath != null) {
+        var snapshot = await eventsRepository.uploadImage(File(imagePath));
         event.image = await snapshot.ref.getDownloadURL();
       }
       if (isUpdate) {

@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_meetup/constants/assets.dart';
 import 'package:flutter_meetup/constants/strings.dart';
 import 'package:flutter_meetup/di/injection.dart';
 import 'package:flutter_meetup/models/category.dart';
@@ -10,15 +9,14 @@ import 'package:flutter_meetup/models/event.dart';
 import 'package:flutter_meetup/models/location.dart';
 import 'package:flutter_meetup/utils/extension.dart';
 import 'package:flutter_meetup/models/drop_down_item.dart';
+import 'package:flutter_meetup/utils/file_reader.dart';
 import 'package:flutter_meetup/viewmodels/add_event_viewmodel.dart';
 import 'package:flutter_meetup/viewmodels/utils/Response.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_meetup/widgets/image_picker_widget.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:provider/provider.dart';
 
 class AddEventPage extends StatefulWidget {
-  static const title = Strings.addEvent;
   static const routeName = '/addEvent';
   final Event? event;
 
@@ -33,12 +31,11 @@ class _AddEventPageState extends State<AddEventPage> {
   final _formKey = GlobalKey<FormState>();
   final AddEventViewModel viewModel = getIt();
   Event _event = Event();
-  bool _isEditingEvent = false;
-  bool _isFilePath = false;
-  bool isUpdate = false;
+  ImagePath? _imagePath;
+  bool _isUpdate = false;
   DateTime _date = DateTime.now();
   TimeOfDay _time = TimeOfDay.now();
-  String? imagePath;
+  ImagePickerWidget? imagePickerWidget;
 
   @override
   void initState() {
@@ -52,9 +49,21 @@ class _AddEventPageState extends State<AddEventPage> {
       _event.time = widget.event!.time;
       _event.date = widget.event!.date;
       _event.description = widget.event!.description;
-      _isEditingEvent = true;
-      isUpdate = true;
+      _isUpdate = true;
+      _imagePath = ImagePath(false, _event.image);
     }
+    imagePickerWidget = ImagePickerWidget((image) {
+        setState(() {
+          _imagePath = image;
+        });
+      }, () {
+        scaffoldMessengerKey.currentState?.showSnackBar(
+          snackBar(context, Strings.imageUploadFailed, true));
+      }, () {
+        scaffoldMessengerKey.currentState?.showSnackBar(
+          snackBar(context, Strings.pleaseGrantPermissions, true));
+      }
+    );
     viewModel.fetchData();
   }
 
@@ -67,7 +76,7 @@ class _AddEventPageState extends State<AddEventPage> {
         child: Scaffold(
             key: widget.key,
             appBar: AppBar (
-              title: Text(AddEventPage.title),
+              title: Text(_isUpdate ? Strings.editEvent : Strings.addEvent),
             ),
             body: Container(
                 margin: EdgeInsets.fromLTRB(24, 0, 24, 0),
@@ -86,7 +95,7 @@ class _AddEventPageState extends State<AddEventPage> {
                                 _buildInputText(Strings.link, null, (value) => {_event.link = value}, _event.link),
                                 _buildDropDown(viewModel.dataResponse.data?[0] as List<Location>, (value) => {_event.location = value}, _event.location),
                                 _buildDropDown(viewModel.dataResponse.data?[1] as List<Category>, (value) => {_event.category = value}, _event.category),
-                                _buildImageWidget((_isEditingEvent && (_event.image?.isNotEmpty ?? false)) ? _event.image : imagePath),
+                                imagePickerWidget!.buildImagePickerWidget(_imagePath),
                                 ElevatedButton(
                                     child: Text(
                                       Strings.submit,
@@ -97,8 +106,8 @@ class _AddEventPageState extends State<AddEventPage> {
                                     ),
                                     onPressed: () {
                                       _validateAndSubmit();
-                                    }
-                                    )
+                                    },
+                                )
                               ],
                             ),
                           );
@@ -135,44 +144,6 @@ class _AddEventPageState extends State<AddEventPage> {
       },
       initialValue: initialValue,
     );
-  }
-
-  _validateAndSubmit() async {
-    FocusScope.of(context).unfocus();
-    if (!(_formKey.currentState?.validate() ?? false)) return;
-    _formKey.currentState?.save();
-    bool result = await showDialog(
-      context: context,
-      builder: (context) =>
-          FutureProgressDialog(_submit(), message: Text('Loading...')),
-      barrierDismissible: false,
-    );
-    if (result) {
-      if (widget.event != null) {
-        widget.event?.title = _event.title;
-        widget.event?.image = _event.image;
-        widget.event?.category = _event.category;
-        widget.event?.location = _event.location;
-        widget.event?.link = _event.link;
-        widget.event?.time = _event.time;
-        widget.event?.date = _event.date;
-        widget.event?.description = _event.description;
-      }
-      Navigator.pop(context, Strings.success);
-    } else {
-      scaffoldMessengerKey.currentState?.showSnackBar(
-          snackBar(context, Strings.unknownError, true));
-    }
-  }
-
-  Future<bool> _submit() async {
-    var response = await viewModel.addEventAndImage(_event, _isFilePath && (imagePath?.isNotEmpty ?? false) ? File(imagePath!) : null, isUpdate);
-    switch (response.state) {
-      case ResponseState.COMPLETE : {
-        return Future.value(true);
-      }
-      default : return Future.value(false);
-    }
   }
 
   Widget _buildTimePickerText(BuildContext context, Function(String?) callback, String? initialValue) {
@@ -243,74 +214,23 @@ class _AddEventPageState extends State<AddEventPage> {
     );
   }
 
-  Widget _buildImageWidget(String? imagePath) {
-    if (imagePath?.isEmpty ?? true) {
-      return _showUploadButton();
-    } else {
-      return _showImage(imagePath);
-    }
-  }
-
-  Widget _showImage(String? imagePath) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(0, 24, 0, 24),
-      child: GestureDetector(
-        child: AspectRatio(
-            aspectRatio: 16/9,
-            child: _showImageWidget(imagePath)
-        ),
-        onTap: () {
-          uploadImage();
-        },
-      )
+  _validateAndSubmit() async {
+    FocusScope.of(context).unfocus();
+    if (!(_formKey.currentState?.validate() ?? false)) return;
+    _formKey.currentState?.save();
+    bool result = await showDialog(
+      context: context,
+      builder: (context) =>
+          FutureProgressDialog(futureBoolean(
+              viewModel.addEventAndImage(_event, _imagePath?.path, _isUpdate)
+          ), message: Text(Strings.uploadingEvent)),
+      barrierDismissible: false,
     );
-  }
-  
-  Widget _showImageWidget(String? imagePath) {
-    _event.image = imagePath;
-    if (_isEditingEvent) {
-      _isEditingEvent = false;
-      return FadeInImage.assetNetwork(
-        placeholder: Assets.placeHolder,
-        image: imagePath ?? "",
-        fit: BoxFit.fitHeight,
-      );
-    } else {
-      _isFilePath = true;
-      return Image.file(
-        File(imagePath ?? ""),
-        fit: BoxFit.fitHeight,
-      );
-    }
-  }
-
-  Widget _showUploadButton() {
-    return Padding(
-      padding: EdgeInsets.all(24),
-      child: ElevatedButton(onPressed: () {
-        uploadImage();
-      }, child: Text(Strings.uploadImage)),
-    );
-  }
-
-  uploadImage() async {
-    final _picker = ImagePicker();
-    PickedFile? image;
-    await Permission.photos.request();
-    var permissionStatus = await Permission.photos.status;
-    if (permissionStatus.isGranted) {
-      image = await _picker.getImage(source: ImageSource.gallery);
-      if (image != null) {
-        setState(() {
-          imagePath = image!.path;
-        });
-      } else {
-        scaffoldMessengerKey.currentState?.showSnackBar(
-            snackBar(context, Strings.imageUploadFailed, true));
-      }
+    if (result) {
+      Navigator.pop(context, _event);
     } else {
       scaffoldMessengerKey.currentState?.showSnackBar(
-          snackBar(context, Strings.pleaseGrantPermissions, true));
+          snackBar(context, Strings.unknownError, true));
     }
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_meetup/constants/strings.dart';
+import 'package:flutter_meetup/viewmodels/utils/Response.dart';
 
 executeAfterBuild(Function function) {
   WidgetsBinding.instance!.addPostFrameCallback((_) =>
@@ -34,4 +35,14 @@ Widget showRetry(String? error, Function() onPressed) {
           ]
       )
   );
+}
+
+Future<bool> futureBoolean(Future<Response> futureResponse) async {
+  var response = await futureResponse;
+  switch (response.state) {
+    case ResponseState.COMPLETE : {
+      return Future.value(true);
+    }
+    default : return Future.value(false);
+  }
 }

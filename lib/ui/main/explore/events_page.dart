@@ -3,7 +3,6 @@ import 'package:flutter_meetup/constants/strings.dart';
 import 'package:flutter_meetup/di/injection.dart';
 import 'package:flutter_meetup/utils/extension.dart';
 import 'package:flutter_meetup/models/event.dart';
-import 'package:flutter_meetup/ui/main/home/add_event_page.dart';
 import 'package:flutter_meetup/viewmodels/events_viewmodel.dart';
 import 'package:flutter_meetup/viewmodels/utils/Response.dart';
 import 'package:flutter_meetup/widgets/search_widget.dart';
@@ -92,23 +91,9 @@ class _EventsPageState extends State<EventsPage> {
                       });
                   }
                 },
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            _goToAddEventPage();
-          },
-          tooltip: Strings.addEvent,
-          child: Icon(Icons.add),
         ), // This trailing comma makes auto-formatting nicer for build methods.
       )
     );
-  }
-
-  _goToAddEventPage() async {
-    final result = await Navigator.of(context).pushNamed(AddEventPage.routeName, arguments: null);
-    if (result.toString() == Strings.success)
-      ScaffoldMessenger.of(context)..removeCurrentSnackBar()
-        ..showSnackBar(snackBar(context, Strings.eventAddedSuccessfully));
   }
 
   SearchWidget _buildSearchWidget() => SearchWidget(
