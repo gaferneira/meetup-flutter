@@ -35,6 +35,7 @@ class _AddEventPageState extends State<AddEventPage> {
   Event _event = Event();
   bool _isEditingEvent = false;
   bool _isFilePath = false;
+  bool isUpdate = false;
   DateTime _date = DateTime.now();
   TimeOfDay _time = TimeOfDay.now();
   String? imagePath;
@@ -42,6 +43,7 @@ class _AddEventPageState extends State<AddEventPage> {
   @override
   void initState() {
     if (widget.event != null) {
+      _event.documentId = widget.event!.documentId;
       _event.title = widget.event!.title;
       _event.image = widget.event!.image;
       _event.category = widget.event!.category;
@@ -51,6 +53,7 @@ class _AddEventPageState extends State<AddEventPage> {
       _event.date = widget.event!.date;
       _event.description = widget.event!.description;
       _isEditingEvent = true;
+      isUpdate = true;
     }
     viewModel.fetchData();
   }
@@ -163,7 +166,7 @@ class _AddEventPageState extends State<AddEventPage> {
   }
 
   Future<bool> _submit() async {
-    var response = await viewModel.addEventAndImage(_event, _isFilePath && (imagePath?.isNotEmpty ?? false) ? File(imagePath!) : null);
+    var response = await viewModel.addEventAndImage(_event, _isFilePath && (imagePath?.isNotEmpty ?? false) ? File(imagePath!) : null, isUpdate);
     switch (response.state) {
       case ResponseState.COMPLETE : {
         return Future.value(true);

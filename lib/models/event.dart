@@ -1,4 +1,5 @@
 class Event {
+  String? documentId;
   String? title;
   String? category;
   String? date;
@@ -9,6 +10,7 @@ class Event {
   String? location;
 
   Event({
+    this.documentId,
     this.title,
     this.category,
     this.date,
@@ -19,7 +21,8 @@ class Event {
     this.location
   }) : super();
 
-  factory Event.fromJson(Map<String, dynamic> json) => Event(
+  factory Event.fromJson(String id, Map<String, dynamic> json) => Event(
+      documentId: id,
       category: json["category"],
       date: json["date"],
       time: json["time"],

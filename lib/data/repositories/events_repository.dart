@@ -8,5 +8,6 @@ abstract class EventsRepository {
   Stream<List<Event>> fetchAllEvents();
   Stream<List<Event>> fetchAllEventsByCategory(String category);
   Future<DocumentReference> addEvent(Event event);
+  Future<void> updateEvent(Event event);
   Future<TaskSnapshot> uploadImage(File file);
 }

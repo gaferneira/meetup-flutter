@@ -15,19 +15,23 @@ class EventsRepositoryImpl extends EventsRepository {
   Stream<List<Event>> fetchAllEvents() {
     return firebaseFirestore.collection('events').snapshots().map(
             (querySnapshot) => querySnapshot.docs
-            .map((documentSnapshot) => Event.fromJson(documentSnapshot.data()))
+            .map((documentSnapshot) => Event.fromJson(documentSnapshot.id, documentSnapshot.data()))
             .toList());
   }
 
   Stream<List<Event>> fetchAllEventsByCategory(String category) {
     return firebaseFirestore.collection('events').where("category", isEqualTo: category).snapshots().map(
             (querySnapshot) => querySnapshot.docs
-            .map((documentSnapshot) => Event.fromJson(documentSnapshot.data()))
+            .map((documentSnapshot) => Event.fromJson(documentSnapshot.id, documentSnapshot.data()))
             .toList());
   }
 
   Future<DocumentReference> addEvent(Event event) {
     return firebaseFirestore.collection('events').add(event.toJson());
+  }
+
+  Future<void> updateEvent(Event event) {
+    return firebaseFirestore.collection('events').doc(event.documentId).update(event.toJson());
   }
 
   Future<TaskSnapshot> uploadImage(File file) {
