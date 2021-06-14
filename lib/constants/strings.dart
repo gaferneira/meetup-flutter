@@ -25,6 +25,7 @@ class Strings {
 
   // Add event page
   static const addEvent = "Add event";
+  static const editEvent = "Edit event";
   static const title = "Title";
   static const titleRequired = "Title is required";
   static const submit = "Submit";
@@ -33,6 +34,7 @@ class Strings {
   static const description = "Description";
   static const descriptionRequired = "Description is required";
   static const link = "Link";
+  static const uploadingEvent = "Uploading event, please wait...";
 
   // Profile page
   static const profile = "Profile";

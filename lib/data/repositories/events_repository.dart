@@ -26,7 +26,7 @@ class EventsRepository {
     return firestoreDataSource.db.collection('events').add(event.toJson());
   }
 
-  Stream<TaskSnapshot> uploadImage(File file) {
-    return firestoreDataSource.storage.ref().child('events/img_${DateTime.now().millisecondsSinceEpoch}').putFile(file).asStream();
+  Future<TaskSnapshot> uploadImage(File file) {
+    return firestoreDataSource.storage.ref().child('events/img_${DateTime.now().millisecondsSinceEpoch}').putFile(file);
   }
 }

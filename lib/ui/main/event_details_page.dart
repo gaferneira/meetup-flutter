@@ -2,31 +2,41 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_meetup/constants/strings.dart';
 import 'package:flutter_meetup/models/event.dart';
+import 'package:flutter_meetup/ui/main/home/add_event_page.dart';
+import 'package:flutter_meetup/utils/extension.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class EventDetailsPage extends StatefulWidget {
   static const routeName = '/eventDetails';
-  EventDetailsPage({Key? key}) : super(key: key);
+  final Event? event;
+
+  EventDetailsPage([this.event]);
+
   @override
   _EventDetailsPageState createState() => _EventDetailsPageState();
 }
 
 class _EventDetailsPageState extends State<EventDetailsPage> {
   final key = new GlobalKey<ScaffoldState>();
-  Event? event;
+  Event? _event;
+
+  @override
+  void initState() {
+    _event = widget.event;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    event = ModalRoute.of(context)!.settings.arguments as Event?;
     return Scaffold(
         key: key,
         appBar: AppBar(
-          title: Text(event?.title ?? ""),
+          title: Text(_event?.title ?? ""),
         ),
         body: ListView(
             children: [
               Image.network(
-                  event?.image ?? "",
+                  _event?.image ?? "",
                   fit: BoxFit.fitHeight
               ),
               Padding(
@@ -34,16 +44,23 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    _buildItem(Strings.date, event?.date),
-                    _buildItem(Strings.time, event?.time),
-                    _buildItem(Strings.description, event?.description),
-                    _buildItem(Strings.location, event?.location),
-                    _linkWidget(event)
+                    _buildItem(Strings.date, _event?.date),
+                    _buildItem(Strings.time, _event?.time),
+                    _buildItem(Strings.description, _event?.description),
+                    _buildItem(Strings.location, _event?.location),
+                    _linkWidget(_event)
                   ],
                 ),
               )
             ],
-        )
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            _goToEditPage();
+          },
+          tooltip: Strings.editEvent,
+          child: Icon(Icons.edit),
+        ),
     );
   }
 
@@ -105,5 +122,13 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
           )
       ),
     );
+  }
+
+  _goToEditPage() async {
+    final result =
+        await Navigator.of(context).pushNamed(AddEventPage.routeName, arguments: _event);
+    if (result.toString() == Strings.success)
+      ScaffoldMessenger.of(context)..removeCurrentSnackBar()
+        ..showSnackBar(snackBar(context, Strings.eventAddedSuccessfully));
   }
 }

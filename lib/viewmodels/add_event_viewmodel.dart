@@ -1,10 +1,7 @@
 import 'dart:io';
 
 import 'package:async/async.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_meetup/constants/strings.dart';
 import 'package:flutter_meetup/data/repositories/categories_respository.dart';
 import 'package:flutter_meetup/data/repositories/events_repository.dart';
 import 'package:flutter_meetup/data/repositories/locations_repository.dart';
@@ -21,12 +18,6 @@ class AddEventViewModel extends ChangeNotifier {
 
   Response<List<List<DropDownItem>>> _dataResponse = Response.none();
   Response<List<List<DropDownItem>>> get dataResponse => _dataResponse;
-
-  Response<DocumentReference> _addEventResponse = Response.none();
-  Response<DocumentReference> get addEventResponse => _addEventResponse;
-
-  Response<String> _imageResponse = Response.none();
-  Response<String> get imageResponse => _imageResponse;
 
   void fetchData() {
     _dataResponse = Response.loading();
@@ -45,29 +36,12 @@ class AddEventViewModel extends ChangeNotifier {
     );
   }
 
-  uploadImage(File file) {
-    _imageResponse = Response.loading();
-    notifyListeners();
-    streamSubs.add(eventsRepository.uploadImage(file).listen((snapshot) {
-      getImageUrl(snapshot);
-    })..onError((error) {
-      _imageResponse = Response.error(error.toString());
-      notifyListeners();
-    }));
-  }
-
-  getImageUrl(TaskSnapshot snapshot) async {
-    var downloadUrl = await snapshot.ref.getDownloadURL();
-    _imageResponse = Response.complete(downloadUrl);
-    notifyListeners();
-  }
-
-  Future<Response<bool>> addEvent(Event event) async {
-    if (event.image == null || event.image!.isEmpty) {
-      return Response.error("Please add an image for the Event");
-    }
-
+  Future<Response<bool>> addEventAndImage(Event event, File? file) async {
     try {
+      if (file != null) {
+        var snapshot = await eventsRepository.uploadImage(file);
+        event.image = await snapshot.ref.getDownloadURL();
+      }
       await eventsRepository.addEvent(event);
       return Response.complete(true);
     } catch (error) {

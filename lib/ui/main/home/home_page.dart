@@ -63,8 +63,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     final result =
         await Navigator.of(context).pushNamed(AddEventPage.routeName);
     if (result.toString() == Strings.success)
-      ScaffoldMessenger.of(context)
-        ..removeCurrentSnackBar()
+      ScaffoldMessenger.of(context)..removeCurrentSnackBar()
         ..showSnackBar(snackBar(context, Strings.eventAddedSuccessfully));
   }
 

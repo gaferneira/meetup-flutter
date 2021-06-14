@@ -11,7 +11,7 @@ import '../event_details_page.dart';
 
 class EventsPage extends StatefulWidget {
   static final title = Strings.home;
-  static final routeName = "/eventsPage";
+  static const routeName = "/eventsPage";
   final String? category;
 
   EventsPage({Key? key, this.category}) : super(key: key);
@@ -104,7 +104,7 @@ class _EventsPageState extends State<EventsPage> {
   }
 
   _goToAddEventPage() async {
-    final result = await Navigator.of(context).pushNamed(AddEventPage.routeName);
+    final result = await Navigator.of(context).pushNamed(AddEventPage.routeName, arguments: null);
     if (result.toString() == Strings.success)
       ScaffoldMessenger.of(context)..removeCurrentSnackBar()
         ..showSnackBar(snackBar(context, Strings.eventAddedSuccessfully));
