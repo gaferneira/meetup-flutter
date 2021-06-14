@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_meetup/constants/assets.dart';
 import 'package:flutter_meetup/constants/strings.dart';
+import 'package:flutter_meetup/di/injection.dart';
 import 'package:flutter_meetup/models/category.dart';
 import 'package:flutter_meetup/models/event.dart';
 import 'package:flutter_meetup/models/location.dart';
@@ -30,7 +31,7 @@ class AddEventPage extends StatefulWidget {
 class _AddEventPageState extends State<AddEventPage> {
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   final _formKey = GlobalKey<FormState>();
-  final AddEventViewModel viewModel = AddEventViewModel();
+  final AddEventViewModel viewModel = getIt();
   Event _event = Event();
   bool _isEditingEvent = false;
   bool _isFilePath = false;

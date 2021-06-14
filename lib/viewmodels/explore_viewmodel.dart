@@ -6,7 +6,11 @@ import 'package:flutter_meetup/models/category.dart';
 import 'package:flutter_meetup/viewmodels/utils/Response.dart';
 
 class ExploreViewModel extends ChangeNotifier {
-  CategoriesRepository repository = CategoriesRepository();
+
+  final CategoriesRepository repository;
+
+  ExploreViewModel({required this.repository});
+
   StreamSubscription? streamSubscription;
 
   Response<List<Category>> _response = Response.loading();

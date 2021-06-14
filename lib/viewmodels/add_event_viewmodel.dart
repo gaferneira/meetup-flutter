@@ -11,9 +11,14 @@ import 'package:flutter_meetup/viewmodels/utils/Response.dart';
 import 'package:flutter_meetup/viewmodels/utils/StreamSubs.dart';
 
 class AddEventViewModel extends ChangeNotifier {
-  EventsRepository eventsRepository = EventsRepository();
-  CategoriesRepository categoriesRepository = CategoriesRepository();
-  LocationsRepository locationsRepository = LocationsRepository();
+
+  final EventsRepository eventsRepository;
+  final CategoriesRepository categoriesRepository;
+  final LocationsRepository locationsRepository;
+
+  AddEventViewModel({required this.eventsRepository, required this.categoriesRepository,
+      required this.locationsRepository});
+
   StreamSubs streamSubs = StreamSubs();
 
   Response<List<List<DropDownItem>>> _dataResponse = Response.none();

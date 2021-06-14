@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_meetup/constants/strings.dart';
+import 'package:flutter_meetup/di/injection.dart';
 import 'package:flutter_meetup/utils/extension.dart';
 import 'package:flutter_meetup/models/event.dart';
 import 'package:flutter_meetup/ui/main/home/add_event_page.dart';
-import 'package:flutter_meetup/viewmodels/home_viewmodel.dart';
+import 'package:flutter_meetup/viewmodels/events_viewmodel.dart';
 import 'package:flutter_meetup/viewmodels/utils/Response.dart';
 import 'package:flutter_meetup/widgets/search_widget.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +23,7 @@ class EventsPage extends StatefulWidget {
 
 class _EventsPageState extends State<EventsPage> {
   final key = new GlobalKey<ScaffoldState>();
-  HomeViewModel viewModel = HomeViewModel();
+  EventsViewModel viewModel = getIt();
   Widget appBar = Text("");
   Icon actionIcon = Icon(Icons.search);
   String query = "";
@@ -36,7 +37,7 @@ class _EventsPageState extends State<EventsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<HomeViewModel>.value(
+    return ChangeNotifierProvider<EventsViewModel>.value(
     value: viewModel,
       child: Scaffold(
         key: key,
@@ -59,7 +60,7 @@ class _EventsPageState extends State<EventsPage> {
             ]
         ),
         body: Consumer(
-                builder: (context, HomeViewModel viewModel, _) {
+                builder: (context, EventsViewModel viewModel, _) {
                   switch (viewModel.response.state) {
                     case ResponseState.COMPLETE :
                       if (viewModel.response.data != null && viewModel.response.data!.isNotEmpty) {
