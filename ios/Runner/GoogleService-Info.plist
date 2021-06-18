@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>846841138907-cv0h2irrei5a6477bh2bccbdttdsciag.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.846841138907-cv0h2irrei5a6477bh2bccbdttdsciag</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>846841138907-an94bv1v9ua5uj3n5rjoa73g17f70kka.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyD3CWp_qVFyNz_uYEmX7xbUyk9oQ_PyJp4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>846841138907</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.globant.meetup</string>
+	<key>PROJECT_ID</key>
+	<string>flutterdemo-globant</string>
+	<key>STORAGE_BUCKET</key>
+	<string>flutterdemo-globant.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:846841138907:ios:523a8b45f7cb68d23e86fe</string>
+	<key>DATABASE_URL</key>
+	<string>https://flutterdemo-globant.firebaseio.com</string>
+</dict>
+</plist>
