@@ -35,6 +35,7 @@ class Strings {
   static const descriptionRequired = "Description is required";
   static const link = "Link";
   static const uploadingEvent = "Uploading event, please wait...";
+  static const save = "Save";
 
   // Profile page
   static const profile = "Profile";

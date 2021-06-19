@@ -7,6 +7,7 @@ import 'package:flutter_meetup/data/repositories/events_repository.dart';
 import 'package:flutter_meetup/data/repositories/locations_repository.dart';
 import 'package:flutter_meetup/models/drop_down_item.dart';
 import 'package:flutter_meetup/models/event.dart';
+import 'package:flutter_meetup/utils/file_reader.dart';
 import 'package:flutter_meetup/viewmodels/utils/Response.dart';
 import 'package:flutter_meetup/viewmodels/utils/StreamSubs.dart';
 
@@ -41,10 +42,10 @@ class AddEventViewModel extends ChangeNotifier {
     );
   }
 
-  Future<Response<bool>> addEventAndImage(Event event, String? imagePath, bool isUpdate) async {
+  Future<Response<bool>> addEventAndImage(Event event, ImagePath? imagePath, bool isUpdate) async {
     try {
-      if (imagePath != null) {
-        var snapshot = await eventsRepository.uploadImage(File(imagePath));
+      if (imagePath != null && imagePath.path != null && (imagePath.fromDevice ?? false)) {
+        var snapshot = await eventsRepository.uploadImage(File(imagePath.path!));
         event.image = await snapshot.ref.getDownloadURL();
       }
       if (isUpdate) {

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_meetup/constants/strings.dart';
@@ -98,7 +96,7 @@ class _AddEventPageState extends State<AddEventPage> {
                                 imagePickerWidget!.buildImagePickerWidget(_imagePath),
                                 ElevatedButton(
                                     child: Text(
-                                      Strings.submit,
+                                      (_isUpdate) ? Strings.save : Strings.submit,
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 16,
@@ -222,7 +220,7 @@ class _AddEventPageState extends State<AddEventPage> {
       context: context,
       builder: (context) =>
           FutureProgressDialog(futureBoolean(
-              viewModel.addEventAndImage(_event, _imagePath?.path, _isUpdate)
+              viewModel.addEventAndImage(_event, _imagePath, _isUpdate)
           ), message: Text(Strings.uploadingEvent)),
       barrierDismissible: false,
     );
