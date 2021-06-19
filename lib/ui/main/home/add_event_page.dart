@@ -38,15 +38,7 @@ class _AddEventPageState extends State<AddEventPage> {
   @override
   void initState() {
     if (widget.event != null) {
-      _event.documentId = widget.event!.documentId;
-      _event.title = widget.event!.title;
-      _event.image = widget.event!.image;
-      _event.category = widget.event!.category;
-      _event.location = widget.event!.location;
-      _event.link = widget.event!.link;
-      _event.time = widget.event!.time;
-      _event.date = widget.event!.date;
-      _event.description = widget.event!.description;
+      _event = widget.event!;
       _isUpdate = true;
       _imagePath = ImagePath(false, _event.image);
     }
