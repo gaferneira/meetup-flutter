@@ -43,6 +43,7 @@ class Strings {
   static const theme = "Theme";
   static const logOut = "Log out";
   static const about = "About";
+  static const aboutUs = "MeetUp App created by Brahian Martinez and Gabriel Neira";
 
   // Explore page
   static const events = "Events";

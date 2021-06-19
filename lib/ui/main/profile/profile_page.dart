@@ -39,7 +39,9 @@ class ProfilePage extends StatelessWidget{
               Divider(color: Colors.black),
               _buildItem(viewModel.getCurrentUser()?.email ?? Strings.email, context, (){}, Icons.email),
               _buildItem(Strings.theme, context, (){}, Icons.invert_colors),
-              _buildItem(Strings.about, context, (){}, Icons.info),
+              _buildItem(Strings.about, context, (){
+                Navigator.of(context).restorablePush(_dialogBuilder);
+              }, Icons.info),
               _buildItem(Strings.logOut, context, () {
                 viewModel.signOut();
                 Navigator.popAndPushNamed(
@@ -78,6 +80,13 @@ class ProfilePage extends StatelessWidget{
           ),
         ),
       ),
+    );
+  }
+
+  static Route<Object?> _dialogBuilder(BuildContext context, Object? arguments) {
+    return DialogRoute<void>(
+      context: context,
+      builder: (BuildContext context) => const AlertDialog(title: Text(Strings.aboutUs)),
     );
   }
 
