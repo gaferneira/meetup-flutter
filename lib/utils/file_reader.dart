@@ -8,11 +8,9 @@ class FileReader {
   pickImage(Function(ImagePath) onSuccess, Function onError, Function onPermissionNotGranted) async {
     PickedFile? image;
     var permissionStatus = await Permission.photos.request();
-    print(permissionStatus);
     if (permissionStatus.isPermanentlyDenied) {
-      await openAppSettings();
+      openAppSettings();
     }
-    print(Permission.photos.status);
     if (permissionStatus.isGranted) {
       image = await _picker.getImage(source: ImageSource.gallery);
       if (image != null) {
