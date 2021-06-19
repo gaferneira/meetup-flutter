@@ -7,7 +7,7 @@ class Strings {
   // Generic messages
   static const unknownError = "Something went wrong, please check your internet connection and try again.";
   static const success = "Success";
-  static const imageUploadFailed = "Image couldn't be uploaded, please try again.";
+  static const imageUploadFailed = "Image wasn't uploaded, please try again if necessary.";
   static const retry = "Retry";
 
   static const actionSeeAll = "See all";
@@ -43,7 +43,7 @@ class Strings {
   static const theme = "Theme";
   static const logOut = "Log out";
   static const about = "About";
-  static const aboutUs = "MeetUp App created by Brahian Martinez and Gabriel Neira";
+  static const aboutUs = "MeetUp App created by Brahian Martinez and Gabriel Neira. Powered by Globant.";
 
   // Explore page
   static const events = "Events";
