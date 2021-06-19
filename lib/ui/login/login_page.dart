@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_meetup/constants/assets.dart';
+import 'package:flutter_meetup/constants/strings.dart';
 import 'package:flutter_meetup/viewmodels/auth_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +14,6 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.white,
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -36,13 +36,15 @@ class _LoginPageState extends State<LoginPage> {
   Widget _signInButton() {
     return Consumer<AuthViewModel>(
       builder: (context, model, child) => OutlineButton(
-        splashColor: Colors.grey,
+        splashColor: Theme.of(context).primaryColor,
         onPressed: () {
             model.signInWithGoogle();
         },
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
         highlightElevation: 0,
-        borderSide: BorderSide(color: Colors.grey),
+        borderSide: BorderSide(
+          color: Theme.of(context).accentColor,
+        ),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
           child: Row(
@@ -53,10 +55,9 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: Text(
-                  'Sign in with Google',
+                  Strings.signInWithGoogle,
                   style: TextStyle(
                     fontSize: 20,
-                    color: Colors.grey,
                   ),
                 ),
               )

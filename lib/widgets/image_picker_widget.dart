@@ -19,9 +19,9 @@ class ImagePickerWidget {
     this.onPermissionNotGranted,
   ) : super();
 
-  Widget buildImagePickerWidget(ImagePath? imagePath) {
+  Widget buildImagePickerWidget(BuildContext context, ImagePath? imagePath) {
     if (imagePath?.path?.isEmpty ?? true) {
-      return _showUploadButton();
+      return _showUploadButton(context);
     } else {
       return _showImage(imagePath);
     }
@@ -57,12 +57,14 @@ class ImagePickerWidget {
     }
   }
 
-  Widget _showUploadButton() {
+  Widget _showUploadButton(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(24),
-      child: ElevatedButton(onPressed: () {
-        _pickImage();
-      }, child: Text(Strings.uploadImage)),
+      child: ElevatedButton(
+        onPressed: () {
+          _pickImage();
+          }, child: Text(Strings.uploadImage),
+      ),
     );
   }
 

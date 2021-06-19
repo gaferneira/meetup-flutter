@@ -14,11 +14,11 @@ snackBar(BuildContext context, String message, [bool isError = false]) {
       message,
       style: Theme.of(context).textTheme.bodyText1,
     ),
-    backgroundColor: isError ? Colors.red : Colors.green,
+    backgroundColor: isError ? Theme.of(context).errorColor : Theme.of(context).primaryColor,
   );
 }
 
-Widget showRetry(String? error, Function() onPressed) {
+Widget showRetry(BuildContext context, String? error, Function() onPressed) {
   return Center(
       child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

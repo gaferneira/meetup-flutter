@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 import '../event_details_page.dart';
 
 class EventsPage extends StatefulWidget {
-  static final title = Strings.home;
   static const routeName = "/eventsPage";
   final String? category;
 
@@ -77,7 +76,7 @@ class _EventsPageState extends State<EventsPage> {
                           ],
                         );
                       } else {
-                        return showRetry(Strings.eventsNotFound, () {
+                        return showRetry(context, Strings.eventsNotFound, () {
                           viewModel.fetchEvents(category: widget.category);
                         });
                       }
@@ -86,7 +85,7 @@ class _EventsPageState extends State<EventsPage> {
                         child: CircularProgressIndicator(),
                       );
                     default :
-                      return showRetry(viewModel.response.exception, () {
+                      return showRetry(context, viewModel.response.exception, () {
                         viewModel.fetchEvents(category: widget.category);
                       });
                   }
@@ -110,7 +109,6 @@ class _EventsPageState extends State<EventsPage> {
     return  Padding(
         padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 0.0),
         child: Card(
-          color: Colors.white,
           child: ListTile(
             title: Text(event.title ?? ""),
             subtitle: Text("${event.date} - ${event.time}"),

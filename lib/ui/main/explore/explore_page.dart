@@ -3,15 +3,14 @@ import 'package:flutter_meetup/constants/assets.dart';
 import 'package:flutter_meetup/constants/strings.dart';
 import 'package:flutter_meetup/di/injection.dart';
 import 'package:flutter_meetup/ui/main/explore/events_page.dart';
+import 'package:flutter_meetup/utils/extension.dart';
 import 'package:flutter_meetup/viewmodels/explore_viewmodel.dart';
 import 'package:flutter_meetup/viewmodels/utils/Response.dart';
 import 'package:provider/provider.dart';
 import '../../../models/category.dart';
 
 class ExplorePage extends StatefulWidget {
-  static final title = "Explore";
-
-  ExplorePage({Key? key}) : super(key: key);
+  static final title = Strings.explore;
 
   @override
   State<StatefulWidget> createState() {
@@ -34,8 +33,7 @@ class _CategoriesPage extends State<ExplorePage> {
     return Scaffold(
       key: key,
       appBar: AppBar(
-        backgroundColor: Colors.lightGreen,
-        title: Text("Explore"),
+        title: Text(ExplorePage.title),
       ),
       body: ChangeNotifierProvider<ExploreViewModel>.value(
         value: viewModel,
@@ -58,7 +56,7 @@ class _CategoriesPage extends State<ExplorePage> {
                       ),
                     );
                   } else {
-                    return showRetry(Strings.categoriesNotFound, () {
+                    return showRetry(context, Strings.categoriesNotFound, () {
                       viewModel.fetchCategories();
                     });
                   }
@@ -67,7 +65,7 @@ class _CategoriesPage extends State<ExplorePage> {
                     child: CircularProgressIndicator(),
                   );
                 default :
-                  return showRetry(viewModel.response.exception ?? Strings.unknownError, () {
+                  return showRetry(context, viewModel.response.exception ?? Strings.unknownError, () {
                     viewModel.fetchCategories();
                   });
               }
@@ -132,35 +130,6 @@ class _CategoriesPage extends State<ExplorePage> {
           ),
         ),
       )
-    );
-  }
-
-  Widget _message(String? message) {
-    return Center(
-        child: Text(
-          message ?? "",
-          style: TextStyle(fontSize: 30),
-          textAlign: TextAlign.center,
-        )
-    );
-  }
-
-  Widget showRetry(String message, Function() onPressed) {
-    return Center(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                message,
-                style: TextStyle(fontSize: 16),
-                textAlign: TextAlign.center,
-              ),
-              ElevatedButton(
-                onPressed: onPressed,
-                child: Text(Strings.retry),
-              )
-            ]
-        )
     );
   }
 

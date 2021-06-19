@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         child: Scaffold(
           key: key,
           appBar: AppBar(
-            title: Text(Strings.home),
+            title: Text(HomePage.title),
           ),
           body: Consumer(builder: (context, HomeViewModel viewModel, _) {
             return SingleChildScrollView(
@@ -115,7 +115,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   child: CircularProgressIndicator(),
                 );
               default:
-                return showRetry(viewModel.response.exception, () {
+                return showRetry(context, viewModel.response.exception, () {
                   viewModel.fetchEvents();
                 });
             }
@@ -170,7 +170,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               event.title ?? "",
                               maxLines: 2,
                               style: TextStyle(
-                                color: Colors.white,
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -224,7 +223,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   child: CircularProgressIndicator(),
                 );
               default:
-                return showRetry(viewModel.response.exception, () {
+                return showRetry(context, viewModel.response.exception, () {
                   viewModel.fetchEvents();
                 });
             }
@@ -251,7 +250,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return Container(
       width: double.infinity,
       height: height,
-      color: Colors.grey[200],
+      color: Theme.of(context).dividerColor,
     );
   }
 

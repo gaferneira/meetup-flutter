@@ -6,10 +6,7 @@ import 'package:flutter_meetup/viewmodels/auth_viewmodel.dart';
 
 class ProfilePage extends StatelessWidget{
   static final title = Strings.profile;
-  final Color color;
   final AuthViewModel viewModel = getIt();
-
-  ProfilePage(this.color);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +33,7 @@ class ProfilePage extends StatelessWidget{
                   ),
                 ),
               ),
-              Divider(color: Colors.black),
+              Divider(color: Theme.of(context).dividerColor),
               _buildItem(viewModel.getCurrentUser()?.email ?? Strings.email, context, (){}, Icons.email),
               _buildItem(Strings.theme, context, (){}, Icons.invert_colors),
               _buildItem(Strings.about, context, (){

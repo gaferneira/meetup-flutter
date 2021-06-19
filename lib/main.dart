@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       title: Strings.appName,
       initialRoute: '/',
       theme: themeData,
-      darkTheme: themeDataDark,
+      darkTheme: darkThemeData,
       onGenerateRoute: (settings) {
         // When navigating to the "/" route, build the FirstScreen widget.
         switch (settings.name) {

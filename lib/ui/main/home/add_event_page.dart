@@ -85,18 +85,17 @@ class _AddEventPageState extends State<AddEventPage> {
                                 _buildInputText(Strings.link, null, (value) => {_event.link = value}, _event.link),
                                 _buildDropDown(viewModel.dataResponse.data?[0] as List<Location>, (value) => {_event.location = value}, _event.location),
                                 _buildDropDown(viewModel.dataResponse.data?[1] as List<Category>, (value) => {_event.category = value}, _event.category),
-                                imagePickerWidget!.buildImagePickerWidget(_imagePath),
+                                imagePickerWidget!.buildImagePickerWidget(context, _imagePath),
                                 ElevatedButton(
-                                    child: Text(
-                                      (_isUpdate) ? Strings.save : Strings.submit,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                      ),
+                                  child: Text(
+                                    (_isUpdate) ? Strings.save : Strings.submit,
+                                    style: TextStyle(
+                                      fontSize: 16,
                                     ),
-                                    onPressed: () {
-                                      _validateAndSubmit();
-                                    },
+                                  ),
+                                  onPressed: () {
+                                    _validateAndSubmit();
+                                  },
                                 )
                               ],
                             ),
@@ -107,7 +106,7 @@ class _AddEventPageState extends State<AddEventPage> {
                             child: CircularProgressIndicator(),
                           );
                           default :
-                            return showRetry(viewModel.dataResponse.exception, (){
+                            return showRetry(context, viewModel.dataResponse.exception, (){
                               viewModel.fetchData();
                             });
                       }
@@ -142,8 +141,8 @@ class _AddEventPageState extends State<AddEventPage> {
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
         showTimePicker(
-            context: context,
-            initialTime: _time
+          context: context,
+          initialTime: _time,
         ).then((time) => {
           if (time != null) {
             setState(() {
@@ -190,7 +189,6 @@ class _AddEventPageState extends State<AddEventPage> {
       icon: const Icon(Icons.arrow_drop_down),
       iconSize: 24,
       elevation: 16,
-      style: const TextStyle(color: Colors.green),
       onChanged: (String? newValue) {},
       onSaved: (String? value) {
         callback(value);

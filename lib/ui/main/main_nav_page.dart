@@ -17,7 +17,7 @@ class _MainNavPageState extends State<MainNavPage> {
   final List<Widget> _children = [
     HomePage(),
     ExplorePage(),
-    ProfilePage(Colors.white)
+    ProfilePage(),
   ];
 
   @override
@@ -32,9 +32,7 @@ class _MainNavPageState extends State<MainNavPage> {
           ],
           initialActiveIndex: _currentIndex,
           style: TabStyle.react,
-          backgroundColor: Colors.green,
-          color: Colors.black,
-          activeColor: Colors.white,
+          backgroundColor: Theme.of(context).primaryColor,
           top: -15,
           onTap: onTabTapped,
         )

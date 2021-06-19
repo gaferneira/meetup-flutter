@@ -27,19 +27,19 @@ class SplashPage extends StatelessWidget {
                 return MainNavPage();
               case AuthStatus.UNINITIALIZED:
               default:
-                return showSplash();
+                return showSplash(context);
             }
           } else {
-            return showSplash();
+            return showSplash(context);
           }
         },
       ),
     );
   }
 
-  Widget showSplash() {
+  Widget showSplash(BuildContext context) {
     return Material(
-      color: Colors.white,
+      color: Theme.of(context).backgroundColor,
       child: Center(
         child: Image(
             image: AssetImage(Assets.appLogo)

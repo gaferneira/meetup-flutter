@@ -69,29 +69,29 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
       return Padding(
         padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
         child: RichText(
-            text: TextSpan(
-                children: [
-                  TextSpan(
-                      text: "${Strings.link}: ",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      )
-                  ),
-                  TextSpan(
-                      text: event.link,
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          launch(event.link!);
-                        },
-                      style: TextStyle(
-                        color: Colors.blueAccent,
-                        fontSize: 16,
-                      )
-                  )
-                ]
-            )
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: "${Strings.link}: ",
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyText1!.color,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              TextSpan(
+                text: event.link,
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                  launch(event.link!);
+                  },
+                style: TextStyle(
+                  color: Colors.blueAccent,
+                  fontSize: 16,
+                ),
+              )
+            ],
+          ),
         ),
       );
     } else return SizedBox();
@@ -106,7 +106,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                 TextSpan(
                     text: "$name: ",
                     style: TextStyle(
-                      color: Colors.black,
+                      color: Theme.of(context).textTheme.bodyText1!.color,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     )
@@ -114,7 +114,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                 TextSpan(
                     text: value,
                     style: TextStyle(
-                      color: Colors.black,
+                      color: Theme.of(context).textTheme.bodyText1!.color,
                       fontSize: 16,
                     )
                 )

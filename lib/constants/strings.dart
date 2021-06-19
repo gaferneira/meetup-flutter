@@ -9,6 +9,7 @@ class Strings {
   static const success = "Success";
   static const imageUploadFailed = "Image wasn't uploaded, please try again if necessary.";
   static const retry = "Retry";
+  static const signInWithGoogle = "Sign in with Google";
 
   static const actionSeeAll = "See all";
 
@@ -46,6 +47,7 @@ class Strings {
   static const aboutUs = "MeetUp App created by Brahian Martinez and Gabriel Neira. Powered by Globant.";
 
   // Explore page
+  static const explore = "Explore";
   static const events = "Events";
   static const category = "Category";
   static const eventsNotFound = "Events not found.";
