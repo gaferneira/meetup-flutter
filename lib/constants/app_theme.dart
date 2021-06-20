@@ -27,6 +27,7 @@ final ThemeData themeData = ThemeData(
   primaryIconTheme: const IconThemeData.fallback().copyWith(
     color: Colors.white,
   ),
+  toggleableActiveColor: Colors.green,
 );
 
 final ThemeData darkThemeData = ThemeData(
@@ -53,6 +54,7 @@ final ThemeData darkThemeData = ThemeData(
   primaryIconTheme: const IconThemeData.fallback().copyWith(
     color: Colors.white,
   ),
+  toggleableActiveColor: Colors.green.shade900,
 );
 
 Map<int, Color> darkSwatchColor =
