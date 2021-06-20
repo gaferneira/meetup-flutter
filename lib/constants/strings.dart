@@ -10,7 +10,6 @@ class Strings {
   static const imageUploadFailed = "Image wasn't uploaded, please try again if necessary.";
   static const retry = "Retry";
   static const signInWithGoogle = "Sign in with Google";
-
   static const actionSeeAll = "See all";
 
   // Home page
@@ -41,7 +40,8 @@ class Strings {
   // Profile page
   static const profile = "Profile";
   static const email = "Email";
-  static const theme = "Theme";
+  static const lightMode = "Light mode";
+  static const darkMode = "Dark mode";
   static const logOut = "Log out";
   static const about = "About";
   static const aboutUs = "MeetUp App created by Brahian Martinez and Gabriel Neira. Powered by Globant.";
@@ -59,4 +59,6 @@ class Strings {
   static const time = "Time";
   static const location = "Location";
 
+  // Themes
+  static const darkModeOn = "DarkModeOn";
 }

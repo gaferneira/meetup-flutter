@@ -6,6 +6,10 @@ import 'package:flutter_meetup/ui/main/event_details_page.dart';
 import 'package:flutter_meetup/ui/main/explore/events_page.dart';
 import 'package:flutter_meetup/ui/main/home/add_event_page.dart';
 import 'package:flutter_meetup/ui/splash/splash_page.dart';
+import 'package:flutter_meetup/ui/theme/theme_notifier.dart';
+import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'constants/strings.dart';
 import 'di/injection.dart';
@@ -14,7 +18,16 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await configureInjection();
-  runApp(MyApp());
+  GetIt.I.isReady<SharedPreferences>().then((_) {
+    final SharedPreferences sharedPrefs = getIt();
+    var darkModeOn = sharedPrefs.getBool(Strings.darkModeOn) ?? false;
+    runApp(
+      ChangeNotifierProvider<ThemeNotifier>(
+        create: (_) => ThemeNotifier(darkModeOn ? darkThemeData : themeData),
+        child: MyApp(),
+      ),
+    );
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -24,8 +37,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: Strings.appName,
       initialRoute: '/',
-      theme: themeData,
-      darkTheme: darkThemeData,
+      theme: Provider.of<ThemeNotifier>(context).getTheme(),
       onGenerateRoute: (settings) {
         // When navigating to the "/" route, build the FirstScreen widget.
         switch (settings.name) {
