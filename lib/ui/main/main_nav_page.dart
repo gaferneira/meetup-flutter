@@ -13,6 +13,7 @@ class MainNavPage extends StatefulWidget {
 }
 
 class _MainNavPageState extends State<MainNavPage> {
+  PageController? pageController;
   int _currentIndex = 0;
   final List<Widget> _children = [
     HomePage(),
@@ -20,10 +21,21 @@ class _MainNavPageState extends State<MainNavPage> {
     ProfilePage(),
   ];
 
+
+  @override
+  void initState() {
+    super.initState();
+    pageController = PageController();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: _children[_currentIndex],
+        body: PageView(
+          children: _children,
+          controller: pageController,
+          onPageChanged: onPageChanged,
+        ),
         bottomNavigationBar: ConvexAppBar(
           items: [
             TabItem(icon: Icons.home, title: HomePage.title),
@@ -39,9 +51,20 @@ class _MainNavPageState extends State<MainNavPage> {
     );
   }
 
-  void onTabTapped(int index) {
+  onTabTapped(int index) {
+    onPageChanged(index);
+    pageController?.jumpToPage(index);
+  }
+
+  onPageChanged(int index) {
     setState(() {
       _currentIndex = index;
     });
+  }
+
+  @override
+  void dispose() {
+    pageController?.dispose();
+    super.dispose();
   }
 }

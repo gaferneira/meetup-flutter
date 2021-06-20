@@ -209,9 +209,13 @@ class _AddEventPageState extends State<AddEventPage> {
     bool result = await showDialog(
       context: context,
       builder: (context) =>
-          FutureProgressDialog(futureBoolean(
-              viewModel.addEventAndImage(_event, _imagePath, _isUpdate)
-          ), message: Text(Strings.uploadingEvent)),
+          FutureProgressDialog(
+            futureBoolean(viewModel.addEventAndImage(_event, _imagePath, _isUpdate)),
+            message: Text(Strings.uploadingEvent),
+            decoration: BoxDecoration(
+              color: Theme.of(context).backgroundColor
+            ),
+          ),
       barrierDismissible: false,
     );
     if (result) {

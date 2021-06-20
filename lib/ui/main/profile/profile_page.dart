@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_meetup/constants/assets.dart';
 import 'package:flutter_meetup/constants/strings.dart';
 import 'package:flutter_meetup/di/injection.dart';
+import 'package:flutter_meetup/ui/theme/theme_notifier.dart';
 import 'package:flutter_meetup/viewmodels/auth_viewmodel.dart';
+import 'package:flutter_meetup/widgets/theme_toggle_widget.dart';
+import 'package:provider/provider.dart';
 
-class ProfilePage extends StatelessWidget{
+class ProfilePage extends StatelessWidget {
   static final title = Strings.profile;
   final AuthViewModel viewModel = getIt();
 
@@ -34,12 +37,12 @@ class ProfilePage extends StatelessWidget{
                 ),
               ),
               Divider(color: Theme.of(context).dividerColor),
-              _buildItem(viewModel.getCurrentUser()?.email ?? Strings.email, context, (){}, Icons.email),
-              _buildItem(Strings.theme, context, (){}, Icons.invert_colors),
-              _buildItem(Strings.about, context, (){
+              _buildItem(viewModel.getCurrentUser()?.email ?? Strings.email, (){}, Icons.email),
+              _buildThemeToggleItem(context),
+              _buildItem(Strings.about, (){
                 Navigator.of(context).restorablePush(_dialogBuilder);
               }, Icons.info),
-              _buildItem(Strings.logOut, context, () {
+              _buildItem(Strings.logOut, () {
                 viewModel.signOut();
                 Navigator.popAndPushNamed(
                   context,
@@ -51,7 +54,7 @@ class ProfilePage extends StatelessWidget{
     );
   }
 
-  _buildItem(String title, BuildContext context, Function() onTap, IconData icon) {
+  _buildItem(String title, Function() onTap, IconData icon) {
     return InkWell(
       onTap: () {
         onTap.call();
@@ -78,6 +81,33 @@ class ProfilePage extends StatelessWidget{
         ),
       ),
     );
+  }
+
+  _buildThemeToggleItem(BuildContext context) {
+    final themeNotifier = Provider.of<ThemeNotifier>(context);
+    return Container(
+        width: double.infinity,
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Icon(
+                Icons.invert_colors,
+                size: 20.0,
+              ),
+              SizedBox(width: 8),
+              Text(
+                themeNotifier.isDarkModeOn() ? Strings.darkMode : Strings.lightMode,
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              SizedBox(width: 8),
+              ThemeToggleWidget(),
+            ],
+          ),
+        ),
+      );
   }
 
   static Route<Object?> _dialogBuilder(BuildContext context, Object? arguments) {

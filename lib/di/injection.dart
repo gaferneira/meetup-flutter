@@ -15,6 +15,7 @@ import 'package:flutter_meetup/viewmodels/events_viewmodel.dart';
 import 'package:flutter_meetup/viewmodels/explore_viewmodel.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final getIt = GetIt.instance;
 
@@ -29,6 +30,7 @@ void createDataSources() {
   getIt.registerLazySingleton(() => FirebaseStorage.instance);
   getIt.registerLazySingleton(() => FirebaseAuth.instance);
   getIt.registerLazySingleton(() => GoogleSignIn());
+  getIt.registerLazySingletonAsync(() => SharedPreferences.getInstance());
 }
 
 void createRepositories() {

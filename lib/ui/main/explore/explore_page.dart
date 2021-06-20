@@ -18,9 +18,13 @@ class ExplorePage extends StatefulWidget {
   }
 }
 
-class _CategoriesPage extends State<ExplorePage> {
+class _CategoriesPage extends State<ExplorePage> with AutomaticKeepAliveClientMixin {
   final key = new GlobalKey<ScaffoldState>();
   ExploreViewModel viewModel = getIt();
+
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -30,6 +34,7 @@ class _CategoriesPage extends State<ExplorePage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       key: key,
       appBar: AppBar(
