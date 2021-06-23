@@ -10,4 +10,8 @@ abstract class EventsRepository {
   Future<DocumentReference> addEvent(Event event);
   Future<void> updateEvent(Event event);
   Future<TaskSnapshot> uploadImage(File file);
+  Future<bool> subscribe(Event event);
+  Future<bool> unsubscribe(Event event);
+  Future<bool> addFavorite(Event event);
+  Future<bool> removeFavorite(Event event);
 }

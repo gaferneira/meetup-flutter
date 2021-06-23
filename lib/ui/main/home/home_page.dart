@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_meetup/constants/assets.dart';
 import 'package:flutter_meetup/constants/dimens.dart';
 import 'package:flutter_meetup/constants/strings.dart';
+import 'package:flutter_meetup/di/injection.dart';
 import 'package:flutter_meetup/utils/extension.dart';
 import 'package:flutter_meetup/models/event.dart';
 import 'package:flutter_meetup/ui/main/home/add_event_page.dart';
@@ -22,7 +23,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   final key = new GlobalKey<ScaffoldState>();
-  HomeViewModel viewModel = HomeViewModel();
+  HomeViewModel viewModel =  getIt();
 
   @override
   bool get wantKeepAlive => true;

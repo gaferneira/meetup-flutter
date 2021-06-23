@@ -11,8 +11,10 @@ import 'package:flutter_meetup/data/repositories/sign_in_repository.dart';
 import 'package:flutter_meetup/data/repositories/sign_in_repository_impl.dart';
 import 'package:flutter_meetup/viewmodels/add_event_viewmodel.dart';
 import 'package:flutter_meetup/viewmodels/auth_viewmodel.dart';
+import 'package:flutter_meetup/viewmodels/events_details_viewmodel.dart';
 import 'package:flutter_meetup/viewmodels/events_viewmodel.dart';
 import 'package:flutter_meetup/viewmodels/explore_viewmodel.dart';
+import 'package:flutter_meetup/viewmodels/home/home_viewmodel.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -40,7 +42,9 @@ void createRepositories() {
 
   getIt.registerLazySingleton<EventsRepository>(
     () => EventsRepositoryImpl(
-        firebaseFirestore: getIt(), firebaseStorage: getIt()),
+        firebaseFirestore: getIt(),
+        firebaseStorage: getIt(),
+        auth: getIt())
   );
 
   getIt.registerLazySingleton<LocationsRepository>(
@@ -70,6 +74,14 @@ void createViewModels() {
 
   getIt.registerFactory(() => ExploreViewModel(
     repository: getIt(),
+  ));
+
+  getIt.registerFactory(() => HomeViewModel(
+    repository: getIt()
+  ));
+
+  getIt.registerFactory(() => EventsDetailsViewModel(
+      repository: getIt()
   ));
 
 }

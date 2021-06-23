@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         switch (settings.name) {
           case "/" : return MaterialPageRoute(builder: (context) => SplashPage());
           case EventDetailsPage.routeName : return MaterialPageRoute(builder: (context) {
-            return EventDetailsPage(settings.arguments as Event?);
+            return EventDetailsPage(event : settings.arguments as Event);
           });
           case AddEventPage.routeName : return MaterialPageRoute(builder: (context) {
             return AddEventPage(settings.arguments as Event?);

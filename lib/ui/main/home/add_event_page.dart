@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_meetup/constants/strings.dart';
@@ -80,8 +81,8 @@ class _AddEventPageState extends State<AddEventPage> {
                               children: [
                                 _buildInputText(Strings.title, Strings.titleRequired, (value) => {_event.title = value}, _event.title),
                                 _buildInputText(Strings.description, Strings.descriptionRequired, (value) => {_event.description = value}, _event.description),
-                                _buildDatePickerText(context, (value) => {_event.date = value}, _event.date),
-                                _buildTimePickerText(context, (value) => {_event.time = value}, _event.time),
+                                _buildDatePickerText(context, (value) => {}, _event.date),
+                                _buildTimePickerText(context, (value) => {}, _event.time),
                                 _buildInputText(Strings.link, null, (value) => {_event.link = value}, _event.link),
                                 _buildDropDown(viewModel.dataResponse.data?[0] as List<Location>, (value) => {_event.location = value}, _event.location),
                                 _buildDropDown(viewModel.dataResponse.data?[1] as List<Category>, (value) => {_event.category = value}, _event.category),
@@ -206,6 +207,7 @@ class _AddEventPageState extends State<AddEventPage> {
     FocusScope.of(context).unfocus();
     if (!(_formKey.currentState?.validate() ?? false)) return;
     _formKey.currentState?.save();
+    _event.when = Timestamp.fromDate(new DateTime(_date.year, _date.month, _date.day, _time.hour, _time.minute));
     bool result = await showDialog(
       context: context,
       builder: (context) =>

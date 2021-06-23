@@ -11,6 +11,8 @@ class Strings {
   static const retry = "Retry";
   static const signInWithGoogle = "Sign in with Google";
   static const actionSeeAll = "See all";
+  static const actionSubscribe = "Subscribe";
+  static const actionUnsubscribe = "Unsubscribe";
 
   // Home page
   static const home = "Home";
