@@ -10,7 +10,6 @@ class Strings {
   static const imageUploadFailed = "Image wasn't uploaded, please try again if necessary.";
   static const retry = "Retry";
   static const signInWithGoogle = "Sign in with Google";
-  static const actionSeeAll = "See all";
   static const actionSubscribe = "Subscribe";
   static const actionUnsubscribe = "Unsubscribe";
 

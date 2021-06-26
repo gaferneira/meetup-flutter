@@ -95,7 +95,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
               onPressed: () {
                 //Go to my events list
               },
-              child: Text(Strings.actionSeeAll),
+              child: Text(""),
             ),
           )
         ]),
@@ -147,7 +147,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
                   FadeInImage.assetNetwork(
                     placeholder: Assets.placeHolder,
                     image: event.image ?? "",
-                    fit: BoxFit.fill,
+                    fit: BoxFit.fitHeight,
                     height: double.infinity,
                     width: double.infinity,
                   ),
@@ -173,10 +173,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
                             padding: EdgeInsets.only(left: 8, top: 8),
                             child: Text(
                               event.title ?? "",
-                              maxLines: 2,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
+                                color: Colors.white,
                               ),
                               textAlign: TextAlign.start,
                             ),
@@ -243,7 +245,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
       title: new Text(event.title ?? ""),
       subtitle: new Text('${Strings.category}: ${event.category}'),
       leading: Container(
-          width: 80, height: 80, child: Image.network(event.image ?? "")),
+          width: 80,
+          height: 80,
+          child: Image.network(event.image ?? "", fit: BoxFit.fitWidth)),
       onTap: () {
         Navigator.of(context)
             .pushNamed(EventDetailsPage.routeName, arguments: event);
