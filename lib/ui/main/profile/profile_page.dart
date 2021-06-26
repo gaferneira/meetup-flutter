@@ -3,7 +3,7 @@ import 'package:flutter_meetup/constants/assets.dart';
 import 'package:flutter_meetup/constants/strings.dart';
 import 'package:flutter_meetup/di/injection.dart';
 import 'package:flutter_meetup/ui/theme/theme_notifier.dart';
-import 'package:flutter_meetup/viewmodels/auth_viewmodel.dart';
+import 'package:flutter_meetup/viewmodels/login/auth_viewmodel.dart';
 import 'package:flutter_meetup/widgets/theme_toggle_widget.dart';
 import 'package:provider/provider.dart';
 

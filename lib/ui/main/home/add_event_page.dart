@@ -9,7 +9,7 @@ import 'package:flutter_meetup/models/location.dart';
 import 'package:flutter_meetup/utils/extension.dart';
 import 'package:flutter_meetup/models/drop_down_item.dart';
 import 'package:flutter_meetup/utils/file_reader.dart';
-import 'package:flutter_meetup/viewmodels/add_event_viewmodel.dart';
+import 'package:flutter_meetup/viewmodels/event/add_event_viewmodel.dart';
 import 'package:flutter_meetup/viewmodels/utils/Response.dart';
 import 'package:flutter_meetup/widgets/image_picker_widget.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';

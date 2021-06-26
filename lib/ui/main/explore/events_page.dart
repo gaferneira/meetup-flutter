@@ -3,7 +3,7 @@ import 'package:flutter_meetup/constants/strings.dart';
 import 'package:flutter_meetup/di/injection.dart';
 import 'package:flutter_meetup/utils/extension.dart';
 import 'package:flutter_meetup/models/event.dart';
-import 'package:flutter_meetup/viewmodels/events_viewmodel.dart';
+import 'package:flutter_meetup/viewmodels/event/events_viewmodel.dart';
 import 'package:flutter_meetup/viewmodels/utils/Response.dart';
 import 'package:flutter_meetup/widgets/search_widget.dart';
 import 'package:provider/provider.dart';

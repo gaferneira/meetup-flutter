@@ -4,7 +4,7 @@ import 'package:flutter_meetup/constants/strings.dart';
 import 'package:flutter_meetup/di/injection.dart';
 import 'package:flutter_meetup/ui/main/explore/events_page.dart';
 import 'package:flutter_meetup/utils/extension.dart';
-import 'package:flutter_meetup/viewmodels/explore_viewmodel.dart';
+import 'package:flutter_meetup/viewmodels/event/explore_viewmodel.dart';
 import 'package:flutter_meetup/viewmodels/utils/Response.dart';
 import 'package:provider/provider.dart';
 import '../../../models/category.dart';

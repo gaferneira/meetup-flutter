@@ -5,7 +5,7 @@ import 'package:flutter_meetup/di/injection.dart';
 import 'package:flutter_meetup/models/event.dart';
 import 'package:flutter_meetup/ui/main/home/add_event_page.dart';
 import 'package:flutter_meetup/utils/extension.dart';
-import 'package:flutter_meetup/viewmodels/events_details_viewmodel.dart';
+import 'package:flutter_meetup/viewmodels/event/events_details_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 

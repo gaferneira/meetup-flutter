@@ -4,7 +4,7 @@ import 'package:flutter_meetup/constants/assets.dart';
 import 'package:flutter_meetup/di/injection.dart';
 import 'package:flutter_meetup/ui/main/main_nav_page.dart';
 import 'package:flutter_meetup/viewmodels/utils/Response.dart';
-import 'package:flutter_meetup/viewmodels/auth_viewmodel.dart';
+import 'package:flutter_meetup/viewmodels/login/auth_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 import '../login/login_page.dart';

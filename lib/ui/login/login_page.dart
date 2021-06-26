@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_meetup/constants/assets.dart';
 import 'package:flutter_meetup/constants/strings.dart';
-import 'package:flutter_meetup/viewmodels/auth_viewmodel.dart';
+import 'package:flutter_meetup/viewmodels/login/auth_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
