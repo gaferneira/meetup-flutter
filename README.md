@@ -31,14 +31,14 @@ El proyecto utiliza el patrón repositorio con ayuda de provider.
 | Home | Explore | Profile |
 |:-:|:-:|:-:|
 | ![1](.readme/light_1.jpeg?raw=true) | ![2](.readme/light_2.jpeg?raw=true) | ![3](.readme/light_3.jpeg?raw=true) |
-| Home Dark | Search Dark|  Home Loaded Dark | Details Dark |
+| Home Dark | Explore Dark | Profile Dark | Details Dark |
 | ![1](.readme/night_1.jpeg?raw=true) | ![2](.readme/night_2.jpeg?raw=true) | ![3](.readme/night_3.jpeg?raw=true) |
 
 ## iOS Screenshots
 | Home | Explore | Profile |
 |:-:|:-:|:-:|
 | ![1](.readme/ios_light_1.png?raw=true) | ![2](.readme/ios_light_2.png?raw=true) | ![3](.readme/ios_light_3.png?raw=true) |
-| Home Dark | Search Dark|  Home Loaded Dark | Details Dark |
+| Home Dark | Explore Dark | Profile Dark | Details Dark |
 | ![1](.readme/ios_dark_1.png?raw=true) | ![2](.readme/ios_dark_2.png?raw=true) | ![3](.readme/ios_dark_3.png?raw=true) |
 
 
