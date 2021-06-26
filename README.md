@@ -1,16 +1,50 @@
 # flutter_meetup
 
-A new Flutter application.
+Aplicación desarrollada en Flutter para organizar los eventos realizados por Globant
 
-## Getting Started
+## - Funcionalidades
+* Busqueda de eventos
+* Creación de eventos
+* Favoritos
+* Dark mode
 
-This project is a starting point for a Flutter application.
+## - Tecnologias utilizadas
+* Provider
+* Firebase
+* Firestore
+* Google sign in
+* Material Design
 
-A few resources to get you started if this is your first Flutter project:
+## - Repository Pattern
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+El proyecto utiliza el patrón repositorio con ayuda de provider.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+ <img src=".readme/architecture.png" alt="Architecture image"/>
+
+## - Testing:
+
+
+## Screenshots
+| Home | Explore | Profile |
+|:-:|:-:|:-:|
+| ![1](.readme/light_1.jpeg?raw=true) | ![2](.readme/light_2.jpeg?raw=true) | ![3](.readme/light_3.jpeg?raw=true) |
+| Home Dark | Search Dark|  Home Loaded Dark | Details Dark |
+| ![1](.readme/night_1.jpeg?raw=true) | ![2](.readme/night_2.jpeg?raw=true) | ![3](.readme/night_3.jpeg?raw=true) |
+
+
+### Desarrollado por
+
+Brahian Martinez | brahian.martinez@globant.com
+
+Gabriel Neira | gabriel.neira@globant.com
+
+### License
+
+GNU GENERAL PUBLIC LICENSE
+Version 3, 29 June 2007
+
+Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+Everyone is permitted to copy and distribute verbatim copies
+of this license document, but changing it is not allowed.
+
+-------
